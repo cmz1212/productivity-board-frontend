@@ -1,26 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Routing from "./Routing";
+import { Link, useLocation } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>A base app that can be used to build new projects or use as testground for packages</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <p>Project kanban</p>
+          <NavigationLinks />
+          <Routing />
+        </header>
+      </div>
+    );
+  }
+}
+
+function NavigationLinks() {
+  const location = useLocation();
+  
+  // Render the links only on the homepage ("/")
+  if (location.pathname === "/") {
+    return (
+      <div>
+        <Link to="/display">Project data display</Link>
+        <br />
+        <Link to="/post_project">Add new project</Link>
+        <br />
+        <Link to="/edit_project">Edit existing project</Link>
+      </div>
+    );
+  }
+
+  return null; // Render nothing on other pages
 }
 
 export default App;
