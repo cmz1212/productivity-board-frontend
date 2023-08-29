@@ -19,7 +19,7 @@ class App extends Component {
 
 function NavigationLinks() {
   const location = useLocation();
-  
+
   // Render the links only on the homepage ("/")
   if (location.pathname === "/") {
     return (
@@ -29,6 +29,8 @@ function NavigationLinks() {
         <Link to="/post_project">Add new project</Link>
         <br />
         <Link to="/edit_project">Edit existing project</Link>
+        <br /> <Link to="/tasks">Tasks </Link>
+        <br /> <Link to="/users">Users</Link>
       </div>
     );
   }
