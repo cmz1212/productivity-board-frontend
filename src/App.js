@@ -1,39 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
-import Routing from "./Routing";
-import { Link, useLocation } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
+import Projects from "./pages/Projects";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Display from "./components/display";
+import PostProj from "./components/post_proj";
+import EditProj from "./components/edit_proj";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>Project kanban</p>
-          <NavigationLinks />
-          <Routing />
-        </header>
-      </div>
-    );
-  }
-}
-
-function NavigationLinks() {
-  const location = useLocation();
-  
-  // Render the links only on the homepage ("/")
-  if (location.pathname === "/") {
-    return (
-      <div>
-        <Link to="/display">Project data display</Link>
-        <br />
-        <Link to="/post_project">Add new project</Link>
-        <br />
-        <Link to="/edit_project">Edit existing project</Link>
-      </div>
-    );
-  }
-
-  return null; // Render nothing on other pages
+function App() {
+  return (
+    <>
+      <Routes>  
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/display" element={<Display />} />
+        <Route path="/projects/post_project" element={<PostProj />} />
+        <Route path="/projects/edit_project" element={<EditProj />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
