@@ -15,8 +15,6 @@ function NavigationLinks() {
           <Link to="/projects/display">Display Projects</Link>
           <br />
           <Link to="/projects/post_project">Post Project</Link>
-          <br />
-          <Link to="/projects/edit_project">Edit Project</Link>
         </div>
       </div>
     );
