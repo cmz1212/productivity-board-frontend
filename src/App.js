@@ -1,22 +1,29 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
-import Routing from "./Routing";
-import { Link, useLocation } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
+import Projects from "./pages/Projects";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Display from "./components/display";
+import PostProj from "./components/post_proj";
+import EditProj from "./components/edit_proj";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>Project kanban</p>
-          <NavigationLinks />
-          <Routing />
-        </header>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <>
+      <Routes>  
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/display" element={<Display />} />
+        <Route path="/projects/post_project" element={<PostProj />} />
+        <Route path="/projects/edit_project" element={<EditProj />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
 }
 
+<<<<<<< HEAD
 function NavigationLinks() {
   const location = useLocation();
 
@@ -39,3 +46,6 @@ function NavigationLinks() {
 }
 
 export default App;
+=======
+export default App;
+>>>>>>> e43918c19a861d3ba9b2e1200fa1f7b51fa96e84
