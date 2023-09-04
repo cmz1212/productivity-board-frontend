@@ -1,11 +1,11 @@
 import React from "react";
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
+import Nav from "../Components/Nav";
+import Footer from "../Components/Footer";
 import { Link, useLocation } from "react-router-dom";
 
 function NavigationLinks() {
   const location = useLocation();
-  
+
   // Render the links only on the homepage ("/")
   if (location.pathname === "/") {
     return (
@@ -15,8 +15,6 @@ function NavigationLinks() {
           <Link to="/projects/display">Display Projects</Link>
           <br />
           <Link to="/projects/post_project">Post Project</Link>
-          <br />
-          <Link to="/projects/edit_project">Edit Project</Link>
         </div>
       </div>
     );
@@ -44,8 +42,7 @@ function Home() {
         </div>
         <NavigationLinks />
       </div>
-      <div className="grid justify-items-center -mb-36 bg-sky-200 p-10 w-full">
-      </div>
+      <div className="grid justify-items-center -mb-36 bg-sky-200 p-10 w-full"></div>
       <div className="grid justify-items-center bg-white p-10 w-full">
         <div className="w-full max-w-7xl">
           <h2 className="font-bold text-center first-line:selection:text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl">
@@ -61,7 +58,8 @@ function Home() {
                 Big Picture
               </h5>
               <p class="mb-3 font-normal text-sky-500 dark:text-sky-400">
-                Project progress overview from an elevated perspective<br />
+                Project progress overview from an elevated perspective
+                <br />
               </p>
             </div>
             <div class="p-6 pt-0 text-center">
@@ -77,7 +75,8 @@ function Home() {
                 Increase Collaboration
               </h5>
               <p class="mb-3 font-normal text-sky-500 dark:text-sky-400">
-                Mutiple users can create and share projects with one another <br />
+                Mutiple users can create and share projects with one another{" "}
+                <br />
               </p>
             </div>
           </div>

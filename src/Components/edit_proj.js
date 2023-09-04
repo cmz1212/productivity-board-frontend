@@ -1,11 +1,11 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 
-export default function EditProj() {
+export default function EditProj(props) {
+  const { proj_id } = props;
   const [project, setProject] = useState({
-    id:null,
     description: null,
     wip: null,
     cycle_time: null,
@@ -13,65 +13,48 @@ export default function EditProj() {
   });
   const navigate = useNavigate();
   function sendPutRequest() {
-    const url = `${URL}/project/${project.id}`;
-    
-      const requestData = {
-        project_description: project.description,
-        wip_limit: project.wip,
-        cycle_time_limit: project.cycle_time,
-        project_comments: project.comment,
-      };
-      fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
+    const url = `${URL}/project/${proj_id}`;
+
+    const requestData = {
+      project_description: project.description,
+      wip_limit: project.wip,
+      cycle_time_limit: project.cycle_time,
+      project_comments: project.comment,
+    };
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => {
+        return response.json();
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setProject({
-            id: null,
-            description: null,
-            wip: null,
-            cycle_time: null,
-            comment: null,
-          });
-
-          //navigate(`/display/${data.id}`);
-          navigate(`/display`);
-        })
-
-        .catch((error) => {
-          console.error("Error:", error.message);
+      .then((data) => {
+        setProject({
+          description: null,
+          wip: null,
+          cycle_time: null,
+          comment: null,
         });
-    
+
+        //navigate(`/display/${data.id}`);
+        navigate(`/project/display`);
+      })
+
+      .catch((error) => {
+        console.error("Error:", error.message);
+      });
   }
   function handleSubmit(event) {
     event.preventDefault();
 
-    // Check if project.id is valid before sending the request
-    if (project.id !== null && project.id !== "") {
-      sendPutRequest();
-    }
+    sendPutRequest();
   }
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <h3>Select the id of the project:</h3>
-        <input
-          type="text"
-          value={project.id}
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            if (/^\d*$/.test(inputValue)) {
-              setProject({ ...project, id: inputValue });
-            }
-          }}
-          
-        />
         <h3>Input new project description(if any):</h3>
         <input
           type="text"
@@ -92,7 +75,6 @@ export default function EditProj() {
               setProject({ ...project, wip: inputValue });
             }
           }}
-          
         />
         <br />
         <h3>New cycle time limit(if any):</h3>
@@ -105,7 +87,6 @@ export default function EditProj() {
               setProject({ ...project, cycle_time: inputValue });
             }
           }}
-          
         />
         <br />
         <h3>New comments for the project(if any):</h3>
