@@ -1,9 +1,8 @@
 import React from "react";
-import Nav from "../Components/Nav";
 import Footer from "../Components/Footer";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function NavigationLinks() {
+/* function NavigationLinks() {
   const location = useLocation();
 
   // Render the links only on the homepage ("/")
@@ -21,12 +20,23 @@ function NavigationLinks() {
   }
 
   return null;
-}
+} */
 
 function Home() {
   return (
     <div className="grid justify-items-center bg-sky-950 w-full ">
-      <Nav />
+      <nav className="flex justify-between items-center w-full max-w-7xl px-3 py-3 border-b-2 mx-10 border-sky-700 text-sky-200">
+        <Link to="/">
+          <h1 className="text-center font-extralight text-2xl text-white">
+            Productivity<span className="font-bold">Board</span>{" "}
+          </h1>
+        </Link>
+        <Link to="/signin">
+          <div className="py-2 px-5 bg-sky-200 hover:bg-white focus:bg-white rounded-lg font-bold">
+            <p className="text-md text-sky-950">Sign In</p>
+          </div>
+        </Link>
+      </nav>
       <div className="bg-sky-950 px-10 pt-24 pb-48 w-full max-w-7xl">
         <div className="pl-3 text-center">
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white">
@@ -40,7 +50,6 @@ function Home() {
             A simplified Kanban board for project collaboration
           </p>
         </div>
-        <NavigationLinks />
       </div>
       <div className="grid justify-items-center -mb-36 bg-sky-200 p-10 w-full"></div>
       <div className="grid justify-items-center bg-white p-10 w-full">

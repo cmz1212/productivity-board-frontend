@@ -1,12 +1,17 @@
 import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Projects from "./pages/Projects";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
+
+import Projects from "./Pages/Projects";
+import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
+import SignIn from "./Pages/SignIn";
+
 import Display from "./Components/display";
 import PostProj from "./Components/post_proj";
 import EditProj from "./Components/edit_proj";
+import User from "./Components/users";
+import Task from "./Components/tasks"; 
 
 const projectIndexes = Array.from(Array(100).keys());
 
@@ -24,8 +29,13 @@ function App() {
           />
         ))}
 
+        <Route path="/tasks" element={<Task />} />
+        <Route path="/users" element={<User />} />
+        
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
+        
       </Routes>
     </>
   );
