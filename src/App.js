@@ -8,10 +8,11 @@ import NotFound from "./Pages/NotFound";
 import SignIn from "./Pages/SignIn";
 
 import Display from "./Components/display";
+import DisplayProject from "./Components/DisplayProject";
 import PostProj from "./Components/post_proj";
 import EditProj from "./Components/edit_proj";
 import User from "./Components/users";
-import Task from "./Components/tasks"; 
+import Task from "./Components/tasks";
 
 const projectIndexes = Array.from(Array(100).keys());
 
@@ -21,9 +22,12 @@ function App() {
       <Routes>
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/display" element={<Display />} />
+        <Route path="projects/display_by_id" element={<DisplayProject />} />
+
         <Route path="/projects/post_project" element={<PostProj />} />
         {projectIndexes.map((index) => (
           <Route
+            key={index}
             path={`/projects/edit_project/${index}`}
             element={<EditProj proj_id={index} />}
           />
@@ -31,11 +35,10 @@ function App() {
 
         <Route path="/tasks" element={<Task />} />
         <Route path="/users" element={<User />} />
-        
+
         <Route path="/signin" element={<SignIn />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
-        
       </Routes>
     </>
   );

@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
+export const URL = process.env.REACT_APP_BACKEND_URL;
 
 export default class Display extends Component {
   constructor() {
@@ -29,22 +29,11 @@ export default class Display extends Component {
           <div>
             {projects.map((projects, index) => (
               <div key={index + 1}>
-                Project ID: {projects.id}
+                Project: {projects.project_description}
                 <br />
-                Description: {projects.project_description}
-                <br />
-                WIP limit: {projects.wip_limit}
-                <br />
-                cycle time: {projects.cycle_time_limit}
-                <br />
-                Comments: {projects.project_comments}
-                <br />
-                <button>
-                  <Link to={`/projects/edit_project/${projects.id}`}>
-                    {" "}
-                    Edit project
-                  </Link>
-                </button>
+                <Link to={`/projects/display_by_id?id=${projects.id}`}>
+                  View details
+                </Link>
               </div>
             ))}
           </div>
