@@ -27,6 +27,7 @@ export default function Task() {
         console.error("Error:", error.message);
       });
   }, []);
+
   function sendPostRequest() {
     const {
       description,
@@ -51,6 +52,7 @@ export default function Task() {
       priority: priority,
       task_comments: task_comments,
     };
+
     fetch(url, {
       method: "POST",
       headers: {
@@ -77,10 +79,12 @@ export default function Task() {
         console.error("Error:", error);
       });
   }
+
   function handleSubmit(event) {
     event.preventDefault();
     sendPostRequest();
   }
+  
   return (
     <div>
       {tasks.length > 0 ? (
@@ -106,6 +110,7 @@ export default function Task() {
         </div>
       ) : null}
       <br />
+
       <form onSubmit={handleSubmit}>
         <h3>Please input task description:</h3>
         <input
@@ -116,7 +121,9 @@ export default function Task() {
           }
           placeholder="Description Here"
         />
+
         <br />
+        
         <h3>Target end date:</h3>
         <input
           type="text"
@@ -129,6 +136,7 @@ export default function Task() {
           }}
         />
         <br />
+        
         <h3>Priority:</h3>
         <input
           type="text"
@@ -141,6 +149,7 @@ export default function Task() {
           }}
         />
         <br />
+
         <h3>Please add comments for the task:</h3>
         <textarea
           value={newTask.task_comments}
@@ -154,6 +163,7 @@ export default function Task() {
         <br />
 
         <button type="submit">Submit</button>
+
       </form>
       <br />
       <Link to="/">Home</Link>

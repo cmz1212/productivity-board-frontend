@@ -47,7 +47,7 @@ function Home() {
             </span>
           </h1>
           <p className="mt-4 text-sky-500 text-md sm:text-lg lg:text-xl">
-            A simplified Kanban board for project collaboration
+            An interactive board for project collaboration
           </p>
         </div>
       </div>

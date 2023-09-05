@@ -10,6 +10,7 @@ export default class Display extends Component {
       projects: [],
     };
   }
+
   componentDidMount() {
     const url = `${URL}/project`;
     fetch(url) // Send GET request to '/sightings' endpoint
@@ -21,6 +22,7 @@ export default class Display extends Component {
         console.error("Error:", error.message);
       });
   }
+  
   render() {
     const projects = this.state.projects;
     return (

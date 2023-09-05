@@ -6,6 +6,7 @@ import Projects from "./Pages/Projects";
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import SignIn from "./Pages/SignIn";
+import SignUp from "./Pages/SignUp";
 
 import Display from "./Components/display";
 import PostProj from "./Components/post_proj";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/users" element={<User />} />
         
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
         

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { signInFields } from "../constants";
 import Input from "../Components/Input";
 import Submit from "../Components/Submit";
-import { Link } from "react-router-dom";
+
 
 const fields = signInFields;
 let fieldsState = {};
@@ -32,7 +33,7 @@ function SignIn() {
               </h2>
               <p className="mt-2 text-center text-sm text-sky-600 dark:text-sky-300">
                 Don't have an account yet?{" "}
-                <Link to="/" className="font-medium dark:text-white">
+                <Link to="/signup" className="font-medium dark:text-white">
                   Sign Up
                 </Link>
               </p>
