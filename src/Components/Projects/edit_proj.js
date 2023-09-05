@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { URL } from "./display";
 import "./ProjPage.css";
 
-
 export default function EditProj(props) {
   const { proj_id } = props;
   const [project, setProject] = useState({
@@ -32,7 +31,7 @@ export default function EditProj(props) {
       .then((response) => {
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
         setProject({
           description: null,
           wip: null,
@@ -100,13 +99,18 @@ export default function EditProj(props) {
         />
         <br />
 
-        <button type="submit" className="submit-buttons">Submit</button>
+        <button type="submit" className="submit-buttons">
+          Submit
+        </button>
       </form>
       <br />
-      <button className="back-buttons"><Link to={`/projects/display_by_id?id=${proj_id}`}>Back</Link> </button>
+      <button className="back-buttons">
+        <Link to={`/projects/display_by_id?id=${proj_id}`}>Back</Link>{" "}
+      </button>
       <br />
       <button className="home-buttons">
-      <Link to="/">Home</Link></button>
+        <Link to="/">Home</Link>
+      </button>
     </div>
   );
 }

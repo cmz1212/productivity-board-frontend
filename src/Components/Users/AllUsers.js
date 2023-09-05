@@ -20,19 +20,23 @@ export default function User() {
 
   return (
     <div>
+      <h2>Choose a user to assign the task to:</h2>
       {users.length > 0 ? (
         <div>
           {users.map((user, index) => (
             <div key={index + 1}>
-              user ID: {user.id}
-              <br />
               User name: {user.user_name}
               <br />
               User role: {user.user_role}
               <br />
-              Given task id:{" "}
+              Given tasks:{" "}
               {user.tasks.map((task) => (
-                <span key={task.id}>{task.id}, </span>
+                <span key={task.id}>
+                  {task.task_description},
+                  <Link to={`/tasks?proj_id=${task.project_id}`}>
+                    View task details
+                  </Link>
+                </span>
               ))}
               <br />
               Additional information: {user.additonal_info}
@@ -41,6 +45,8 @@ export default function User() {
           ))}
         </div>
       ) : null}
+      <h2>Or create a new member:</h2>
+      <Link to="/users/add">Create new project member</Link>
       <br />
       <Link to="/">Home</Link>
     </div>

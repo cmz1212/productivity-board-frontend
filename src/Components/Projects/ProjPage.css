@@ -1,57 +1,61 @@
-.background{
-    background-color: blue;
+.background {
+  background-color: blue;
 }
 
-.project-space{
-    display: inline-block;
-    margin:5px;
-    border:2px solid black;
-    padding: 5px;
-    width: 300px;
-    background-color: aquamarine;
+.project-space {
+  display: inline-block;
+  margin: 5px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 300px;
+  background-color: aquamarine;
+}
+.task-space {
+  margin: 5px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 300px;
+  background-color: aquamarine;
 }
 
-.edit-buttons{
-    border:1px solid black;
-    border-radius: 10px;
-    background-color: rgb(232, 238, 154);
-    padding: 5px;
-    margin:2px;
-    
+.edit-buttons {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: rgb(232, 238, 154);
+  padding: 5px;
+  margin: 2px;
 }
 
-.home-buttons{
-    background-color: rgb(38, 3, 70);
-    color: rgb(60, 142, 236); /* Set the text color to blue */
-    text-decoration: underline; /* Add underline to text */
-    padding: 3px;
-    width:150px;
-    border:1px solid black;
-    border-radius: 6px;
-    margin:10px;
+.home-buttons {
+  background-color: rgb(38, 3, 70);
+  color: rgb(60, 142, 236); /* Set the text color to blue */
+  text-decoration: underline; /* Add underline to text */
+  padding: 3px;
+  width: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin: 10px;
 }
 
-.submit-buttons{
-    background-color: rgb(208, 211, 214);
-    color:black;
-    padding: 3px;
-    width:150px;
-    border:1px solid black;
-    border-radius: 6px;
-    
+.submit-buttons {
+  background-color: rgb(208, 211, 214);
+  color: black;
+  padding: 3px;
+  width: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 
-.back-buttons{
-    background-color: rgb(126, 74, 209);
-    color: rgb(87, 25, 25); /* Set the text color to blue */
-    text-decoration: underline; /* Add underline to text */
-    padding: 3px;
-    width:150px;
-    border:1px solid black;
-    border-radius: 6px;
-    margin:10px;
+.back-buttons {
+  background-color: rgb(126, 74, 209);
+  color: rgb(87, 25, 25); /* Set the text color to blue */
+  text-decoration: underline; /* Add underline to text */
+  padding: 3px;
+  width: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin: 10px;
 }
-.form-labels{
-    color:antiquewhite;
-   
+.form-labels {
+  color: antiquewhite;
 }
