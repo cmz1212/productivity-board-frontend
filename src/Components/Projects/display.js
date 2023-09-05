@@ -1,7 +1,8 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import "./ProjPage.css";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
+export const URL = process.env.REACT_APP_BACKEND_URL;
 
 export default class Display extends Component {
   constructor() {
@@ -24,25 +25,17 @@ export default class Display extends Component {
   render() {
     const projects = this.state.projects;
     return (
-      <div>
+      <div className="background">
         {projects ? (
           <div>
             {projects.map((projects, index) => (
-              <div key={index + 1}>
-                Project ID: {projects.id}
+              <div key={index + 1} className="project-space">
+                Project: {projects.project_description}
                 <br />
-                Description: {projects.project_description}
-                <br />
-                WIP limit: {projects.wip_limit}
-                <br />
-                cycle time: {projects.cycle_time_limit}
-                <br />
-                Comments: {projects.project_comments}
-                <br />
-                <button>
-                  <Link to={`/projects/edit_project/${projects.id}`}>
-                    {" "}
-                    Edit project
+                <button className="edit-buttons">
+                  {" "}
+                  <Link to={`/projects/display_by_id?id=${projects.id}`}>
+                    View details
                   </Link>
                 </button>
               </div>
@@ -50,7 +43,11 @@ export default class Display extends Component {
           </div>
         ) : null}
         <br />
-        <Link to="/">Home</Link>
+        <button className="edit-buttons">
+        <Link to="/projects/post_project">Add new project</Link></button>
+        <br />
+        <button className="home-buttons">
+        <Link to="/">Home</Link></button>
       </div>
     );
   }

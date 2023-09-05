@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../Components/Footer";
 import { Link } from "react-router-dom";
+import "../App.css";
 
 /* function NavigationLinks() {
   const location = useLocation();
@@ -37,6 +38,7 @@ function Home() {
           </div>
         </Link>
       </nav>
+      <Link to="/projects/display" className="red-text">Projects</Link> {/* TODO: Remove this link later once proper authentication is set up */}
       <div className="bg-sky-950 px-10 pt-24 pb-48 w-full max-w-7xl">
         <div className="pl-3 text-center">
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white">

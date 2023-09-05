@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { URL } from "./display";
+import "./ProjPage.css";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function EditProj(props) {
   const { proj_id } = props;
@@ -40,7 +41,7 @@ export default function EditProj(props) {
         });
 
         //navigate(`/display/${data.id}`);
-        navigate(`/project/display`);
+        navigate(`/projects/display`);
       })
 
       .catch((error) => {
@@ -53,9 +54,9 @@ export default function EditProj(props) {
     sendPutRequest();
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h3>Input new project description(if any):</h3>
+    <div className="background">
+      <form onSubmit={handleSubmit} className="forms">
+        <h3 className="form-labels">Input new project description(if any):</h3>
         <input
           type="text"
           value={project.description}
@@ -65,7 +66,7 @@ export default function EditProj(props) {
           placeholder="Description Here"
         />
         <br />
-        <h3>New WIP limit(if any):</h3>
+        <h3 className="form-labels">New WIP limit(if any):</h3>
         <input
           type="text"
           value={project.wip}
@@ -77,7 +78,7 @@ export default function EditProj(props) {
           }}
         />
         <br />
-        <h3>New cycle time limit(if any):</h3>
+        <h3 className="form-labels">New cycle time limit(if any):</h3>
         <input
           type="text"
           value={project.cycle_time}
@@ -89,7 +90,7 @@ export default function EditProj(props) {
           }}
         />
         <br />
-        <h3>New comments for the project(if any):</h3>
+        <h3 className="form-labels">New comments for the project(if any):</h3>
         <textarea
           value={project.comment}
           onChange={(e) => setProject({ ...project, comment: e.target.value })}
@@ -99,10 +100,13 @@ export default function EditProj(props) {
         />
         <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="submit-buttons">Submit</button>
       </form>
       <br />
-      <Link to="/">Home</Link>
+      <button className="back-buttons"><Link to={`/projects/display_by_id?id=${proj_id}`}>Back</Link> </button>
+      <br />
+      <button className="home-buttons">
+      <Link to="/">Home</Link></button>
     </div>
   );
 }

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { URL } from "../Projects/display";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
 const url = `${URL}/task`;
 
-export default function Task() {
-  const [tasks, setTasks] = useState([]);
+export default function AddTasks() {
   const [newTask, setNewTask] = useState({
     description: null,
 
@@ -16,17 +15,11 @@ export default function Task() {
     priority: null,
     task_comments: null,
   });
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const proj_id = searchParams.get("proj_id");
 
-  useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setTasks(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error.message);
-      });
-  }, []);
   function sendPostRequest() {
     const {
       description,
@@ -41,7 +34,7 @@ export default function Task() {
 
     const requestData = {
       task_description: description,
-      project_id: "1",
+      project_id: proj_id,
       status: "Backlog",
       start_date: new Date(),
       end_date: end_date,
@@ -71,6 +64,7 @@ export default function Task() {
           priority: null,
           task_comments: null,
         });
+        navigate(`/tasks?proj_id=${proj_id}`)
       })
 
       .catch((error) => {
@@ -81,31 +75,9 @@ export default function Task() {
     event.preventDefault();
     sendPostRequest();
   }
+
   return (
     <div>
-      {tasks.length > 0 ? (
-        <div>
-          {tasks.map((task, index) => (
-            <div key={index + 1}>
-              Task ID: {task.id}
-              <br />
-              Project ID: {task.project_id}
-              <br />
-              Description: {task.task_description}
-              <br />
-              Status: {task.status}
-              <br />
-              Target end time: {task.target_end_date}
-              <br />
-              Priority: {task.priority}
-              <br />
-              Comments: {task.task_comments}
-              <br />
-            </div>
-          ))}
-        </div>
-      ) : null}
-      <br />
       <form onSubmit={handleSubmit}>
         <h3>Please input task description:</h3>
         <input
@@ -156,7 +128,13 @@ export default function Task() {
         <button type="submit">Submit</button>
       </form>
       <br />
-      <Link to="/">Home</Link>
+      <button>
+        <Link to={`/tasks?proj_id=${proj_id}`}>Back to tasks</Link>
+      </button>
+      <br />
+      <button>
+        <Link to="/">Home</Link>
+      </button>
     </div>
   );
 }
