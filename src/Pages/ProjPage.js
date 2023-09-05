@@ -1,13 +1,12 @@
-import "./ProjPage.css";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import "./ProjPage.css";
+import { Link } from "react-router-dom";
 import { URL } from "../constants";
-import deleteProj from "../Components/Projects/delete_proj";
+import DeleteProj from "../Components/Projects/DeleteProj";
 
 
-const Display = () => {
+const ProjPage = () => {
   const [projects, setProjects] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +58,7 @@ const Display = () => {
                 {"  "}
                 <button
                   className="edit-buttons"
-                  onClick={() => deleteProj(project.id)}
+                  onClick={() => DeleteProj(project.id)}
                 >
                   Delete Project
                 </button>
@@ -77,4 +76,4 @@ const Display = () => {
   );
 };
 
-export default Display;
+export default ProjPage;

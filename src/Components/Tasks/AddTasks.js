@@ -1,6 +1,6 @@
-import { URL } from "../Projects/display";
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { URL } from "../../constants";
 
 const url = `${URL}/task`;
 

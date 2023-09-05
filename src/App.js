@@ -8,8 +8,8 @@ import NotFound from "./Pages/NotFound";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 
-import PostProj from "./Components/Projects/post_proj";
-import EditProj from "./Components/Projects/edit_proj";
+import PostProj from "./Components/Projects/PostProj";
+import EditProj from "./Components/Projects/EditProj";
 
 import User from "./Components/Users/AllUsers";
 import CreateUser from "./Components/Users/CreateUser";

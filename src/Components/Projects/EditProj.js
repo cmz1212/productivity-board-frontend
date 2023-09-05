@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import "../../Pages/ProjPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
-import "../../Pages/ProjPage.css";
 
 export default function EditProj(props) {
   const { proj_id } = props;

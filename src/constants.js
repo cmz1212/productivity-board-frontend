@@ -1,3 +1,5 @@
+const URL = process.env.REACT_APP_BACKEND_URL;
+
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const MONTHS = [
@@ -107,6 +109,6 @@ const signInFields = [
     }
   ];
   
-  export { date, signInFields, signUpFields };
+  export { URL, date, signInFields, signUpFields };
   
   

@@ -1,8 +1,9 @@
+import React from "react";
+import "../../Pages/ProjPage.css";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
-import "../../Pages/ProjPage.css";
 
-export default function deleteProj(id) {
+export default function DeleteProj(id) {
     const navigate = useNavigate();
 
     const confirmed = window.confirm(

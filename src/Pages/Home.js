@@ -19,7 +19,7 @@ function Home() {
         </Link>
       </nav>
       
-      <Link to="/projects/ProjPage" className="red-text">Projects</Link>{" "} {/* TODO: Remove this link later once proper authentication is set up */}
+      <Link to="/projects" className="red-text">Projects</Link>{" "} {/* TODO: Remove this link later once proper authentication is set up */}
       <Link to="/users" className="red-text">Project Members</Link>{" "} {/* TODO: Remove this link later once proper authentication is set up */}
       
       <div className="bg-sky-950 px-10 pt-24 pb-48 w-full max-w-7xl">

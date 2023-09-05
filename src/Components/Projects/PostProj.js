@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import "../../Pages/ProjPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
-import "../../Pages/ProjPage.css";
 
 export default function PostProj() {
   const [project, setProject] = useState({

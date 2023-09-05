@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { URL } from "../Projects/display";
+import { URL } from "../../constants";
 
 export default function EditTask(props) {
   const { task_id } = props;
