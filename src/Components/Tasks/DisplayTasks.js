@@ -21,20 +21,44 @@ export default function DisplayTask() {
             task_list.push(data[task]);
           }
         }
-        console.log(task_list);
+
         setTasks(task_list);
       })
       .catch((error) => {
         console.error("Error:", error.message);
       });
   }, [proj_id]);
+  function deleteTask(task_id) {
+    const confirmed = window.confirm(
+      "TODO: make this authenticated account only \nWARNING: Deletion is irreversible! \n Are you sure you want to delete this task?"
+    );
 
+    if (confirmed) {
+      const deleteUrl = `${URL}/task/${task_id}`;
+
+      fetch(deleteUrl, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then(() => {
+          // Task deleted successfully, update the state to re-render the component
+          const updatedTasks = tasks.filter((task) => task.id !== task_id);
+          setTasks(updatedTasks);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }
   return (
     <div>
       {tasks.length > 0 ? (
         <div>
           {tasks.map((task, index) => (
-            <div key={index + 1}>
+            <div key={index + 1} className="task-space">
               Description: {task.task_description}
               <br />
               Status: {task.status}
@@ -46,6 +70,17 @@ export default function DisplayTask() {
               Priority: {task.priority}
               <br />
               Comments: {task.task_comments}
+              <br />
+              <button className="edit-buttons">
+                <Link to={`/tasks/edit/${task.id}`}>Edit task</Link>
+              </button>
+              {"  "}
+              <button
+                className="edit-buttons"
+                onClick={() => deleteTask(task.id)}
+              >
+                Delete task
+              </button>
               <br />
             </div>
           ))}
