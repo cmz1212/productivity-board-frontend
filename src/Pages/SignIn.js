@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { signInFields } from "../constants";
-import Input from "../Components/Input";
-import Submit from "../Components/Submit";
+import Input from "../Components/Forms/Input";
+import Submit from "../Components/Forms/Submit";
 
 
 const fields = signInFields;

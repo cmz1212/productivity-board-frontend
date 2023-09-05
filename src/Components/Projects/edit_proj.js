@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { URL } from "./display";
-import "./ProjPage.css";
+import { URL } from "../../constants";
+import "../../Pages/ProjPage.css";
 
 export default function EditProj(props) {
   const { proj_id } = props;
@@ -39,8 +39,7 @@ export default function EditProj(props) {
           comment: null,
         });
 
-        //navigate(`/display/${data.id}`);
-        navigate(`/projects/display`);
+        navigate(`/projects`);
       })
 
       .catch((error) => {
@@ -105,7 +104,7 @@ export default function EditProj(props) {
       </form>
       <br />
       <button className="back-buttons">
-        <Link to={`/projects/display_by_id?id=${proj_id}`}>Back</Link>{" "}
+        <Link to={`/projects`}>Back</Link>{" "}
       </button>
       <br />
       <button className="home-buttons">

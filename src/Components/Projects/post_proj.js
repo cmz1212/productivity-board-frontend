@@ -1,7 +1,7 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { URL } from "./display";
-import "./ProjPage.css";
+import { URL } from "../../constants";
+import "../../Pages/ProjPage.css";
 
 export default function PostProj() {
   const [project, setProject] = useState({
@@ -40,8 +40,7 @@ export default function PostProj() {
             comment: "",
           });
 
-          //navigate(`/display/${data.id}`);
-          navigate(`/projects/display`);
+          navigate(`/projects`);
         })
 
         .catch((error) => {
@@ -105,7 +104,7 @@ export default function PostProj() {
         <button type="submit" className="submit-buttons">Submit</button>
       </form>
       <br />
-      <button className="back-buttons"><Link to={`/projects/display`}>Back</Link> </button>
+      <button className="back-buttons"><Link to={`/projects`}>Back</Link> </button>
       <br />
       <button className="home-buttons">
       <Link to="/">Home</Link></button>

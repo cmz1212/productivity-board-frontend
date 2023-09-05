@@ -1,27 +1,7 @@
 import React from "react";
-import Footer from "../Components/Footer";
+import Footer from "./Footer";
 import { Link } from "react-router-dom";
 import "../App.css";
-
-/* function NavigationLinks() {
-  const location = useLocation();
-
-  // Render the links only on the homepage ("/")
-  if (location.pathname === "/") {
-    return (
-      <div class="mb-3 text-2xl font-normal justify-items-center text-white">
-        <div class="flex flex-col items-center">
-          {Array(3).fill(<br />)}
-          <Link to="/projects/display">Display Projects</Link>
-          <br />
-          <Link to="/projects/post_project">Post Project</Link>
-        </div>
-      </div>
-    );
-  }
-
-  return null;
-} */
 
 function Home() {
   return (
@@ -38,14 +18,10 @@ function Home() {
           </div>
         </Link>
       </nav>
-      <Link to="/projects/display" className="red-text">
-        Projects
-      </Link>{" "}
-      {/* TODO: Remove this link later once proper authentication is set up */}
-      <Link to="/users" className="red-text">
-        Project Members
-      </Link>{" "}
-      {/* TODO: Remove this link later once proper authentication is set up */}
+      
+      <Link to="/projects/ProjPage" className="red-text">Projects</Link>{" "} {/* TODO: Remove this link later once proper authentication is set up */}
+      <Link to="/users" className="red-text">Project Members</Link>{" "} {/* TODO: Remove this link later once proper authentication is set up */}
+      
       <div className="bg-sky-950 px-10 pt-24 pb-48 w-full max-w-7xl">
         <div className="pl-3 text-center">
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white">

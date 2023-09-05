@@ -3,12 +3,11 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./Pages/Home";
+import ProjPage from "./Pages/ProjPage";
 import NotFound from "./Pages/NotFound";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 
-import Display from "./Components/Projects/display";
-import DisplayProject from "./Components/Projects/DisplayProject";
 import PostProj from "./Components/Projects/post_proj";
 import EditProj from "./Components/Projects/edit_proj";
 
@@ -25,9 +24,8 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/projects/display" element={<Display />} />
-        <Route path="projects/display_by_id" element={<DisplayProject />} />
 
+        <Route path="/projects" element={<ProjPage />} />
         <Route path="/projects/post_project" element={<PostProj />} />
         {projectIndexes.map((index) => (
           <Route
@@ -53,6 +51,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
+        
       </Routes>
     </>
   );
