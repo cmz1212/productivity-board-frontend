@@ -41,7 +41,7 @@ export default function PostProj() {
           });
 
           //navigate(`/display/${data.id}`);
-          navigate(`/display`);
+          navigate(`/projects/display`);
         })
 
         .catch((error) => {

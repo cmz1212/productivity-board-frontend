@@ -1,10 +1,11 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { URL } from "./display";
 
 import React, { useState, useEffect } from "react";
 
 const DisplayProject = () => {
   const [project, setProject] = useState([]);
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
@@ -27,6 +28,31 @@ const DisplayProject = () => {
     fetchData();
   }, [id]); // Include 'id' in the dependency array
 
+  function deleteProj() {
+    const confirmed = window.confirm("WARNING: Deletion is irreversible! \n Are you sure you want to delete this project?");
+    
+    if (confirmed) {
+      const url = `${URL}/project/${id}`;
+  
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then(() => {
+          // Trigger navigation only when the deletion is confirmed
+          navigate(`/projects/display`);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }
+
   return (
     <div>
       {project ? (
@@ -46,9 +72,9 @@ const DisplayProject = () => {
               <Link to={`/projects/edit_project/${project.id}`}>
                 Edit project
               </Link>
-              {"  "}
-              <Link>Delete project</Link>
             </button>
+            {"  "}
+            <button onClick={deleteProj}>Delete project</button>
           </div>
         </div>
       ) : null}

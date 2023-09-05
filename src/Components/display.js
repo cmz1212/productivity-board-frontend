@@ -39,6 +39,8 @@ export default class Display extends Component {
           </div>
         ) : null}
         <br />
+        <Link to ="/projects/post_project">Add new project</Link>
+        <br/>
         <Link to="/">Home</Link>
       </div>
     );
