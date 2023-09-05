@@ -77,7 +77,7 @@ const DisplayProject = () => {
             <button className="edit-buttons" onClick={deleteProj}>Delete project</button>
             <br />
       <button className="edit-buttons">
-      <Link>View/Add/Edit tasks</Link></button>
+      <Link to={`/tasks?proj_id=${project.id}`}>View/Add/Edit tasks</Link></button>
           </div>
         </div>
       ) : null}

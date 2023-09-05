@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
-import Projects from "./Pages/Projects";
+
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import SignIn from "./Pages/SignIn";
@@ -12,7 +12,7 @@ import DisplayProject from "./Components/Projects/DisplayProject";
 import PostProj from "./Components/Projects/post_proj";
 import EditProj from "./Components/Projects/edit_proj";
 import User from "./Components/users";
-import Task from "./Components/tasks";
+import DisplayTask from "./Components/Tasks/DisplayTasks";
 
 const projectIndexes = Array.from(Array(100).keys());
 
@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/projects" element={<Projects />} />
+        
         <Route path="/projects/display" element={<Display />} />
         <Route path="projects/display_by_id" element={<DisplayProject />} />
 
@@ -33,7 +33,7 @@ function App() {
           />
         ))}
 
-        <Route path="/tasks" element={<Task />} />
+        <Route path="/tasks" element={<DisplayTask />} />
         <Route path="/users" element={<User />} />
 
         <Route path="/signin" element={<SignIn />} />

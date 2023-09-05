@@ -177,3 +177,9 @@ input:-webkit-autofill:active {
     transform: rotate(360deg);
   }
 }
+
+/* TODO: to be removed together with the temporary project link */
+.red-text{
+
+  color:red;
+}
