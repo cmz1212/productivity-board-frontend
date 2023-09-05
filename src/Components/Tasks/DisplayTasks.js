@@ -82,6 +82,10 @@ export default function DisplayTask() {
                 Delete task
               </button>
               <br />
+              <button className="edit-buttons">
+                <Link to={`/users`}>Assign task</Link>
+              </button>
+              <br />
             </div>
           ))}
         </div>

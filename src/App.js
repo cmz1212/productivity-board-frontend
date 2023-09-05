@@ -10,7 +10,9 @@ import Display from "./Components/Projects/display";
 import DisplayProject from "./Components/Projects/DisplayProject";
 import PostProj from "./Components/Projects/post_proj";
 import EditProj from "./Components/Projects/edit_proj";
-import User from "./Components/users";
+
+import User from "./Components/Users/AllUsers";
+import CreateUser from "./Components/Users/CreateUser";
 
 import DisplayTask from "./Components/Tasks/DisplayTasks";
 import AddTasks from "./Components/Tasks/AddTasks";
@@ -45,7 +47,7 @@ function App() {
         ))}
 
         <Route path="/users" element={<User />} />
-
+        <Route path="/users/add" element={<CreateUser />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
