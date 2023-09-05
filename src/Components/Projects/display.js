@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import "./ProjPage.css";
 
 export const URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -24,24 +25,29 @@ export default class Display extends Component {
   render() {
     const projects = this.state.projects;
     return (
-      <div>
+      <div className="background">
         {projects ? (
           <div>
             {projects.map((projects, index) => (
-              <div key={index + 1}>
+              <div key={index + 1} className="project-space">
                 Project: {projects.project_description}
                 <br />
-                <Link to={`/projects/display_by_id?id=${projects.id}`}>
-                  View details
-                </Link>
+                <button className="edit-buttons">
+                  {" "}
+                  <Link to={`/projects/display_by_id?id=${projects.id}`}>
+                    View details
+                  </Link>
+                </button>
               </div>
             ))}
           </div>
         ) : null}
         <br />
-        <Link to ="/projects/post_project">Add new project</Link>
-        <br/>
-        <Link to="/">Home</Link>
+        <button className="edit-buttons">
+        <Link to="/projects/post_project">Add new project</Link></button>
+        <br />
+        <button className="home-buttons">
+        <Link to="/">Home</Link></button>
       </div>
     );
   }

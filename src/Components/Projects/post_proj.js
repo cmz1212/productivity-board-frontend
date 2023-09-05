@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const URL = process.env.REACT_APP_BACKEND_URL;
+import { URL } from "./display";
+import "./ProjPage.css";
 
 export default function PostProj() {
   const [project, setProject] = useState({
@@ -54,9 +54,9 @@ export default function PostProj() {
     sendPostRequest();
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h3>Please input project description:</h3>
+    <div className="background">
+      <form onSubmit={handleSubmit} >
+        <h3 className="form-labels">Please input project description:</h3>
         <input
           type="text"
           value={project.description}
@@ -66,7 +66,7 @@ export default function PostProj() {
           placeholder="Description Here"
         />
         <br />
-        <h3>WIP limit:</h3>
+        <h3 className="form-labels">WIP limit:</h3>
         <input
           type="text"
           value={project.wip}
@@ -79,7 +79,7 @@ export default function PostProj() {
           
         />
         <br />
-        <h3>Cycle time limit:</h3>
+        <h3 className="form-labels">Cycle time limit:</h3>
         <input
           type="text"
           value={project.cycle_time}
@@ -92,7 +92,7 @@ export default function PostProj() {
           
         />
         <br />
-        <h3>Please add comments for the project:</h3>
+        <h3 className="form-labels">Please add comments for the project:</h3>
         <textarea
           value={project.comment}
           onChange={(e) => setProject({ ...project, comment: e.target.value })}
@@ -102,10 +102,13 @@ export default function PostProj() {
         />
         <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="submit-buttons">Submit</button>
       </form>
       <br />
-      <Link to="/">Home</Link>
+      <button className="back-buttons"><Link to={`/projects/display`}>Back</Link> </button>
+      <br />
+      <button className="home-buttons">
+      <Link to="/">Home</Link></button>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { URL } from "./display";
-
+import "./ProjPage.css";
 import React, { useState, useEffect } from "react";
 
 const DisplayProject = () => {
@@ -29,7 +29,7 @@ const DisplayProject = () => {
   }, [id]); // Include 'id' in the dependency array
 
   function deleteProj() {
-    const confirmed = window.confirm("WARNING: Deletion is irreversible! \n Are you sure you want to delete this project?");
+    const confirmed = window.confirm("TODO: make this authenticated account only \nWARNING: Deletion is irreversible! \n Are you sure you want to delete this project?");
     
     if (confirmed) {
       const url = `${URL}/project/${id}`;
@@ -54,9 +54,9 @@ const DisplayProject = () => {
   }
 
   return (
-    <div>
+    <div className="background">
       {project ? (
-        <div>
+        <div className="project-space">
           <div>
             Project ID: {project.id}
             <br />
@@ -68,22 +68,26 @@ const DisplayProject = () => {
             <br />
             Comments: {project.project_comments}
             <br />
-            <button>
+            <button className="edit-buttons">
               <Link to={`/projects/edit_project/${project.id}`}>
                 Edit project
               </Link>
-            </button>
+            </button >
             {"  "}
-            <button onClick={deleteProj}>Delete project</button>
+            <button className="edit-buttons" onClick={deleteProj}>Delete project</button>
+            <br />
+      <button className="edit-buttons">
+      <Link>View/Add/Edit tasks</Link></button>
           </div>
         </div>
       ) : null}
+      
       <br />
-      <Link>View/Add/Edit tasks</Link>
+      <button className="back-buttons">
+      <Link to="/projects/display">Back to project list</Link></button>
       <br />
-      <Link to="/projects/display">Back to project list</Link>
-      <br />
-      <Link to="/">Home</Link>
+      <button className="home-buttons">
+      <Link to="/">Home</Link></button>
     </div>
   );
 };

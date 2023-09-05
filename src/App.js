@@ -7,10 +7,10 @@ import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import SignIn from "./Pages/SignIn";
 
-import Display from "./Components/display";
-import DisplayProject from "./Components/DisplayProject";
-import PostProj from "./Components/post_proj";
-import EditProj from "./Components/edit_proj";
+import Display from "./Components/Projects/display";
+import DisplayProject from "./Components/Projects/DisplayProject";
+import PostProj from "./Components/Projects/post_proj";
+import EditProj from "./Components/Projects/edit_proj";
 import User from "./Components/users";
 import Task from "./Components/tasks";
 
