@@ -14,7 +14,8 @@ import EditProj from "./Components/Projects/EditProj";
 import User from "./Components/Users/AllUsers";
 import CreateUser from "./Components/Users/CreateUser";
 
-import DisplayTask from "./Components/Tasks/DisplayTasks";
+import Board from "./Pages/Board";
+
 import AddTasks from "./Components/Tasks/AddTasks";
 import EditTask from "./Components/Tasks/EditTasks";
 
@@ -24,7 +25,6 @@ function App() {
   return (
     <>
       <Routes>
-
         <Route path="/projects" element={<ProjPage />} />
         <Route path="/projects/post_project" element={<PostProj />} />
         {projectIndexes.map((index) => (
@@ -35,7 +35,7 @@ function App() {
           />
         ))}
 
-        <Route path="/tasks" element={<DisplayTask />} />
+        <Route path="/tasks" element={<Board />} />
         <Route path={`/tasks/add`} element={<AddTasks />} />
         {projectIndexes.map((index) => (
           <Route
@@ -51,7 +51,6 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
-        
       </Routes>
     </>
   );

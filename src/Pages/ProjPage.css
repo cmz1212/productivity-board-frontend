@@ -59,3 +59,27 @@
 .form-labels {
   color: antiquewhite;
 }
+
+.board {
+  display: flex; /* Use flexbox to arrange columns side by side */
+}
+
+.column {
+  flex: 1; /* Allow columns to grow and fill available space */
+  margin: 10px; /* Add some margin between columns for spacing */
+}
+#backlog {
+  background-color: aquamarine;
+}
+#todo {
+  background-color: lightcoral;
+}
+#inProgress {
+  background-color: lightcoral;
+}
+#review {
+  background-color: lightcoral;
+}
+#completed {
+  background-color: royalblue;
+}
