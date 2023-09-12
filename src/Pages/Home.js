@@ -44,28 +44,28 @@ function Home() {
             id="features"
             className="grid lg:grid-cols-3 place-items-center gap-5"
           >
-            <div class="p-6 pt-0 text-center">
-              <h5 class="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
+            <div className="p-6 pt-0 text-center">
+              <h5 className="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
                 Big Picture
               </h5>
-              <p class="mb-3 font-normal text-sky-500 dark:text-sky-400">
+              <p className="mb-3 font-normal text-sky-500 dark:text-sky-400">
                 Project progress overview from an elevated perspective
                 <br />
               </p>
             </div>
-            <div class="p-6 pt-0 text-center">
-              <h5 class="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
+            <div className="p-6 pt-0 text-center">
+              <h5 className="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
                 Zero Learning Curve
               </h5>
-              <p class="mb-3 font-normal text-sky-500 dark:text-sky-400">
+              <p className="mb-3 font-normal text-sky-500 dark:text-sky-400">
                 Productivity Board is intuitive and has zero learning curve
               </p>
             </div>
-            <div class="p-6 pt-0 text-center">
-              <h5 class="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
+            <div className="p-6 pt-0 text-center">
+              <h5 className="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
                 Increase Collaboration
               </h5>
-              <p class="mb-3 font-normal text-sky-500 dark:text-sky-400">
+              <p className="mb-3 font-normal text-sky-500 dark:text-sky-400">
                 Mutiple users can create and share projects with one another{" "}
                 <br />
               </p>

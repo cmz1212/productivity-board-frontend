@@ -56,3 +56,37 @@
 .form-labels {
   color: black;
 }
+
+.board {
+  display: flex; /* Use flexbox to arrange columns side by side */
+}
+
+.column {
+  flex: 1; /* Allow columns to grow and fill available space */
+  width: 350px; /* Adjust the width to your desired value */
+  height: 88vh;
+  min-width: 350px;
+  margin: 10px; /* Add margin for spacing */
+}
+.valid-drop-area {
+  border: 2px dashed green; /* Add a green dashed border for valid drop areas */
+}
+
+.invalid-drop-area {
+  border: 2px dashed red; /* Add a red dashed border for invalid drop areas */
+}
+#backlog {
+  background-color: aquamarine;
+}
+#todo {
+  background-color: lightcoral;
+}
+#inProgress {
+  background-color: lightcoral;
+}
+#review {
+  background-color: lightcoral;
+}
+#completed {
+  background-color: royalblue;
+}

@@ -36,7 +36,7 @@ function App() {
 
 
         {/* Tasks */}
-        <Route path="/tasks" element={<DisplayTasks />} />
+        <Route path="/tasks" element={<Board />} />
         <Route path={`/tasks/add`} element={<AddTasks />} />
         {projectIndexes.map((index) => (
           <Route
@@ -53,7 +53,6 @@ function App() {
         
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
-        
       </Routes>
     </>
   );
