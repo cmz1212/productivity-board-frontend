@@ -6,9 +6,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const url = `${URL}/task`;
 
-// Tutorial site for react-beautiful-dnd
-const website="https://egghead.io/lessons/react-customise-the-appearance-of-an-app-during-a-drag-using-react-beautiful-dnd-snapshot-values";
-
 // Define getStatusFromColumnId function here
 const getStatusFromColumnId = (columnId) => {
   switch (columnId) {
@@ -29,11 +26,6 @@ const getStatusFromColumnId = (columnId) => {
 
 export default function Board() {
   const [tasks, setTasks] = useState([]);
-  const [isValidBacklog, setIsValidBacklog] = useState(true);
-  const [isValidTodo, setIsValidTodo] = useState(true);
-  const [isValidInProgress, setIsValidInProgress] = useState(true);
-  const [isValidReview, setIsValidReview] = useState(true);
-  const [isValidCompleted, setIsValidCompleted] = useState(true);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -102,65 +94,7 @@ export default function Board() {
     ];
     return validColumns.includes(columnId);
   };
-  const handleBeforeDragStart = (start) => {
-    // You can access the task being dragged using start.draggable
-    const draggedTask = tasks.find((task) => task.id === start.draggableId);
 
-    // Perform your validation logic here
-    if (!isValidDrag(draggedTask)) {
-      // Prevent the drag if it's not valid
-      return false;
-    }
-    return true; // Allow the drag if it's valid
-  };
-
-  // Define your validation logic here
-  const isValidDrag = (task) => {
-    // Implement your custom validation logic here
-
-    return true;
-  };
-  const handleBeforeDrop = (dropResult) => {
-    // You can access the task being dropped using dropResult.draggable
-    const droppedTask = tasks.find(
-      (task) => task.id === dropResult.draggableId
-    );
-
-    // Perform your validation logic here and update the state variables accordingly
-    const isValid = isValidDrop(
-      droppedTask,
-      dropResult.destination.droppableId
-    );
-    switch (dropResult.destination.droppableId) {
-      case "backlog":
-        setIsValidBacklog(isValid);
-        break;
-      case "todo":
-        setIsValidTodo(isValid);
-        break;
-      case "inProgress":
-        setIsValidInProgress(isValid);
-        break;
-      case "review":
-        setIsValidReview(isValid);
-        break;
-      case "completed":
-        setIsValidCompleted(isValid);
-        break;
-      default:
-        break;
-    }
-
-    // Prevent the drop if it's not valid
-    return isValid;
-  };
-
-  // Define your validation logic here
-  const isValidDrop = (task, destinationColumnId) => {
-    // Implement your custom validation logic here
-
-    return destinationColumnId !== null;
-  };
   const updateTaskStatus = (taskId, status) => {
     // Make an API call to update the task's status here
     const updateUrl = `${url}/${taskId}`;
@@ -180,11 +114,7 @@ export default function Board() {
 
   return (
     <div>
-      <DragDropContext
-        onDragEnd={onDragEnd}
-        onBeforeDragStart={handleBeforeDragStart}
-        onBeforeDrop={handleBeforeDrop}
-      >
+      <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="board" direction="horizontal">
           {(provided) => (
             <div
@@ -192,23 +122,11 @@ export default function Board() {
               ref={provided.innerRef}
               className="board"
             >
-              <Column
-                columnId="backlog"
-                tasks={tasks}
-                isValid={isValidBacklog}
-              />
-              <Column columnId="todo" tasks={tasks} isValid={isValidTodo} />
-              <Column
-                columnId="inProgress"
-                tasks={tasks}
-                isValid={isValidInProgress}
-              />
-              <Column columnId="review" tasks={tasks} isValid={isValidReview} />
-              <Column
-                columnId="completed"
-                tasks={tasks}
-                isValid={isValidCompleted}
-              />
+              <Column columnId="backlog" tasks={tasks} />
+              <Column columnId="todo" tasks={tasks} />
+              <Column columnId="inProgress" tasks={tasks} />
+              <Column columnId="review" tasks={tasks} />
+              <Column columnId="completed" tasks={tasks} />
 
               {provided.placeholder}
             </div>
@@ -231,18 +149,13 @@ export default function Board() {
   );
 }
 
-function Column({ columnId, tasks, isValid }) {
+function Column({ columnId, tasks }) {
   const columnTasks = tasks.filter(
     (task) => task.status === getStatusFromColumnId(columnId)
   );
 
-  // Use the isValid prop to conditionally apply the class name
-  const columnClassName = `column ${
-    isValid ? "valid-drop-area" : "invalid-drop-area"
-  }`;
-
   return (
-    <div className={columnClassName} id={columnId}>
+    <div className="column" id={columnId}>
       <h2>{columnId}</h2>
       <Droppable droppableId={columnId}>
         {(provided) => (
