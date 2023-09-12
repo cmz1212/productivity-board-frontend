@@ -1,35 +1,32 @@
-.background {
-  background-color: blue;
-}
-
 .project-space {
   display: inline-block;
   margin: 5px;
   border: 2px solid black;
   padding: 5px;
   width: 300px;
-  background-color: aquamarine;
+  background-color: #b9e6fd;
 }
+
 .task-space {
   margin: 5px;
   border: 2px solid black;
   padding: 5px;
   width: 300px;
-  background-color: aquamarine;
+  background-color: #b9e6fd;
 }
 
 .edit-buttons {
   border: 1px solid black;
   border-radius: 10px;
-  background-color: rgb(232, 238, 154);
+  background-color: #b9e6fd;
   padding: 5px;
   margin: 2px;
 }
 
 .home-buttons {
-  background-color: rgb(38, 3, 70);
-  color: rgb(60, 142, 236); /* Set the text color to blue */
-  text-decoration: underline; /* Add underline to text */
+  background-color: #b9e6fd;
+  color: black;
+  text-decoration: underline;
   padding: 3px;
   width: 150px;
   border: 1px solid black;
@@ -38,7 +35,7 @@
 }
 
 .submit-buttons {
-  background-color: rgb(208, 211, 214);
+  background-color: #b9e6fd;
   color: black;
   padding: 3px;
   width: 150px;
@@ -47,15 +44,15 @@
 }
 
 .back-buttons {
-  background-color: rgb(126, 74, 209);
-  color: rgb(87, 25, 25); /* Set the text color to blue */
-  text-decoration: underline; /* Add underline to text */
+  background-color: #b9e6fd;
+  color: black;
   padding: 3px;
   width: 150px;
   border: 1px solid black;
   border-radius: 6px;
   margin: 10px;
 }
+
 .form-labels {
-  color: antiquewhite;
+  color: black;
 }

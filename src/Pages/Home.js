@@ -1,27 +1,24 @@
-import React from "react";
-import Footer from "./Footer";
-import { Link } from "react-router-dom";
+import React, {useEffect} from "react";
 import "../App.css";
+import Navbar from './Navbar';
+import Footer from "./Footer";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const { isAuthenticated, user } = useAuth0();
+  const userName = isAuthenticated ? user.name : null;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/projects");
+    }
+  }, [isAuthenticated, navigate]);
+  
   return (
     <div className="grid justify-items-center bg-sky-950 w-full ">
-      <nav className="flex justify-between items-center w-full max-w-7xl px-3 py-3 border-b-2 mx-10 border-sky-700 text-sky-200">
-        <Link to="/">
-          <h1 className="text-center font-extralight text-2xl text-white">
-            Productivity<span className="font-bold">Board</span>{" "}
-          </h1>
-        </Link>
-        <Link to="/signin">
-          <div className="py-2 px-5 bg-sky-200 hover:bg-white focus:bg-white rounded-lg font-bold">
-            <p className="text-md text-sky-950">Sign In</p>
-          </div>
-        </Link>
-      </nav>
-      
-      <Link to="/projects" className="red-text">Projects</Link>{" "} {/* TODO: Remove this link later once proper authentication is set up */}
-      <Link to="/users" className="red-text">Project Members</Link>{" "} {/* TODO: Remove this link later once proper authentication is set up */}
-      
+      <Navbar isAuthenticated={isAuthenticated} userName={userName} />
       <div className="bg-sky-950 px-10 pt-24 pb-48 w-full max-w-7xl">
         <div className="pl-3 text-center">
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white">

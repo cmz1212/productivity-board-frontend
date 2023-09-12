@@ -2,21 +2,19 @@ import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
-import Home from "./Pages/Home";
 import ProjPage from "./Pages/ProjPage";
-import NotFound from "./Pages/NotFound";
-import SignIn from "./Pages/SignIn";
-import SignUp from "./Pages/SignUp";
-
 import PostProj from "./Components/Projects/PostProj";
 import EditProj from "./Components/Projects/EditProj";
+
+import DisplayTasks from "./Components/Tasks/DisplayTasks";
+import AddTasks from "./Components/Tasks/AddTasks";
+import EditTask from "./Components/Tasks/EditTasks";
 
 import User from "./Components/Users/AllUsers";
 import CreateUser from "./Components/Users/CreateUser";
 
-import DisplayTask from "./Components/Tasks/DisplayTasks";
-import AddTasks from "./Components/Tasks/AddTasks";
-import EditTask from "./Components/Tasks/EditTasks";
+import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
 
 const projectIndexes = Array.from(Array(100).keys());
 
@@ -25,6 +23,7 @@ function App() {
     <>
       <Routes>
 
+        {/* Projects */}
         <Route path="/projects" element={<ProjPage />} />
         <Route path="/projects/post_project" element={<PostProj />} />
         {projectIndexes.map((index) => (
@@ -35,7 +34,9 @@ function App() {
           />
         ))}
 
-        <Route path="/tasks" element={<DisplayTask />} />
+
+        {/* Tasks */}
+        <Route path="/tasks" element={<DisplayTasks />} />
         <Route path={`/tasks/add`} element={<AddTasks />} />
         {projectIndexes.map((index) => (
           <Route
@@ -45,10 +46,11 @@ function App() {
           />
         ))}
 
+        {/* Users */}
         <Route path="/users" element={<User />} />
         <Route path="/users/add" element={<CreateUser />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+
+        
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
         

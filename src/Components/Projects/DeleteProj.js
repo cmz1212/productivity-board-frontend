@@ -1,4 +1,3 @@
-import React from "react";
 import "../../Pages/ProjPage.css";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../../constants";

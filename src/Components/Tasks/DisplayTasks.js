@@ -28,6 +28,7 @@ export default function DisplayTask() {
         console.error("Error:", error.message);
       });
   }, [proj_id]);
+  
   function deleteTask(task_id) {
     const confirmed = window.confirm(
       "TODO: make this authenticated account only \nWARNING: Deletion is irreversible! \n Are you sure you want to delete this task?"
@@ -98,7 +99,7 @@ export default function DisplayTask() {
       </button>
       <br />
       <button>
-        <Link to="/projects/display">Choose another project</Link>
+        <Link to="/projects">Choose another project</Link>
       </button>
       <br />
       <button>

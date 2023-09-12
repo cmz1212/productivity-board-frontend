@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import "../../Pages/ProjPage.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
+import Modal from "react-modal";
 
 export default function EditProj(props) {
-  const { proj_id } = props;
+  const { proj_id, isOpen, onClose } = props;
+
   const [project, setProject] = useState({
     description: null,
     wip: null,
     cycle_time: null,
     comment: null,
   });
+
   const navigate = useNavigate();
+
   function sendPutRequest() {
     const url = `${URL}/project/${proj_id}`;
 
@@ -45,71 +49,84 @@ export default function EditProj(props) {
       .catch((error) => {
         console.error("Error:", error.message);
       });
+      window.location.reload();
+      onClose();
   }
+
   function handleSubmit(event) {
     event.preventDefault();
-
     sendPutRequest();
   }
-  return (
-    <div className="background">
-      <form onSubmit={handleSubmit} className="forms">
-        <h3 className="form-labels">Input new project description(if any):</h3>
-        <input
-          type="text"
-          value={project.description}
-          onChange={(e) =>
-            setProject({ ...project, description: e.target.value })
-          }
-          placeholder="Description Here"
-        />
-        <br />
-        <h3 className="form-labels">New WIP limit(if any):</h3>
-        <input
-          type="text"
-          value={project.wip}
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            if (/^\d*$/.test(inputValue)) {
-              setProject({ ...project, wip: inputValue });
-            }
-          }}
-        />
-        <br />
-        <h3 className="form-labels">New cycle time limit(if any):</h3>
-        <input
-          type="text"
-          value={project.cycle_time}
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            if (/^\d*$/.test(inputValue)) {
-              setProject({ ...project, cycle_time: inputValue });
-            }
-          }}
-        />
-        <br />
-        <h3 className="form-labels">New comments for the project(if any):</h3>
-        <textarea
-          value={project.comment}
-          onChange={(e) => setProject({ ...project, comment: e.target.value })}
-          placeholder="Project comments"
-          rows={8} // You can adjust this value to fit the desired number of lines
-          style={{ width: "90%", resize: "vertical" }} // Optional styling for width and vertical resizing
-        />
-        <br />
 
-        <button type="submit" className="submit-buttons">
-          Submit
-        </button>
-      </form>
-      <br />
-      <button className="back-buttons">
-        <Link to={`/projects`}>Back</Link>{" "}
-      </button>
-      <br />
-      <button className="home-buttons">
-        <Link to="/">Home</Link>
-      </button>
-    </div>
+  const customStyles = {
+    content: {
+      width: "500px",
+      height: "auto",
+      margin: "auto",
+      display: "block",
+      backgroundColor: "#b9e6fd",
+      border: "2px solid #072f49",
+    },
+  };
+
+  return (
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
+      <div className="background">
+        <form onSubmit={handleSubmit} className="forms">
+          <h3 className="form-labels">Input new project description(if any):</h3>
+          <input
+            type="text"
+            value={project.description}
+            onChange={(e) =>
+              setProject({ ...project, description: e.target.value })
+            }
+            placeholder="Description Here"
+          />
+          <br />
+          <h3 className="form-labels">New WIP limit(if any):</h3>
+          <input
+            type="text"
+            value={project.wip}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              if (/^\d*$/.test(inputValue)) {
+                setProject({ ...project, wip: inputValue });
+              }
+            }}
+          />
+          <br />
+          <h3 className="form-labels">New cycle time limit(if any):</h3>
+          <input
+            type="text"
+            value={project.cycle_time}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              if (/^\d*$/.test(inputValue)) {
+                setProject({ ...project, cycle_time: inputValue });
+              }
+            }}
+          />
+          <br />
+          <h3 className="form-labels">New comments for the project(if any):</h3>
+          <textarea
+            value={project.comment}
+            onChange={(e) => setProject({ ...project, comment: e.target.value })}
+            placeholder="Project comments"
+            rows={8}
+            style={{ width: "90%" }}
+          />
+          {Array(2).fill(<br />)}
+
+          <button type="submit" className="submit-buttons">
+            Submit
+          </button>
+
+          <button className="back-buttons" onClick={onClose}>
+            Close
+          </button>
+
+        </form>        
+      </div>
+    </Modal>
   );
 }
