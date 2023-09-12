@@ -64,7 +64,7 @@
 .column {
   flex: 1; /* Allow columns to grow and fill available space */
 
-  margin: 10px; /* Add margin for spacing */
+  margin: 5px; /* Add margin for spacing */
 }
 .valid-drop-area {
   border: 2px dashed green; /* Add a green dashed border for valid drop areas */
