@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const url = `${URL}/task`;
 
 export default function AddTasks() {
+  const { getAccessTokenSilently } = useAuth0();
   const [newTask, setNewTask] = useState({
     description: null,
 
@@ -20,7 +22,7 @@ export default function AddTasks() {
   const searchParams = new URLSearchParams(location.search);
   const proj_id = searchParams.get("proj_id");
 
-  function sendPostRequest() {
+  async function sendPostRequest() {
     const {
       description,
 
@@ -45,10 +47,17 @@ export default function AddTasks() {
       task_comments: task_comments,
     };
 
+    const accessToken = await getAccessTokenSilently({
+      audience: process.env.REACT_APP_API_AUDIENCE
+    })
+
+    
+
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`
       },
       body: JSON.stringify(requestData),
     })

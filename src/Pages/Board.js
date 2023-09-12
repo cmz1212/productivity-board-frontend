@@ -3,11 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import { URL } from "../constants";
 import DisplayTask from "../Components/Tasks/DisplayTasks";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const url = `${URL}/task`;
 
 // Tutorial site for react-beautiful-dnd
-const website="https://egghead.io/lessons/react-customise-the-appearance-of-an-app-during-a-drag-using-react-beautiful-dnd-snapshot-values";
+//const website="https://egghead.io/lessons/react-customise-the-appearance-of-an-app-during-a-drag-using-react-beautiful-dnd-snapshot-values";
 
 // Define getStatusFromColumnId function here
 const getStatusFromColumnId = (columnId) => {
@@ -28,6 +28,7 @@ const getStatusFromColumnId = (columnId) => {
 };
 
 export default function Board() {
+  const { isAuthenticated, getAccessTokenSilently} = useAuth0();
   const [tasks, setTasks] = useState([]);
   const [isValidBacklog, setIsValidBacklog] = useState(true);
   const [isValidTodo, setIsValidTodo] = useState(true);
@@ -40,22 +41,46 @@ export default function Board() {
   const proj_id = searchParams.get("proj_id");
 
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        let task_list = [];
-        for (const task in data) {
-          if (data[task].project_id === proj_id) {
-            task_list.push(data[task]);
-          }
-        }
 
-        setTasks(task_list);
-      })
-      .catch((error) => {
-        console.error("Error:", error.message);
-      });
-  }, [proj_id]);
+    if (isAuthenticated) {
+
+      const fetchData = async () => {
+        const url = `${URL}/task`;
+        
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_API_AUDIENCE
+        })
+
+        
+
+        fetch(url,
+          {
+            method: 'GET',
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        ).then((response) => response.json())
+        .then((data) => {
+          let task_list = [];
+          for (const task in data) {
+            if (data[task].project_id === proj_id) {
+              task_list.push(data[task]);
+            }
+          }
+  
+          setTasks(task_list);
+        })
+        .catch((error) => {
+          console.error("Error:", error.message);
+        });
+      };
+
+      fetchData();
+    }
+
+  }, [proj_id, isAuthenticated, getAccessTokenSilently]);
 
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -161,14 +186,22 @@ export default function Board() {
 
     return destinationColumnId !== null;
   };
-  const updateTaskStatus = (taskId, status) => {
+  const updateTaskStatus = async(taskId, status) => {
     // Make an API call to update the task's status here
-    const updateUrl = `${url}/${taskId}`;
+    const updateUrl = `${URL}/task/${taskId}`;
     const requestData = { status };
+
+    const accessToken = await getAccessTokenSilently({
+      audience: process.env.REACT_APP_API_AUDIENCE
+    })
+
+    
+
     fetch(updateUrl, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(requestData),
     })

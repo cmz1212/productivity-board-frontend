@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import "../App.css";
 import Navbar from './Navbar';
 import Footer from "./Footer";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -48,7 +47,7 @@ function Home() {
               <h5 className="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
                 Big Picture
               </h5>
-              <p className="mb-3 font-normal text-sky-500 dark:text-sky-400">
+              <p className="mb-3 font-normal text-sky-500">
                 Project progress overview from an elevated perspective
                 <br />
               </p>
@@ -57,7 +56,7 @@ function Home() {
               <h5 className="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
                 Zero Learning Curve
               </h5>
-              <p className="mb-3 font-normal text-sky-500 dark:text-sky-400">
+              <p className="mb-3 font-normal text-sky-500">
                 Productivity Board is intuitive and has zero learning curve
               </p>
             </div>
@@ -65,7 +64,7 @@ function Home() {
               <h5 className="mb-2 text-2xl font-semibold tracking-tight text-sky-950">
                 Increase Collaboration
               </h5>
-              <p className="mb-3 font-normal text-sky-500 dark:text-sky-400">
+              <p className="mb-3 font-normal text-sky-500">
                 Mutiple users can create and share projects with one another{" "}
                 <br />
               </p>

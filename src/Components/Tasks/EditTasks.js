@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function EditTask(props) {
+  const { getAccessTokenSilently } = useAuth0();
   const { task_id } = props;
   const [task, setTask] = useState({
     description: null,
@@ -16,7 +18,8 @@ export default function EditTask(props) {
     comment: null,
   });
   const navigate = useNavigate();
-  function sendPutRequest() {
+
+  async function sendPutRequest() {
     const url = `${URL}/task/${task_id}`;
 
     const requestData = {
@@ -29,10 +32,18 @@ export default function EditTask(props) {
       priority: task.priority,
       task_comments: task.comment,
     };
+
+    const accessToken = await getAccessTokenSilently({
+      audience: process.env.REACT_APP_API_AUDIENCE
+    })
+
+    
+
     fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`
       },
       body: JSON.stringify(requestData),
     })

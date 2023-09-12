@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./ProjPage.css";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../constants";
 import Navbar from './Navbar';
@@ -59,15 +58,16 @@ function ProjPage () {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && userEmail) {
       const fetchData = async () => {
         const url = `${URL}/project`;
         
         try {
           const accessToken = await getAccessTokenSilently({
-            audience: process.env.REACT_APP_API_AUDIENCE,
-            scope: "write:project",
+            audience: process.env.REACT_APP_API_AUDIENCE
           })
+
+          
 
           const response = await fetch(url,
             {
@@ -75,25 +75,22 @@ function ProjPage () {
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
+                "userEmail": userEmail
               },
             }
           );
-            
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
 
           const data = await response.json();
           setProjects(data);
 
         } catch (error) {
-          console.error("Error:", error.message);
+          console.error("Error: ", error);
         }
       };
 
       fetchData();
     }
-  }, [isAuthenticated, getAccessTokenSilently]);
+  }, [isAuthenticated, userEmail, getAccessTokenSilently]);
 
   return (
     <div className="grid justify-items-center bg-sky-950 w-full ">
@@ -101,63 +98,68 @@ function ProjPage () {
       {isAuthenticated ? (
         <>
           <br />
-          { projects ? (
-            <div>
-              {projects.map((project, index) => (
-                <div
-                  key={index + 1}
-                  className="project-space"
-                  style={{ cursor: "pointer" }}
-                >
-                  <div onClick={() => navigateToViewTasks(project.id)}>
-                    <div>
-                      Project: {project.project_description}
-                      <br />
-                      Project ID: {project.id}
-                      <br />
-                      WIP limit: {project.wip_limit}
-                      <br />
-                      Cycle time: {project.cycle_time_limit}
-                      <br />
-                      Comments: {project.project_comments}
+            {projects.length > 0 ? (
+              <div>
+                {projects.map((project, index) => (
+                  <div
+                    key={index + 1}
+                    className="project-space"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div onClick={() => navigateToViewTasks(project.id)}>
+                      <div>
+                      <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold" }}>
+                          {project.project_description}
+                      </div>
+                        <br />
+                        <strong>Project ID:</strong> {project.id}
+                        <br />
+                        <strong>WIP limit:</strong> {project.wip_limit}
+                        <br />
+                        <strong>Cycle time:</strong> {project.cycle_time_limit}
+                        <br />
+                        <strong>Comments:</strong> {project.project_comments}
+                        <br />
+                      </div>
+                    </div>
+                    {Array(2).fill(<br />)}
+                    <div  style={{ textAlign: "center" }}>
+                      <button className="edit-buttons" onClick={() => openEditModal(project)}>
+                        Edit Project Details
+                      </button>
+                      {"    "}
+                      <button
+                        className="edit-buttons"
+                        onClick={() => DeleteProj(project.id, getAccessTokenSilently, navigate)}
+                      >
+                        Delete Project
+                      </button>
                       <br />
                     </div>
-                  </div>
-                  {Array(2).fill(<br />)}
-                  <div>
-                    <button className="edit-buttons" onClick={() => openEditModal(project)}>
-                      Edit Project Details
-                    </button>
-                    {"  "}
-                    <button
-                      className="edit-buttons"
-                      onClick={() => DeleteProj(project.id)}
-                    >
-                      Delete Project
-                    </button>
-                    <br />
-                  </div>
 
-                </div>
-              ))}
-              
-            </div>
-          ) : null}
-          <br />
-           <button className="py-2 px-4 bg-sky-200 hover:bg-white focus:bg-white rounded-lg font-bold" onClick={() => openPostModal(userEmail)}>
+                  </div>
+                ))}
+                
+              </div>
+            ) : null}
+
+          {Array(3).fill(<br />)}
+           <button className="w-full max-w-7xl px-3 py-3 bg-sky-200 hover:bg-white focus:bg-white rounded-lg font-bold" onClick={() => openPostModal(userEmail)}>
             Add New Project
           </button>
 
-          <EditProj
-            proj_id={editingProject ? editingProject.id : null}
+          {editingProject && <EditProj
+            editingProject={editingProject}
             isOpen={isEditModalOpen}
             onClose={closeEditModal}
-          />
+          />}
+
           <PostProj
             auth_id={auth_id ? auth_id : null}
             isOpen={isPostModalOpen}
             onClose={closePostModal}
           />
+
         </>
       ) : null }
       <Footer />

@@ -6,7 +6,7 @@ import ProjPage from "./Pages/ProjPage";
 import PostProj from "./Components/Projects/PostProj";
 import EditProj from "./Components/Projects/EditProj";
 
-import DisplayTasks from "./Components/Tasks/DisplayTasks";
+import Board from "./Pages/Board";
 import AddTasks from "./Components/Tasks/AddTasks";
 import EditTask from "./Components/Tasks/EditTasks";
 

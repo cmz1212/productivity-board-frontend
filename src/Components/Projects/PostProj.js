@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../../Pages/ProjPage.css";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -38,11 +37,10 @@ export default function PostProj(props) {
       };
   
       const accessToken = await getAccessTokenSilently({
-        audience: process.env.REACT_APP_API_AUDIENCE,
-        scope: "write:project",
-      });
+        audience: process.env.REACT_APP_API_AUDIENCE
+      })
   
-      const response = await fetch(url, {
+      fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,10 +48,6 @@ export default function PostProj(props) {
         },
         body: JSON.stringify(requestData),
       });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
   
       setProject({
         description: null,
@@ -66,8 +60,9 @@ export default function PostProj(props) {
       navigate(`/projects`);
 
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error: ", error.message);
     }
+
     window.location.reload();
     onClose();
   }
@@ -80,11 +75,14 @@ export default function PostProj(props) {
   const customStyles = {
     content: {
       width: "500px",
-      height: "auto",
-      margin: "auto",
+      height: "600px",
+      paddingBottom: '0px',
       display: "block",
-      backgroundColor: "#b9e6fd", // Background color
-      border: "2px solid #072f49", // Border color and thickness
+      backgroundColor: "#b9e6fd",
+      border: "2px solid #072f49",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
     },
   };
 
@@ -92,7 +90,7 @@ export default function PostProj(props) {
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
       <div className="background">
         <form onSubmit={handleSubmit} >
-          <h3 className="form-labels">Please input project description:</h3>
+          <h3 className="form-labels">Project Description:</h3>
           <input
             type="text"
             value={project.description}
@@ -101,8 +99,8 @@ export default function PostProj(props) {
             }
             placeholder="Description Here"
           />
-          <br />
-          <h3 className="form-labels">WIP limit:</h3>
+          {Array(2).fill(<br />)}
+          <h3 className="form-labels">WIP Limit:</h3>
           <input
             type="text"
             value={project.wip}
@@ -114,8 +112,8 @@ export default function PostProj(props) {
             }}
             
           />
-          <br />
-          <h3 className="form-labels">Cycle time limit:</h3>
+          {Array(2).fill(<br />)}
+          <h3 className="form-labels">Cycle Time Timit:</h3>
           <input
             type="text"
             value={project.cycle_time}
@@ -127,7 +125,7 @@ export default function PostProj(props) {
             }}
             
           />
-          <br />
+          {Array(2).fill(<br />)}
           <h3 className="form-labels">Please add comments for the project:</h3>
           <textarea
             value={project.comment}
@@ -141,7 +139,7 @@ export default function PostProj(props) {
           <button type="submit" className="submit-buttons">
             Submit
           </button>
-
+          {"    "}{"    "}
           <button className="back-buttons" onClick={onClose}>
             Close
           </button>

@@ -2,117 +2,6 @@
   text-align: center;
 }
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  min-width: 125px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  right: 2px;
-  top: 20px;
-  z-index: 1;
-}
-
-.home::-webkit-scrollbar {
-  width: 5px;
-  height: 7.5px;
-}
-
-.home::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.home::-webkit-scrollbar-thumb {
-  border-radius: 50px;
-  background: rgba(165, 165, 165, 0.5);
-}
-
-.home::-webkit-scrollbar-thumb:hover {
-  width: 15px;
-  background: rgba(165, 165, 165, 0.75);
-}
-
-.sidebar::-webkit-scrollbar {
-  width: 5px;
-  height: 7.5px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  border-radius: 50px;
-  background: rgba(165, 165, 165, 0.5);
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-  width: 15px;
-  background: rgba(165, 165, 165, 0.75);
-}
-
-body::-webkit-scrollbar {
-  width: 5px;
-  height: 7.5px;
-}
-
-body::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-body::-webkit-scrollbar-thumb {
-  border-radius: 50px;
-  background: rgba(165, 165, 165, 0.5);
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  width: 15px;
-  background: rgba(165, 165, 165, 0.75);
-}
-
-textarea::-webkit-scrollbar {
-  width: 5px;
-  height: 7.5px;
-}
-
-textarea::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-textarea::-webkit-scrollbar-thumb {
-  border-radius: 50px;
-  background: rgba(165, 165, 165, 0.5);
-}
-
-textarea::-webkit-scrollbar-thumb:hover {
-  width: 15px;
-  background: rgba(165, 165, 165, 0.75);
-}
-
-.scrollbar::-webkit-scrollbar {
-  width: 5px;
-  height: 7.5px;
-}
-
-.scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 50px;
-  background: rgba(165, 165, 165, 0.5);
-}
-
-.scrollbar::-webkit-scrollbar-thumb:hover {
-  width: 15px;
-  background: rgba(165, 165, 165, 0.75);
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -149,37 +38,102 @@ textarea::-webkit-scrollbar-thumb:hover {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.project-space {
+  display: inline-block;
+  margin: 5px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 300px;
+  background-color: #b9e6fd;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: gray !important;
-}
-.spin{
-  animation: spin 15s linear infinite;
+.task-space {
+  margin: 5px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 300px;
+  background-color: #b9e6fd;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.edit-buttons {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #b9e6fd;
+  padding: 5px;
+  margin: 2px;
 }
 
-/* TODO: to be removed together with the temporary project link */
-.red-text{
+.home-buttons {
+  background-color: #b9e6fd;
+  color: black;
+  text-decoration: underline;
+  padding: 3px;
+  width: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin: 10px;
+}
 
-  color:red;
+.submit-buttons {
+  background-color: #b9e6fd;
+  color: black;
+  padding: 3px;
+  width: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin-bottom: 0;
+}
+
+.back-buttons {
+  background-color: #b9e6fd;
+  color: black;
+  padding: 3px;
+  width: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin-bottom: 0;
+}
+
+.form-labels {
+  color: black;
+}
+
+.board {
+  display: flex;
+}
+
+.column {
+  flex: 1;
+  width: 350px;
+  height: 88vh;
+  min-width: 350px;
+  margin: 10px;
+}
+
+.valid-drop-area {
+  border: 2px dashed green;
+}
+
+.invalid-drop-area {
+  border: 2px dashed red;
+}
+
+#backlog {
+  background-color: aquamarine;
+}
+
+#todo {
+  background-color: lightcoral;
+}
+
+#inProgress {
+  background-color: lightcoral;
+}
+
+#review {
+  background-color: lightcoral;
+}
+
+#completed {
+  background-color: royalblue;
 }
