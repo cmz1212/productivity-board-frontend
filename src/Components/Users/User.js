@@ -17,7 +17,7 @@ export default function User(prop) {
       });
   }, [url]);
   return (
-    <div className="user-space">
+    <div>
       User name: {user.user_name}
       <br />
       User role: {user.user_role}

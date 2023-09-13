@@ -25,7 +25,7 @@ export default function AllUsers() {
       {users.length > 0 ? (
         <div>
           {users.map((user, index) => (
-            <div key={index + 1}>
+            <div key={index + 1} className="user-space">
               <User user_id={user.id} />
             </div>
           ))}

@@ -26,7 +26,7 @@ export default function ChooseUser() {
       {users.length > 0 ? (
         <div>
           {users.map((user, index) => (
-            <div key={index + 1}>
+            <div key={index + 1} className="user-space">
               <button>
                 <User user_id={user.id} />
               </button>
