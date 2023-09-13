@@ -1,23 +1,31 @@
-import React, { useState } from "react";
-import "../../Pages/ProjPage.css";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
+import { useAuth0 } from "@auth0/auth0-react";
 import Modal from "react-modal";
 
 export default function EditProj(props) {
-  const { proj_id, isOpen, onClose } = props;
-
-  const [project, setProject] = useState({
-    description: null,
-    wip: null,
-    cycle_time: null,
-    comment: null,
-  });
-
+  const { editingProject, isOpen, onClose } = props;
+  const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
+  const [project, setProject] = useState({
+    description: editingProject?.project_description || "", 
+    wip: editingProject?.wip_limit || "",
+    cycle_time: editingProject?.cycle_time_limit || "",
+    comment: editingProject?.project_comments || "",
+  });
+  
+  useEffect(() => {
+      setProject({
+        description: editingProject?.project_description || "", 
+        wip: editingProject?.wip_limit || "",
+        cycle_time: editingProject?.cycle_time_limit ||  "",
+        comment: editingProject?.project_comments || "",
+      });
+  }, [editingProject]);
 
-  function sendPutRequest() {
-    const url = `${URL}/project/${proj_id}`;
+  async function sendPutRequest() {
+    const url = `${URL}/project/${editingProject.id}`;
 
     const requestData = {
       project_description: project.description,
@@ -25,10 +33,16 @@ export default function EditProj(props) {
       cycle_time_limit: project.cycle_time,
       project_comments: project.comment,
     };
+
+    const accessToken = await getAccessTokenSilently({
+      audience: process.env.REACT_APP_API_AUDIENCE
+    })
+
     fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`
       },
       body: JSON.stringify(requestData),
     })
@@ -47,8 +61,9 @@ export default function EditProj(props) {
       })
 
       .catch((error) => {
-        console.error("Error:", error.message);
+        console.error("Error: ", error.message);
       });
+
       window.location.reload();
       onClose();
   }
@@ -61,11 +76,14 @@ export default function EditProj(props) {
   const customStyles = {
     content: {
       width: "500px",
-      height: "auto",
-      margin: "auto",
+      height: "600px",
+      paddingBottom: '0px',
       display: "block",
       backgroundColor: "#b9e6fd",
       border: "2px solid #072f49",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
     },
   };
 
@@ -73,7 +91,7 @@ export default function EditProj(props) {
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
       <div className="background">
         <form onSubmit={handleSubmit} className="forms">
-          <h3 className="form-labels">Input new project description(if any):</h3>
+          <h3 className="form-labels">Project Description:</h3>
           <input
             type="text"
             value={project.description}
@@ -82,8 +100,8 @@ export default function EditProj(props) {
             }
             placeholder="Description Here"
           />
-          <br />
-          <h3 className="form-labels">New WIP limit(if any):</h3>
+          {Array(2).fill(<br />)}
+          <h3 className="form-labels">WIP Limit:</h3>
           <input
             type="text"
             value={project.wip}
@@ -94,8 +112,8 @@ export default function EditProj(props) {
               }
             }}
           />
-          <br />
-          <h3 className="form-labels">New cycle time limit(if any):</h3>
+          {Array(2).fill(<br />)}
+          <h3 className="form-labels">Cycle Time Limit:</h3>
           <input
             type="text"
             value={project.cycle_time}
@@ -106,8 +124,8 @@ export default function EditProj(props) {
               }
             }}
           />
-          <br />
-          <h3 className="form-labels">New comments for the project(if any):</h3>
+          {Array(2).fill(<br />)}
+          <h3 className="form-labels">Please edit comments for the project:</h3>
           <textarea
             value={project.comment}
             onChange={(e) => setProject({ ...project, comment: e.target.value })}
@@ -120,7 +138,7 @@ export default function EditProj(props) {
           <button type="submit" className="submit-buttons">
             Submit
           </button>
-
+          {"    "}
           <button className="back-buttons" onClick={onClose}>
             Close
           </button>

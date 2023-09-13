@@ -1,32 +1,35 @@
-import "../../Pages/ProjPage.css";
-import { useNavigate } from "react-router-dom";
 import { URL } from "../../constants";
 
-export default function DeleteProj(id) {
-  const navigate = useNavigate();
+export default async function DeleteProj(id, getAccessTokenSilently, navigate) {
 
   const confirmed = window.confirm(
-    "TODO: make this authenticated account only \nWARNING: Deletion is irreversible! \n Are you sure you want to delete this project?"
+    "Deletion is irreversible! \n Are you sure you want to delete this project?"
   );
 
   if (confirmed) {
-    const url = `${URL}/project/${id}`;
+      const url = `${URL}/project/${id}`;
 
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        return response.json();
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE
       })
-      .then(() => {
-        // Trigger navigation only when the deletion is confirmed
-        navigate(`/projects`);
+
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`
+        },
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
+        .then((response) => {
+          return response.json();
+        })
+        .then(() => {
+          // Trigger navigation only when the deletion is confirmed
+          navigate(`/projects`);
+        })
+        .catch((error) => {
+          console.error("Error: ", error.message);
+        });
+    }
+    
 }

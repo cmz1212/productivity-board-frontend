@@ -66,13 +66,7 @@
 
   margin: 5px; /* Add margin for spacing */
 }
-.valid-drop-area {
-  border: 2px dashed green; /* Add a green dashed border for valid drop areas */
-}
 
-.invalid-drop-area {
-  border: 2px dashed red; /* Add a red dashed border for invalid drop areas */
-}
 #backlog {
   background-color: aquamarine;
 }
