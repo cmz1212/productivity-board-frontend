@@ -11,22 +11,30 @@ export default function Column(props) {
   );
 
   return (
-    <div className="column" id={columnId}>
-      <h2>{columnId}</h2>
+    <div className="column-container">
       <Droppable droppableId={columnId}>
-        {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
+        {(provided, snapshot) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="column"
+            id={snapshot.isDraggingOver ? "dropping" : `${columnId}`}
+          >
+            <h2>{columnId}</h2>
             {columnTasks.map((task, index) => (
               <Draggable
                 key={task.id}
                 draggableId={task.id.toString()}
                 index={index}
               >
-                {(provided) => (
+                {(provided, snapshot) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
+                    className={`task-space ${
+                      snapshot.isDragging ? "dragging" : ""
+                    }`}
                   >
                     <DisplayTask key={task.id} task={task} index={index} />
                   </div>

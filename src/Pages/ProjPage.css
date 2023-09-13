@@ -14,7 +14,9 @@
   width: 300px;
   background-color: #b9e6fd;
 }
-
+.task-space.dragging {
+  background-color: lightgreen;
+}
 .edit-buttons {
   border: 1px solid black;
   border-radius: 10px;
@@ -60,11 +62,14 @@
 .board {
   display: flex; /* Use flexbox to arrange columns side by side */
 }
-
+.column-container {
+  display: flex; /* This and "flex: 1" makes all column having the same height at all times */
+}
 .column {
   flex: 1; /* Allow columns to grow and fill available space */
-
-  margin: 5px; /* Add margin for spacing */
+  min-width: 310px; /* All columns still have 310px width even when empty */
+  padding: 5px;
+  border: 1px black solid;
 }
 
 #backlog {
@@ -81,4 +86,7 @@
 }
 #completed {
   background-color: royalblue;
+}
+#dropping {
+  background-color: green;
 }

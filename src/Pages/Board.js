@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { URL } from "../constants";
 import Column from "../Components/Tasks/Column";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./ProjPage.css";
 
@@ -75,6 +75,13 @@ export default function Board() {
       return;
     }
 
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    ) {
+      return;
+    }
+
     const updatedTasks = [...tasks];
 
     // Find the moved task by its id
@@ -82,24 +89,24 @@ export default function Board() {
       (task) => task.id === result.draggableId
     );
 
-    console.log(`Moved task: ${movedTask.task_description}`);
-
     // Update the task status based on the column
-    const columnId = result.destination.droppableId;
+    //const columnId1 = result.source.droppableId;
+    const columnId2 = result.destination.droppableId;
 
-    if (!isValidColumn(columnId)) {
+    if (!isValidColumn(columnId2)) {
       // Handle the case when the task is dropped into an invalid column
       return;
     }
 
-    const updatedStatus = getStatusFromColumnId(columnId);
+    //const updatedStatus1 = getStatusFromColumnId(columnId1);
+    const updatedStatus2 = getStatusFromColumnId(columnId2);
 
     // Update the task status in the local state
-    movedTask.status = updatedStatus;
+    movedTask.status = updatedStatus2;
     setTasks(updatedTasks);
 
     // Make an API call to update the task's status on the server
-    updateTaskStatus(movedTask.id, updatedStatus);
+    updateTaskStatus(movedTask.id, updatedStatus2);
   };
 
   const isValidColumn = (columnId) => {
@@ -141,23 +148,13 @@ export default function Board() {
   return (
     <div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="board" direction="horizontal">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="board"
-            >
-              <Column columnId="backlog" tasks={tasks} />
-              <Column columnId="todo" tasks={tasks} />
-              <Column columnId="inProgress" tasks={tasks} />
-              <Column columnId="review" tasks={tasks} />
-              <Column columnId="completed" tasks={tasks} />
-
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        <div className="board">
+          <Column columnId="backlog" tasks={tasks} />
+          <Column columnId="todo" tasks={tasks} />
+          <Column columnId="inProgress" tasks={tasks} />
+          <Column columnId="review" tasks={tasks} />
+          <Column columnId="completed" tasks={tasks} />
+        </div>
       </DragDropContext>
       <br />
       <button>

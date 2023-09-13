@@ -9,7 +9,7 @@ export default function DisplayTask(props) {
     onDelete(task.id);
   };
   return (
-    <div className="task-space">
+    <div>
       Description: {task.task_description}
       <br />
       Status: {task.status}
