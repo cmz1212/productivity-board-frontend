@@ -8,11 +8,19 @@
 }
 
 .task-space {
-  margin: 5px;
+  margin: 1px;
   border: 2px solid black;
   padding: 5px;
   width: 300px;
   background-color: #b9e6fd;
+}
+.user-space {
+  display: inline-block;
+  margin: 1px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 250px;
+  background-color: #fde2b9;
 }
 .task-space.dragging {
   background-color: lightgreen;
@@ -20,14 +28,14 @@
 .edit-buttons {
   border: 1px solid black;
   border-radius: 10px;
-  background-color: #b9e6fd;
+  background-color: #b9fdcd;
   padding: 5px;
   margin: 2px;
 }
 
 .home-buttons {
-  background-color: #b9e6fd;
-  color: black;
+  background-color: #1a06b2;
+  color: rgb(249, 215, 215);
   text-decoration: underline;
   padding: 3px;
   width: 150px;
@@ -41,6 +49,15 @@
   color: black;
   padding: 3px;
   width: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+.small-buttons {
+  background-color: #b9e6fd;
+  color: black;
+  font-size: 10px;
+  padding: 1px;
+  width: auto;
   border: 1px solid black;
   border-radius: 6px;
 }
@@ -67,8 +84,8 @@
 }
 .column {
   flex: 1; /* Allow columns to grow and fill available space */
-  min-width: 310px; /* All columns still have 310px width even when empty */
-  padding: 5px;
+  width: 306px; /* All columns still have 306px width even when empty */
+  padding: 2px;
   border: 1px black solid;
 }
 

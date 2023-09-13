@@ -157,15 +157,19 @@ export default function Board() {
         </div>
       </DragDropContext>
       <br />
-      <button>
+      <button className="edit-buttons">
         <Link to={`/tasks/add?proj_id=${proj_id}`}>Add tasks</Link>{" "}
       </button>
       <br />
-      <button>
+      <button className="edit-buttons">
+        <Link to={`/users`}>View participants</Link>{" "}
+      </button>
+      <br />
+      <button className="edit-buttons">
         <Link to="/projects">Choose another project</Link>
       </button>
       <br />
-      <button>
+      <button className="home-buttons">
         <Link to="/">Home</Link>
       </button>
     </div>

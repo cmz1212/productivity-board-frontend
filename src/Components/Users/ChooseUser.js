@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import User from "./User";
+import "../../Pages/ProjPage.css";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const url = `${URL}/user`;
 
-export default function AllUsers() {
+export default function ChooseUser() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -21,17 +22,19 @@ export default function AllUsers() {
 
   return (
     <div>
-      <h2>All available members:</h2>
+      <h2>Choose a user to assign the task to:</h2>
       {users.length > 0 ? (
         <div>
           {users.map((user, index) => (
             <div key={index + 1}>
-              <User user_id={user.id} />
+              <button>
+                <User user_id={user.id} />
+              </button>
             </div>
           ))}
         </div>
       ) : null}
-      <h2>Create a new member:</h2>
+      <h2>Or create a new member:</h2>
       <button className="edit-buttons">
         <Link to="/users/add">Create new project member</Link>
       </button>
