@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { URL } from "../constants";
-import DisplayTask from "../Components/Tasks/DisplayTasks";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Column from "../Components/Tasks/Column";
+
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./ProjPage.css";
 
 const url = `${URL}/task`;
 
 // Define getStatusFromColumnId function here
-const getStatusFromColumnId = (columnId) => {
+export function getStatusFromColumnId(columnId) {
   switch (columnId) {
     case "backlog":
       return "Backlog";
@@ -24,7 +25,7 @@ const getStatusFromColumnId = (columnId) => {
     default:
       return "";
   }
-};
+}
 
 export default function Board() {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -170,42 +171,6 @@ export default function Board() {
       <button>
         <Link to="/">Home</Link>
       </button>
-    </div>
-  );
-}
-
-function Column({ columnId, tasks }) {
-  const columnTasks = tasks.filter(
-    (task) => task.status === getStatusFromColumnId(columnId)
-  );
-
-  return (
-    <div className="column" id={columnId}>
-      <h2>{columnId}</h2>
-      <Droppable droppableId={columnId}>
-        {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
-            {columnTasks.map((task, index) => (
-              <Draggable
-                key={task.id}
-                draggableId={task.id.toString()}
-                index={index}
-              >
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <DisplayTask key={task.id} task={task} index={index} />
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
     </div>
   );
 }
