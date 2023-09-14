@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import User from "./User";
-import "../../Pages/ProjPage.css";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const url = `${URL}/user`;

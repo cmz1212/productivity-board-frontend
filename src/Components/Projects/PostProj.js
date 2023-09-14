@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { URL } from "../../constants";
+import { URL, customStyles } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import Modal from "react-modal";
 
@@ -62,29 +62,15 @@ export default function PostProj(props) {
     } catch (error) {
       console.error("Error: ", error.message);
     }
-
-    window.location.reload();
+    
     onClose();
+    window.location.reload();
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     sendPostRequest();
   }
-
-  const customStyles = {
-    content: {
-      width: "500px",
-      height: "600px",
-      paddingBottom: '0px',
-      display: "block",
-      backgroundColor: "#b9e6fd",
-      border: "2px solid #072f49",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
@@ -134,15 +120,11 @@ export default function PostProj(props) {
             rows={8}
             style={{ width: "90%" }}
           />
-          {Array(2).fill(<br />)}
 
-          <button type="submit" className="submit-buttons">
-            Submit
-          </button>
+          {Array(2).fill(<br />)}
+          <button type="submit" className="submit-buttons">Submit</button>
           {"    "}{"    "}
-          <button className="back-buttons" onClick={onClose}>
-            Close
-          </button>
+          <button className="back-buttons" onClick={onClose}>Close</button>
 
         </form> 
       </div>

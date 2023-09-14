@@ -5,9 +5,19 @@ import Column from "../Components/Tasks/Column";
 import DeleteTask from "../Components/Tasks/DeleteTask";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useAuth0 } from "@auth0/auth0-react";
-import "./ProjPage.css";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import AddTasks from "../Components/Tasks/AddTasks";
 
-const url = `${URL}/task`;
+export function DaysBetweenDates({ cal_start_date, cal_end_date }) {
+
+  const cal_startDate = new Date(cal_start_date);
+  // Calculate the difference in days
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  const diffDays = Math.round(Math.abs((cal_end_date - cal_startDate) / oneDay));
+
+  return diffDays;
+}
 
 // Define getStatusFromColumnId function here
 export function getStatusFromColumnId(columnId) {
@@ -28,14 +38,35 @@ export function getStatusFromColumnId(columnId) {
 }
 
 export default function Board() {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const userName = isAuthenticated ? user.name : null;
   const [tasks, setTasks] = useState([]);
-
   const [isTaskDeleted, setIsTaskDeleted] = useState(false);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const proj_id = searchParams.get("proj_id");
+
+  // State variable to control the visibility of the AddTasks modal
+  // State variable to set state for AddTasks Modal
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [project_id, setProjID] = useState(null);
+  const [isModalEdited, setisModalEdited] = useState(false);
+  const [isModalEdited2, setisModalEdited2] = useState(false);
+
+  // Function to open the AddTasks Modal
+  const openPostModal = (project_id) => {
+    setProjID(project_id);
+    setIsPostModalOpen(true);
+  };
+
+  // Function to close the AddTasks Modal
+  const closePostModal = () => {
+    setProjID(null);
+    setIsPostModalOpen(false);
+    setisModalEdited(true);
+  };
+
   const onDeleteTask = async (taskId) => {
     const result = await DeleteTask(taskId, getAccessTokenSilently);
     if (result.success) {
@@ -50,7 +81,7 @@ export default function Board() {
           audience: process.env.REACT_APP_API_AUDIENCE,
         });
 
-        fetch(url, {
+        fetch(`${URL}/task`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -75,7 +106,7 @@ export default function Board() {
 
       fetchData();
     }
-  }, [proj_id, isAuthenticated, getAccessTokenSilently, isTaskDeleted]);
+  }, [proj_id, isAuthenticated, getAccessTokenSilently, isTaskDeleted, isModalEdited, isModalEdited2]);
 
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -108,13 +139,22 @@ export default function Board() {
 
     //const updatedStatus1 = getStatusFromColumnId(columnId1);
     const updatedStatus2 = getStatusFromColumnId(columnId2);
-
-    // Update the task status in the local state
     movedTask.status = updatedStatus2;
     setTasks(updatedTasks);
 
-    // Make an API call to update the task's status on the server
-    updateTaskStatus(movedTask.id, updatedStatus2);
+    const currentDate = new Date();
+    if (columnId2==="todo") {
+      updateTaskStatus(movedTask.id, updatedStatus2, currentDate, null, null);
+      window.location.reload();
+    }
+    else if (columnId2==="completed") {
+      updateTaskStatus(movedTask.id, updatedStatus2, null, currentDate, DaysBetweenDates(movedTask.start_date, currentDate));
+      window.location.reload();
+    }
+    else {
+      updateTaskStatus(movedTask.id, updatedStatus2);
+    } 
+
   };
 
   const isValidColumn = (columnId) => {
@@ -130,10 +170,25 @@ export default function Board() {
     return validColumns.includes(columnId);
   };
 
-  const updateTaskStatus = async (taskId, status) => {
+  const updateTaskStatus = async (taskId, status, start_date = null, end_date = null, cycle_time = null) => {
     // Make an API call to update the task's status here
     const updateUrl = `${URL}/task/${taskId}`;
-    const requestData = { status };
+
+    let requestData = {
+      status
+    };
+
+    if (start_date) {
+      requestData.start_date = start_date;
+    }
+
+    if (end_date) {
+        requestData.end_date = end_date;
+    }
+
+    if (cycle_time) {
+        requestData.cycle_time = cycle_time;
+    }
 
     const accessToken = await getAccessTokenSilently({
       audience: process.env.REACT_APP_API_AUDIENCE,
@@ -154,32 +209,38 @@ export default function Board() {
   };
 
   return (
-    <div>
+    <div className="grid justify-items-center bg-sky-950 w-full h-screen overflow-y-auto">
+      <Navbar isAuthenticated={isAuthenticated} userName={userName} />
+      {Array(2).fill(<br />)}
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="board">
-          <Column columnId="backlog" tasks={tasks} onDelete={onDeleteTask} />
-          <Column columnId="todo" tasks={tasks} onDelete={onDeleteTask} />
-          <Column columnId="inProgress" tasks={tasks} onDelete={onDeleteTask} />
-          <Column columnId="review" tasks={tasks} onDelete={onDeleteTask} />
-          <Column columnId="completed" tasks={tasks} onDelete={onDeleteTask} />
+          <Column columnId="backlog" tasks={tasks} onDelete={onDeleteTask} setisModalEdited2={setisModalEdited2}/>
+          <Column columnId="todo" tasks={tasks} onDelete={onDeleteTask} setisModalEdited2={setisModalEdited2}/>
+          <Column columnId="inProgress" tasks={tasks} onDelete={onDeleteTask} setisModalEdited2={setisModalEdited2}/>
+          <Column columnId="review" tasks={tasks} onDelete={onDeleteTask} setisModalEdited2={setisModalEdited2}/>
+          <Column columnId="completed" tasks={tasks} onDelete={onDeleteTask} setisModalEdited2={setisModalEdited2}/>
         </div>
       </DragDropContext>
       <br />
-      <button className="edit-buttons">
-        <Link to={`/tasks/add?proj_id=${proj_id}`}>Add tasks</Link>{" "}
-      </button>
-      <br />
-      <button className="edit-buttons">
-        <Link to={`/users`}>View participants</Link>{" "}
-      </button>
-      <br />
-      <button className="edit-buttons">
-        <Link to="/projects">Choose another project</Link>
-      </button>
-      <br />
-      <button className="home-buttons">
-        <Link to="/">Home</Link>
-      </button>
+      <div className="button-group flex justify-center space-x-4">
+        <button className="task-buttons" onClick={() => openPostModal(proj_id)}>
+          Add Tasks
+        </button>
+        <button className="task-buttons">
+          <Link to={`/users`}>View All Users</Link>
+        </button>
+        <button className="task-buttons">
+          <Link to="/projects">Back: Projects</Link>
+        </button>
+      </div>
+
+      <AddTasks
+        project_id={project_id? project_id : null}
+        isOpen={isPostModalOpen}
+        onClose={closePostModal}
+      />
+
+      <Footer />
     </div>
   );
 }

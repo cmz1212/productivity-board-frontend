@@ -14,7 +14,7 @@ function Navbar ({ isAuthenticated, userName }) {
             </Link>
 
             {userName !== null ? (
-                <span className="mt-4 text-sky-500 text-md sm:text-lg lg:text-xl ml-auto mr-6">{userName}</span>
+                <span className="mt-4 text-sky-500 text-md sm:text-lg lg:text-xl ml-auto mr-6"> {userName} </span>
             ) : null }
 
             <div>

@@ -8,7 +8,7 @@ export default function CreateUser() {
     user_name: null,
     user_role: null,
     image_link: null,
-    additonal_info: null,
+    additional_info: null,
   });
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export default function CreateUser() {
 
       user_role,
       image_link,
-      additonal_info,
+      additional_info,
     } = newUser;
 
     const requestData = {
@@ -27,7 +27,7 @@ export default function CreateUser() {
 
       image_link: image_link,
 
-      additonal_info: additonal_info,
+      additional_info: additional_info,
     };
     fetch(url, {
       method: "POST",
@@ -45,7 +45,7 @@ export default function CreateUser() {
           user_name: null,
           user_role: null,
           image_link: null,
-          additonal_info: null,
+          additional_info: null,
         });
         navigate(`/users`);
       })
@@ -94,11 +94,11 @@ export default function CreateUser() {
 
         <h3>Please add any additional participant information here:</h3>
         <textarea
-          value={newUser.additonal_info}
+          value={newUser.additional_info}
           onChange={(e) =>
-            setNewUser({ ...newUser, additonal_info: e.target.value })
+            setNewUser({ ...newUser, additional_info: e.target.value })
           }
-          placeholder="Additional informations"
+          placeholder="Additional Information"
           rows={6} // You can adjust this value to fit the desired number of lines
           style={{ width: "70%", resize: "vertical" }} // Optional styling for width and vertical resizing
         />

@@ -16,7 +16,7 @@ function Home() {
   }, [isAuthenticated, navigate]);
   
   return (
-    <div className="grid justify-items-center bg-sky-950 w-full ">
+    <div className="grid justify-items-center bg-sky-950 w-full h-screen overflow-y-auto">
       <Navbar isAuthenticated={isAuthenticated} userName={userName} />
       <div className="bg-sky-950 px-10 pt-24 pb-48 w-full max-w-7xl">
         <div className="pl-3 text-center">
@@ -32,7 +32,6 @@ function Home() {
           </p>
         </div>
       </div>
-      <div className="grid justify-items-center -mb-36 bg-sky-200 p-10 w-full"></div>
       <div className="grid justify-items-center bg-white p-10 w-full">
         <div className="w-full max-w-7xl">
           <h2 className="font-bold text-center first-line:selection:text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl">
