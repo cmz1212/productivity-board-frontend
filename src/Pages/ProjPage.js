@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../constants";
-import Navbar from './Navbar';
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import DeleteProj from "../Components/Projects/DeleteProj";
-import EditProj from "../Components/Projects/EditProj"; 
+import EditProj from "../Components/Projects/EditProj";
 import PostProj from "../Components/Projects/PostProj";
 
-
-function ProjPage () {
-  const { isAuthenticated, getAccessTokenSilently, user} = useAuth0();
+function ProjPage() {
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
   const [projects, setProjects] = useState([]);
   const userName = isAuthenticated ? user.name : null;
   const userEmail = isAuthenticated ? user.email : null;
@@ -24,6 +23,17 @@ function ProjPage () {
   const [editingProject, setEditingProject] = useState(null);
   const [auth_id, setAuthID] = useState(null);
 
+  // Step 1: Create a state variable to represent the deletion status or trigger a re-fetch
+  const [isProjectDeleted, setIsProjectDeleted] = useState(false);
+
+  // Step 2: Modify the DeleteProj function to update the state variable
+  const handleDeleteProject = async (projectId) => {
+    const result = await DeleteProj(projectId, getAccessTokenSilently);
+    if (result.success) {
+      setIsProjectDeleted(true);
+    }
+  };
+
   // Function to open the EditProj modal
   const openEditModal = (project) => {
     setEditingProject(project);
@@ -34,8 +44,7 @@ function ProjPage () {
   const closeEditModal = () => {
     setEditingProject(null);
     setIsEditModalOpen(false);
-
-  }
+  };
 
   // Function to open the PostProj modal
   const openPostModal = (auth_id) => {
@@ -61,28 +70,23 @@ function ProjPage () {
     if (isAuthenticated && userEmail) {
       const fetchData = async () => {
         const url = `${URL}/project`;
-        
+
         try {
           const accessToken = await getAccessTokenSilently({
-            audience: process.env.REACT_APP_API_AUDIENCE
-          })
+            audience: process.env.REACT_APP_API_AUDIENCE,
+          });
 
-          
-
-          const response = await fetch(url,
-            {
-              method: 'GET',
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-                "userEmail": userEmail
-              },
-            }
-          );
+          const response = await fetch(url, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+              userEmail: userEmail,
+            },
+          });
 
           const data = await response.json();
           setProjects(data);
-
         } catch (error) {
           console.error("Error: ", error);
         }
@@ -90,7 +94,7 @@ function ProjPage () {
 
       fetchData();
     }
-  }, [isAuthenticated, userEmail, getAccessTokenSilently]);
+  }, [isAuthenticated, userEmail, getAccessTokenSilently, isProjectDeleted]);
 
   return (
     <div className="grid justify-items-center bg-sky-950 w-full ">
@@ -98,73 +102,84 @@ function ProjPage () {
       {isAuthenticated ? (
         <>
           <br />
-            {projects.length > 0 ? (
-              <div>
-                {projects.map((project, index) => (
-                  <div
-                    key={index + 1}
-                    className="project-space"
-                    style={{ cursor: "pointer" }}
-                  >
-                    <div onClick={() => navigateToViewTasks(project.id)}>
-                      <div>
-                      <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold" }}>
-                          {project.project_description}
-                      </div>
-                        <br />
-                        <strong>Project ID:</strong> {project.id}
-                        <br />
-                        <strong>WIP limit:</strong> {project.wip_limit}
-                        <br />
-                        <strong>Cycle time:</strong> {project.cycle_time_limit}
-                        <br />
-                        <strong>Comments:</strong> {project.project_comments}
-                        <br />
-                      </div>
-                    </div>
-                    {Array(2).fill(<br />)}
-                    <div  style={{ textAlign: "center" }}>
-                      <button className="edit-buttons" onClick={() => openEditModal(project)}>
-                        Edit Project Details
-                      </button>
-                      {"    "}
-                      <button
-                        className="edit-buttons"
-                        onClick={() => DeleteProj(project.id, getAccessTokenSilently, navigate)}
+          {projects.length > 0 ? (
+            <div>
+              {projects.map((project, index) => (
+                <div
+                  key={index + 1}
+                  className="project-space"
+                  style={{ cursor: "pointer" }}
+                >
+                  <div onClick={() => navigateToViewTasks(project.id)}>
+                    <div>
+                      <div
+                        style={{
+                          textAlign: "center",
+                          fontSize: "18px",
+                          fontWeight: "bold",
+                        }}
                       >
-                        Delete Project
-                      </button>
+                        {project.project_description}
+                      </div>
+                      <br />
+                      <strong>Project ID:</strong> {project.id}
+                      <br />
+                      <strong>WIP limit:</strong> {project.wip_limit}
+                      <br />
+                      <strong>Cycle time:</strong> {project.cycle_time_limit}
+                      <br />
+                      <strong>Comments:</strong> {project.project_comments}
                       <br />
                     </div>
-
                   </div>
-                ))}
-                
-              </div>
-            ) : null}
+                  {Array(2).fill(<br />)}
+                  <div style={{ textAlign: "center" }}>
+                    <button
+                      className="edit-buttons"
+                      onClick={() => openEditModal(project)}
+                    >
+                      Edit Project Details
+                    </button>
+                    {"    "}
+                    <button
+                      className="delete-buttons"
+                      onClick={() => handleDeleteProject(project.id)}
+                    >
+                      Delete Project
+                    </button>
+                    <br />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
 
           {Array(3).fill(<br />)}
-           <button className="w-full max-w-7xl px-3 py-3 bg-sky-200 hover:bg-white focus:bg-white rounded-lg font-bold" onClick={() => openPostModal(userEmail)}>
+          <button
+            className="w-full max-w-7xl px-3 py-3 bg-sky-200 hover:bg-white focus:bg-white rounded-lg font-bold"
+            onClick={() => openPostModal(userEmail)}
+          >
             Add New Project
           </button>
 
-          {editingProject && <EditProj
-            editingProject={editingProject}
-            isOpen={isEditModalOpen}
-            onClose={closeEditModal}
-          />}
+          {editingProject && (
+            <EditProj
+              editingProject={editingProject}
+              isOpen={isEditModalOpen}
+              onClose={closeEditModal}
+            />
+          )}
 
           <PostProj
             auth_id={auth_id ? auth_id : null}
             isOpen={isPostModalOpen}
             onClose={closePostModal}
           />
-
         </>
-      ) : null }
+      ) : null}
       <Footer />
     </div>
   );
-};
+}
 
 export default ProjPage;

@@ -26,7 +26,7 @@ export default function DisplayTask(props) {
         <Link to={`/tasks/edit/${task.id}`}>Edit task</Link>
       </button>
       {"  "}
-      <button className="edit-buttons" onClick={deleteTask}>
+      <button className="delete-buttons" onClick={deleteTask}>
         Delete task
       </button>
       <br />

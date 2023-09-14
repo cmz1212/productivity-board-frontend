@@ -42,6 +42,12 @@ export default function User(prop) {
       <br />
       Additional information: {user.additonal_info}
       <br />
+      <button className="edit-buttons">
+        <Link to="/users/add">Edit information</Link>
+      </button>
+      {/* <button className="delete-buttons" onClick={deleteUser}>
+        Remove member
+      </button> */}
     </div>
   );
 }

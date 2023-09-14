@@ -5,7 +5,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import "../../Pages/ProjPage.css";
 
 export default function Column(props) {
-  const { columnId, tasks } = props;
+  const { columnId, tasks, onDelete } = props;
   const columnTasks = tasks.filter(
     (task) => task.status === getStatusFromColumnId(columnId)
   );
@@ -36,7 +36,12 @@ export default function Column(props) {
                       snapshot.isDragging ? "dragging" : ""
                     }`}
                   >
-                    <DisplayTask key={task.id} task={task} index={index} />
+                    <DisplayTask
+                      key={task.id}
+                      task={task}
+                      index={index}
+                      onDelete={onDelete}
+                    />
                   </div>
                 )}
               </Draggable>

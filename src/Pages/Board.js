@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { URL } from "../constants";
 import Column from "../Components/Tasks/Column";
-
+import DeleteTask from "../Components/Tasks/DeleteTask";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./ProjPage.css";
@@ -31,9 +31,17 @@ export default function Board() {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [tasks, setTasks] = useState([]);
 
+  const [isTaskDeleted, setIsTaskDeleted] = useState(false);
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const proj_id = searchParams.get("proj_id");
+  const onDeleteTask = async (taskId) => {
+    const result = await DeleteTask(taskId, getAccessTokenSilently);
+    if (result.success) {
+      setIsTaskDeleted(true);
+    }
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -67,7 +75,7 @@ export default function Board() {
 
       fetchData();
     }
-  }, [proj_id, isAuthenticated, getAccessTokenSilently]);
+  }, [proj_id, isAuthenticated, getAccessTokenSilently, isTaskDeleted]);
 
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -149,11 +157,11 @@ export default function Board() {
     <div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="board">
-          <Column columnId="backlog" tasks={tasks} />
-          <Column columnId="todo" tasks={tasks} />
-          <Column columnId="inProgress" tasks={tasks} />
-          <Column columnId="review" tasks={tasks} />
-          <Column columnId="completed" tasks={tasks} />
+          <Column columnId="backlog" tasks={tasks} onDelete={onDeleteTask} />
+          <Column columnId="todo" tasks={tasks} onDelete={onDeleteTask} />
+          <Column columnId="inProgress" tasks={tasks} onDelete={onDeleteTask} />
+          <Column columnId="review" tasks={tasks} onDelete={onDeleteTask} />
+          <Column columnId="completed" tasks={tasks} onDelete={onDeleteTask} />
         </div>
       </DragDropContext>
       <br />
