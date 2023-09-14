@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import User from "./User";
+import DeleteUser from "./DeleteUser";
 import "../../Pages/ProjPage.css";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const url = `${URL}/user`;
 
-export default function ChooseUser() {
+export default function ChooseUser(prop) {
   const [users, setUsers] = useState([]);
+  const [isUserDeleted, setIsUserDeleted] = useState(false);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const taskID = searchParams.get("task_id");
+
+  const handleDeleteUser = async (userID) => {
+    //const result = await DeleteUser(projectId, getAccessTokenSilently);
+    const result = await DeleteUser(userID);
+    if (result.success) {
+      setIsUserDeleted(true);
+    }
+  };
 
   useEffect(() => {
     fetch(url)
@@ -18,7 +31,7 @@ export default function ChooseUser() {
       .catch((error) => {
         console.error("Error:", error.message);
       });
-  }, []);
+  }, [isUserDeleted]);
 
   return (
     <div>
@@ -28,7 +41,7 @@ export default function ChooseUser() {
           {users.map((user, index) => (
             <div key={index + 1} className="user-space">
               <button>
-                <User user_id={user.id} />
+                <User user_id={user.id} onDelete={handleDeleteUser} />
               </button>
             </div>
           ))}
@@ -36,7 +49,9 @@ export default function ChooseUser() {
       ) : null}
       <h2>Or create a new member:</h2>
       <button className="edit-buttons">
-        <Link to="/users/add">Create new project member</Link>
+        <Link to={`/users/add?task_id=${taskID}&create=${true}`}>
+          Create new project member
+        </Link>
       </button>
       <br />
       <button className="home-buttons">

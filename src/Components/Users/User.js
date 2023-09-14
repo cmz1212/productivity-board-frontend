@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+//import { useAuth0 } from "@auth0/auth0-react";
 const URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function User(prop) {
   const [user, setUser] = useState([]);
-  const { user_id } = prop;
+  //const { isAuthenticated, getAccessTokenSilently, loggedInUser } = useAuth0();
+  const { user_id, onDelete } = prop;
+
   const url = `${URL}/user/${user_id}`;
+
   useEffect(() => {
     fetch(url)
       .then((response) => response.json())
@@ -45,9 +49,9 @@ export default function User(prop) {
       <button className="edit-buttons">
         <Link to="/users/add">Edit information</Link>
       </button>
-      {/* <button className="delete-buttons" onClick={deleteUser}>
+      <button className="delete-buttons" onClick={() => onDelete(user_id)}>
         Remove member
-      </button> */}
+      </button>
     </div>
   );
 }

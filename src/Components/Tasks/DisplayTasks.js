@@ -31,7 +31,7 @@ export default function DisplayTask(props) {
       </button>
       <br />
       <button className="edit-buttons">
-        <Link to={`/users/select`}>Assign task</Link>
+        <Link to={`/users/select?task_id=${task.id}`}>Assign task</Link>
       </button>
     </div>
   );
