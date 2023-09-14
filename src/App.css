@@ -70,6 +70,7 @@
   transition: background-color 0.3s;
   text-align: center;
   height: 50px;
+  border: 2px solid black;
 }
 
 .add-project-btn:hover, .add-project-btn:focus {
@@ -145,8 +146,8 @@
 }
 
 .task-buttons {
-  border: 3px rgb(255, 255, 255) solid;
-  border-radius: 10px;
+  border: 2px solid black;
+  border-radius: 0.5rem;
   background-color: #b9e6fd;
   padding: 15px 3px;
   margin: 3px;
@@ -159,8 +160,7 @@
 }
 
 .task-buttons:hover, .task-buttons:focus {
-  border: 3px #b9e6fd solid;
-  background-color: rgb(255, 255, 255);
+  background-color: whitesmoke;
 }
 
 .submit-buttons {
@@ -210,7 +210,7 @@
   flex-direction: column;
   flex: 1; /* Allow columns to grow and fill available space */
   width: 306px; /* All columns still have 306px width even when empty */
-  padding: 2px;
+  padding: 20px 20px;
   border: 3px rgb(255, 255, 255) solid;
   align-items: center;
   justify-content: center;
