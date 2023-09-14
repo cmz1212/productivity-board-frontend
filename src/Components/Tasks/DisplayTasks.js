@@ -9,7 +9,7 @@ export default function DisplayTask(props) {
     onDelete(task.id);
   };
   return (
-    <div className="task-space">
+    <div>
       Description: {task.task_description}
       <br />
       Status: {task.status}
@@ -26,12 +26,12 @@ export default function DisplayTask(props) {
         <Link to={`/tasks/edit/${task.id}`}>Edit task</Link>
       </button>
       {"  "}
-      <button className="edit-buttons" onClick={deleteTask}>
+      <button className="delete-buttons" onClick={deleteTask}>
         Delete task
       </button>
       <br />
       <button className="edit-buttons">
-        <Link to={`/users`}>Assign task</Link>
+        <Link to={`/users/select`}>Assign task</Link>
       </button>
     </div>
   );

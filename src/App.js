@@ -10,7 +10,8 @@ import Board from "./Pages/Board";
 import AddTasks from "./Components/Tasks/AddTasks";
 import EditTask from "./Components/Tasks/EditTasks";
 
-import User from "./Components/Users/AllUsers";
+import AllUsers from "./Components/Users/AllUsers";
+import ChooseUser from "./Components/Users/ChooseUser";
 import CreateUser from "./Components/Users/CreateUser";
 
 import Home from "./Pages/Home";
@@ -22,7 +23,6 @@ function App() {
   return (
     <>
       <Routes>
-
         {/* Projects */}
         <Route path="/projects" element={<ProjPage />} />
         <Route path="/projects/post_project" element={<PostProj />} />
@@ -33,7 +33,6 @@ function App() {
             element={<EditProj proj_id={index} />}
           />
         ))}
-
 
         {/* Tasks */}
         <Route path="/tasks" element={<Board />} />
@@ -47,10 +46,10 @@ function App() {
         ))}
 
         {/* Users */}
-        <Route path="/users" element={<User />} />
+        <Route path="/users" element={<AllUsers />} />
+        <Route path="/users/select" element={<ChooseUser />} />
         <Route path="/users/add" element={<CreateUser />} />
 
-        
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
