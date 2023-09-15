@@ -15,7 +15,7 @@ export default function CreateUser() {
   const taskID = searchParams.get("task_id");
   const bool = searchParams.get("create");
   const navigate = useNavigate();
-  console.log(bool);
+
   async function sendPostRequest() {
     const {
       user_name,

@@ -36,7 +36,11 @@ export default function AllUsers() {
         <div>
           {users.map((user, index) => (
             <div key={index + 1} className="user-space">
-              <User user_id={user.id} onDelete={handleDeleteUser} />
+              <User
+                user_id={user.id}
+                onDelete={handleDeleteUser}
+                isEdit={false}
+              />
             </div>
           ))}
         </div>
