@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { URL } from "../../constants";
 const url = `${URL}/user`;
 
@@ -10,6 +10,10 @@ export default function CreateUser() {
     image_link: null,
     additional_info: null,
   });
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const taskID = searchParams.get("task_id");
+  const bool = searchParams.get("create");
   const navigate = useNavigate();
 
   async function sendPostRequest() {
@@ -35,6 +39,7 @@ export default function CreateUser() {
         "Content-Type": "application/json",
         //Authorization: `Bearer ${accessToken}`,
       },
+
       body: JSON.stringify(requestData),
     })
       .then((response) => {
@@ -47,7 +52,11 @@ export default function CreateUser() {
           image_link: null,
           additional_info: null,
         });
-        navigate(`/users`);
+        if (bool) {
+          navigate(`/users/select`);
+        } else {
+          navigate(`/users`);
+        }
       })
 
       .catch((error) => {
@@ -104,10 +113,22 @@ export default function CreateUser() {
         />
         <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="submit-buttons">
+          Submit
+        </button>
       </form>
       <br />
-      <button>
+      {bool ? (
+        <button className="home-buttons">
+          <Link to={`/users/select?task_id=${taskID}`}>Back</Link>{" "}
+        </button>
+      ) : (
+        <button className="home-buttons">
+          <Link to={`/users`}>Back</Link>{" "}
+        </button>
+      )}
+      <br />
+      <button className="home-buttons">
         <Link to="/">Home</Link>
       </button>
     </div>

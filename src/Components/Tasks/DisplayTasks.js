@@ -30,30 +30,54 @@ export default function DisplayTask(props) {
 
   return (
     <div>
-      <div style={{textAlign: "center",fontSize: "18px",fontWeight: "bold"}}>
+      <div
+        style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold" }}
+      >
         {task.task_description}
       </div>
       <br />
-      <strong>Status: </strong>{task.status}
+      <strong>Status: </strong>
+      {task.status}
       <br />
-      <strong>Start Date: </strong>{task.start_date}
+      <strong>Start Date: </strong>
+      {task.start_date}
       <br />
-      {task.status === "Completed" ? 
-        (<><strong>End Date: </strong>{task.end_date}<br /><strong>Cycle Time: </strong>{task.cycle_time}</>) : 
-        (<><strong>Target End Date: </strong>{task.target_end_date}<br /><strong>Priority: </strong>{task.priority}</>)
-      }
-      
+      {task.status === "Completed" ? (
+        <>
+          <strong>End Date: </strong>
+          {task.end_date}
+          <br />
+          <strong>Cycle Time: </strong>
+          {task.cycle_time}
+        </>
+      ) : (
+        <>
+          <strong>Target End Date: </strong>
+          {task.target_end_date}
+          <br />
+          <strong>Priority: </strong>
+          {task.priority}
+        </>
+      )}
+
       <br />
-      <strong>Comments: </strong>{task.task_comments}
+      <strong>Comments: </strong>
+      {task.task_comments}
       {Array(2).fill(<br />)}
       <button className="edit-buttons3">
         <Link to={`/users/select`}>Assign</Link>
       </button>
-      <button className="edit-buttons3" onClick={() => openEditModal(task)}> Edit </button>
-      {"    "}{"    "}
-      <button className="delete-buttons3" onClick={deleteTask}>Delete</button>
+      <button className="edit-buttons3" onClick={() => openEditModal(task)}>
+        {" "}
+        Edit{" "}
+      </button>
+      {"    "}
+      {"    "}
+      <button className="delete-buttons3" onClick={deleteTask}>
+        Delete
+      </button>
       <br />
-      
+
       {editingTask && (
         <EditTasks
           editingTask={editingTask}
@@ -61,7 +85,6 @@ export default function DisplayTask(props) {
           onClose={closeEditModal}
         />
       )}
-
     </div>
   );
 }
