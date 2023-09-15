@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import User from "./User";
+<<<<<<< HEAD
 import DeleteUser from "./DeleteUser";
 import "../../Pages/ProjPage.css";
+=======
+>>>>>>> b2403c5ed8533d66287489f198161b117449afae
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const url = `${URL}/user`;

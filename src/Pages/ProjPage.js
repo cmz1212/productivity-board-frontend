@@ -18,6 +18,7 @@ function ProjPage() {
   // State variable to control the visibility of the PostProj modal
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [isModalEdited, setisModalEdited] = useState(false);
 
   // State variable to store the currently edited project
   const [editingProject, setEditingProject] = useState(null);
@@ -44,6 +45,7 @@ function ProjPage() {
   const closeEditModal = () => {
     setEditingProject(null);
     setIsEditModalOpen(false);
+    setisModalEdited(true);
   };
 
   // Function to open the PostProj modal
@@ -56,6 +58,7 @@ function ProjPage() {
   const closePostModal = () => {
     setAuthID(null);
     setIsPostModalOpen(false);
+    setisModalEdited(true);
   };
 
   // Use the useNavigate hook to programmatically navigate
@@ -94,16 +97,16 @@ function ProjPage() {
 
       fetchData();
     }
-  }, [isAuthenticated, userEmail, getAccessTokenSilently, isProjectDeleted]);
+  }, [isAuthenticated, userEmail, getAccessTokenSilently, isProjectDeleted, isModalEdited]);
 
   return (
-    <div className="grid justify-items-center bg-sky-950 w-full ">
+    <div className="grid justify-items-center bg-sky-950 w-full h-screen overflow-y-auto">
       <Navbar isAuthenticated={isAuthenticated} userName={userName} />
       {isAuthenticated ? (
         <>
           <br />
           {projects.length > 0 ? (
-            <div>
+            <div className="grid grid-cols-4 gap-5">
               {projects.map((project, index) => (
                 <div
                   key={index + 1}
@@ -111,7 +114,6 @@ function ProjPage() {
                   style={{ cursor: "pointer" }}
                 >
                   <div onClick={() => navigateToViewTasks(project.id)}>
-                    <div>
                       <div
                         style={{
                           textAlign: "center",
@@ -128,12 +130,13 @@ function ProjPage() {
                       <br />
                       <strong>Cycle time:</strong> {project.cycle_time_limit}
                       <br />
-                      <strong>Comments:</strong> {project.project_comments}
+                      <div class="comment-box">
+                        <strong>Comments:</strong> {project.project_comments}
+                      </div>
                       <br />
-                    </div>
                   </div>
-                  {Array(2).fill(<br />)}
-                  <div style={{ textAlign: "center" }}>
+                  <br/>
+                  <div className="bottom-div">
                     <button
                       className="edit-buttons"
                       onClick={() => openEditModal(project)}
@@ -155,10 +158,7 @@ function ProjPage() {
           ) : null}
 
           {Array(3).fill(<br />)}
-          <button
-            className="w-full max-w-7xl px-3 py-3 bg-sky-200 hover:bg-white focus:bg-white rounded-lg font-bold"
-            onClick={() => openPostModal(userEmail)}
-          >
+          <button className="w-full max-w-7xl add-project-btn" onClick={() => openPostModal(userEmail)}>
             Add New Project
           </button>
 

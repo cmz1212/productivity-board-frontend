@@ -2,16 +2,16 @@ import React from "react";
 import { getStatusFromColumnId } from "../../Pages/Board";
 import DisplayTask from "./DisplayTasks";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import "../../Pages/ProjPage.css";
 
 export default function Column(props) {
-  const { columnId, tasks, onDelete } = props;
+  const { columnId, tasks, onDelete, setisModalEdited2 } = props;
   const columnTasks = tasks.filter(
     (task) => task.status === getStatusFromColumnId(columnId)
   );
 
   return (
     <div className="column-container">
+      <br/>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
           <div
@@ -20,7 +20,8 @@ export default function Column(props) {
             className="column"
             id={snapshot.isDraggingOver ? "dropping" : `${columnId}`}
           >
-            <h2>{columnId}</h2>
+            <h2 style={{fontWeight: 'bold', fontSize: '1.5em', textAlign: 'center'}}>{getStatusFromColumnId(columnId)}</h2>
+            <br/>
             {columnTasks.map((task, index) => (
               <Draggable
                 key={task.id}
@@ -41,6 +42,7 @@ export default function Column(props) {
                       task={task}
                       index={index}
                       onDelete={onDelete}
+                      setisModalEdited2={setisModalEdited2}
                     />
                   </div>
                 )}

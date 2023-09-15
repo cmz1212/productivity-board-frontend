@@ -42,36 +42,125 @@
   display: inline-block;
   margin: 5px;
   border: 2px solid black;
+  border-radius: 0.5rem;
   padding: 5px;
   width: 300px;
+  height: 300px;
   background-color: #b9e6fd;
+  position: relative;
+}
+
+.comment-box {
+  overflow-y: auto; /* Adds vertical scrolling if content exceeds the set height */
+}
+
+.bottom-div {
+  position: absolute;
+  bottom: 15px; /* This is the padding of .project-space so it aligns perfectly at the bottom */
+  left: 5px;  /* This is the padding of .project-space so it aligns perfectly to the left */
+  right: 5px; /* This ensures the div stretches to the right edge, considering the padding */
+  text-align: center; /* Incorporated style */
+}
+
+.add-project-btn {
+  padding: 15px 3px;
+  background-color: #b9e6fd;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  text-align: center;
+  height: 50px;
+  border: 2px solid black;
+}
+
+.add-project-btn:hover, .add-project-btn:focus {
+  background-color: whitesmoke;
 }
 
 .task-space {
-  margin: 5px;
+  margin: 1px;
   border: 2px solid black;
   padding: 5px;
-  width: 300px;
+  width: 255px;
+  background-color: #b9e6fd;
+  border-radius: 5px;
+  gap: 25px;
+}
+
+.user-space {
+  display: inline-block;
+  vertical-align: top;
+  margin: 1px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 250px;
+  background-color: #cbb4c4;
+}
+
+.task-space.dragging {
   background-color: #b9e6fd;
 }
 
 .edit-buttons {
+  border: 1.5px solid black;
+  border-radius: 10px;
+  background-color: #b9e6fd;
+  padding: 3px;
+  margin: 3px;
+}
+
+.delete-buttons {
+  border: 1.5px solid black;
+  border-radius: 10px;
+  background-color: #cbb4c4;
+  padding: 3px;
+  margin: 3px;
+}
+
+.edit-buttons2 {
   border: 1px solid black;
   border-radius: 10px;
   background-color: #b9e6fd;
-  padding: 5px;
-  margin: 2px;
+  padding: 10px 20px; /* 10px top/bottom, 20px left/right */
+  margin: 3px;
+  font-size: 120%;
+  height: 50px;  /* This sets a fixed height of 50 pixels */
 }
 
-.home-buttons {
-  background-color: #b9e6fd;
-  color: black;
-  text-decoration: underline;
-  padding: 3px;
-  width: 150px;
+.edit-buttons3 {
   border: 1px solid black;
-  border-radius: 6px;
-  margin: 10px;
+  border-radius: 10px;
+  background-color: #b9e6fd;
+  padding: 3px;
+  margin: 3px;
+  font-weight: bold;
+}
+
+.delete-buttons3 {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #cbb4c4;
+  padding: 3px;
+  margin: 3px;
+  font-weight: bold;
+}
+
+.task-buttons {
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  background-color: #b9e6fd;
+  padding: 15px 3px;
+  margin: 3px;
+  font-weight: bold;
+  height: 50px;  /* This sets a fixed height of 50 pixels */
+  width: 250px;
+  display: flex;          /* This makes the button a flex container */
+  align-items: center;    /* This vertically centers the button's contents */
+  justify-content: center; /* This horizontally centers the button's contents */
+}
+
+.task-buttons:hover, .task-buttons:focus {
+  background-color: whitesmoke;
 }
 
 .submit-buttons {
@@ -82,6 +171,16 @@
   border: 1px solid black;
   border-radius: 6px;
   margin-bottom: 0;
+}
+
+.small-buttons {
+  background-color: #b9e6fd;
+  color: black;
+  font-size: 10px;
+  padding: 1px;
+  width: auto;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 
 .back-buttons {
@@ -96,4 +195,54 @@
 
 .form-labels {
   color: black;
+}
+
+.board {
+  display: flex; /* Use flexbox to arrange columns side by side */
+  gap: 25px;
+}
+
+.column-container {
+  display: flex; /* This and "flex: 1" makes all column having the same height at all times */
+}
+
+.column {
+  flex-direction: column;
+  flex: 1; /* Allow columns to grow and fill available space */
+  width: 306px; /* All columns still have 306px width even when empty */
+  padding: 20px 20px;
+  border: 3px rgb(255, 255, 255) solid;
+  align-items: center;
+  justify-content: center;
+  align-content:center;
+  border-radius: 5px;
+}
+
+.column > * {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#backlog {
+  background-color: #b9e6fd;
+}
+
+#todo {
+  background-color: #cbb4c4;
+}
+
+#inProgress {
+  background-color: #cbb4c4;
+}
+
+#review {
+  background-color: #cbb4c4;
+}
+
+#completed {
+  background-color: #b9e6fd;
+}
+
+#dropping {
+  background-color: whitesmoke;
 }

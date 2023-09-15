@@ -44,7 +44,7 @@ export default function User(prop) {
         "No assigned tasks"
       )}
       <br />
-      Additional information: {user.additonal_info}
+      Additional information: {user.additional_info}
       <br />
       <button className="edit-buttons">
         <Link to="/users/add">Edit information</Link>
