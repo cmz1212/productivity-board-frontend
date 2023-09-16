@@ -7,7 +7,7 @@ import DeleteUser from "./DeleteUser";
 const URL = process.env.REACT_APP_BACKEND_URL;
 const url = `${URL}/user`;
 
-export default function ChooseUser(prop) {
+export default function ChooseUser(props) {
   const [users, setUsers] = useState([]);
   const [isUserDeleted, setIsUserDeleted] = useState(false);
   const location = useLocation();

@@ -4,10 +4,10 @@ import EditUser from "./EditUser";
 //import { useAuth0 } from "@auth0/auth0-react";
 const URL = process.env.REACT_APP_BACKEND_URL;
 
-export default function User(prop) {
+export default function User(props) {
   const [user, setUser] = useState([]);
   //const { isAuthenticated, getAccessTokenSilently, loggedInUser } = useAuth0();
-  const { user_id, onDelete, isEdit } = prop;
+  const { user_id, onDelete, isEdit } = props;
 
   const url = `${URL}/user/${user_id}`;
   // State variable to control the visibility of the EditTasks modal

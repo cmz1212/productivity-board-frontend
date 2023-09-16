@@ -227,7 +227,7 @@ export default function Board() {
           Add Tasks
         </button>
         <button className="task-buttons">
-          <Link to={`/users`}>View All Users</Link>
+          <Link to={`/users?proj_id=${proj_id}`}>View All Users</Link>
         </button>
         <button className="task-buttons">
           <Link to="/projects">Back: Projects</Link>

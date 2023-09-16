@@ -16,7 +16,6 @@ export default async function DeleteUser(id) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          //Authorization: `Bearer ${accessToken}`,
         },
       });
 

@@ -1,43 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { URL } from "../../constants";
 const url = `${URL}/user`;
 
-export default function CreateUser() {
+export default function CreateUser(props) {
   const [newUser, setNewUser] = useState({
     user_name: null,
     user_role: null,
     image_link: null,
     additional_info: null,
+    proj_id: null
   });
+
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const taskID = searchParams.get("task_id");
   const bool = searchParams.get("create");
-  const navigate = useNavigate();
+  const proj_from_loc =searchParams.get("proj_id");
+  
+  useEffect(() => {
+    if (proj_from_loc) {
+      setNewUser(prevState => ({
+        ...prevState,
+        proj_id: proj_from_loc
+      }));
+    }
+  }, [proj_from_loc]);
 
   async function sendPostRequest() {
     const {
       user_name,
-
       user_role,
       image_link,
       additional_info,
+      proj_id,
     } = newUser;
 
     const requestData = {
       user_name: user_name,
       user_role: user_role,
-
       image_link: image_link,
-
       additional_info: additional_info,
+      proj_id: proj_id,
     };
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        //Authorization: `Bearer ${accessToken}`,
       },
 
       body: JSON.stringify(requestData),
@@ -51,6 +61,7 @@ export default function CreateUser() {
           user_role: null,
           image_link: null,
           additional_info: null,
+          proj_id: null
         });
         if (bool) {
           navigate(`/users/select`);
