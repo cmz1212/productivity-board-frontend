@@ -9,33 +9,28 @@ export default function CreateUser(props) {
     user_role: null,
     image_link: null,
     additional_info: null,
-    proj_id: null
+    proj_id: null,
   });
 
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const taskID = searchParams.get("task_id");
-  const bool = searchParams.get("create");
-  const proj_from_loc =searchParams.get("proj_id");
-  
+
+  const proj_from_loc = searchParams.get("proj_id");
+
   useEffect(() => {
     if (proj_from_loc) {
-      setNewUser(prevState => ({
+      setNewUser((prevState) => ({
         ...prevState,
-        proj_id: proj_from_loc
+        proj_id: proj_from_loc,
       }));
     }
   }, [proj_from_loc]);
 
   async function sendPostRequest() {
-    const {
-      user_name,
-      user_role,
-      image_link,
-      additional_info,
-      proj_id,
-    } = newUser;
+    const { user_name, user_role, image_link, additional_info, proj_id } =
+      newUser;
 
     const requestData = {
       user_name: user_name,
@@ -61,13 +56,10 @@ export default function CreateUser(props) {
           user_role: null,
           image_link: null,
           additional_info: null,
-          proj_id: null
+          proj_id: null,
         });
-        if (bool) {
-          navigate(`/users/select`);
-        } else {
-          navigate(`/users`);
-        }
+
+        navigate(`/users`);
       })
 
       .catch((error) => {
@@ -129,15 +121,11 @@ export default function CreateUser(props) {
         </button>
       </form>
       <br />
-      {bool ? (
-        <button className="home-buttons">
-          <Link to={`/users/select?task_id=${taskID}`}>Back</Link>{" "}
-        </button>
-      ) : (
-        <button className="home-buttons">
-          <Link to={`/users`}>Back</Link>{" "}
-        </button>
-      )}
+
+      <button className="home-buttons">
+        <Link to={`/users`}>Back</Link>{" "}
+      </button>
+
       <br />
       <button className="home-buttons">
         <Link to="/">Home</Link>
