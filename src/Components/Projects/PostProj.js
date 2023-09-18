@@ -116,7 +116,7 @@ export default function PostProj(props) {
           <textarea
             value={project.comment}
             onChange={(e) => setProject({ ...project, comment: e.target.value })}
-            placeholder="Project comments"
+            placeholder="Project Comments"
             rows={8}
             style={{ width: "90%" }}
           />

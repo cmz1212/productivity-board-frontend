@@ -1,85 +1,92 @@
 import React, { useState, useEffect } from "react";
-import {UserLite} from "../Users/User";
-//import DeleteUser from "../Users/DeleteUser";
+import { UserLite } from "../Users/User";
 import Modal from "react-modal";
-import { customStyles3 } from "../../constants";
-
-const URL = process.env.REACT_APP_BACKEND_URL;
-const url = `${URL}/task`;
+import { URL, customStyles3 } from "../../constants";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function UnassignTask(props) {
-  const { editingTask,isOpen, onClose } = props;
+  const { getAccessTokenSilently } = useAuth0();
+  const { editingTask, isOpen, onClose } = props;
   const [users, setUsers] = useState([]);
-  //const [isUserDeleted, setIsUserDeleted] = useState(false);
   const taskID = editingTask.id;
 
-
-
   useEffect(() => {
-    
-    fetch(`${url}/${taskID}`)
-      .then((response) => response.json())
-      .then((data) => {
-       
-        setUsers(data.users);
-      })
-      .catch((error) => {
-        console.error("Error:", error.message);
-      });
-  }, [taskID]);
+    async function fetchData() {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_API_AUDIENCE
+        });
 
-  const handleUserSelection = (selectedUser) => {
-    const userID = selectedUser.id;
-   
-    const requestData = {
-      task_id: taskID,
-    };
+        const response = await fetch(`${URL}/task/${taskID}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        });
 
-    // Change the URL to the correct endpoint for linking user to the task
-    fetch(`${URL}/user/unlinkUserFromTask/${userID}`, {
-      method: "DELETE", // Keep the method as POST
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestData),
-    })
-      .then((response) => {
         if (response.ok) {
-          // Handle success if needed
+          const data = await response.json();
+          setUsers(data.users);
         } else {
-          // Handle errors if needed
-          throw new Error("Request failed");
+          console.error("Request failed");
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error.message);
+      }
+    }
+
+    fetchData();
+  }, [getAccessTokenSilently, taskID]);
+
+  const handleUserSelection = async (selectedUser) => {
+    const userID = selectedUser.id;
+
+    try {
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE
       });
 
-    onClose();
+      const requestData = {
+        task_id: taskID,
+      };
+
+      const response = await fetch(`${URL}/user/unlinkUserFromTask/${userID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (response.ok) {
+        // Handle success if needed
+      } else {
+        console.error("Request failed");
+      }
+
+      onClose();
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
   };
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles3}>
       <div>
-        
-        <h1>Task is currently assigned to:</h1>
-
+        <h1><strong>Click On User to Unassign Task:</strong></h1>
+        <br/>
         {users.length > 0 ? (
           <div className="user-container">
             {users.map((user, index) => (
               <div key={index + 1} className="user-space">
                 <button onClick={() => handleUserSelection(user)}>
-                  <UserLite
-                    user_id={user.id}
-                    
-                  />
+                  <UserLite user_id={user.id} />
                 </button>
               </div>
             ))}
           </div>
         ) : null}
-        <h2>Click on the member to unassign task</h2>
-        
+        <button className="back-buttons" onClick={onClose} style={{ position: 'absolute', left: '10px', bottom: '10px' }}>Close</button>
       </div>
     </Modal>
   );

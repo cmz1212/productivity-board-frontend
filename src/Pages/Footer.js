@@ -9,13 +9,10 @@ function Footer() {
             </h6>
             <p className="text-sm text-sky-400 mb-4">
               Add an issue on the{" "}
-              <a
-                href="https://github.com/cmz1212/productivity-board-frontend"
-                className="text-white font-bold"
-              >
+              <span className="text-white font-bold">
                 {" "}
                 GitHub Repos
-              </a>
+              </span>
             </p>
           </div>
         </div>

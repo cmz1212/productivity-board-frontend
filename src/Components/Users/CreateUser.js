@@ -1,79 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import { URL } from "../../constants";
-const url = `${URL}/user`;
+import { useAuth0 } from "@auth0/auth0-react";
 
-export default function CreateUser(props) {
+export default function CreateUser({ project_id, onClose }) {
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
   const [newUser, setNewUser] = useState({
     user_name: null,
     user_role: null,
     image_link: null,
     additional_info: null,
-    proj_id: null,
+    proj_id: project_id,
   });
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  
-
-  const proj_from_loc = searchParams.get("proj_id");
-
-  useEffect(() => {
-    if (proj_from_loc) {
-      setNewUser((prevState) => ({
-        ...prevState,
-        proj_id: proj_from_loc,
-      }));
-    }
-  }, [proj_from_loc]);
-
-  async function sendPostRequest() {
-    const { user_name, user_role, image_link, additional_info, proj_id } =
-      newUser;
-
-    const requestData = {
-      user_name: user_name,
-      user_role: user_role,
-      image_link: image_link,
-      additional_info: additional_info,
-      proj_id: proj_id,
-    };
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(requestData),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setNewUser({
-          user_name: null,
-          user_role: null,
-          image_link: null,
-          additional_info: null,
-          proj_id: null,
-        });
-
-        navigate(`/users`);
-      })
-
-      .catch((error) => {
-        console.error("Error:", error);
+  const sendPostRequest = async () => {
+    if (isAuthenticated) {
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE,
       });
-  }
-  function handleSubmit(event) {
+
+      fetch(`${URL}/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(newUser),
+      })
+        .then((response) => response.json())
+        .then(() => {
+          setNewUser({
+            user_name: null,
+            user_role: null,
+            image_link: null,
+            additional_info: null,
+            proj_id: null,
+          });
+          onClose();
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
     sendPostRequest();
-  }
+  };
+
   return (
     <div>
+
       <form onSubmit={handleSubmit}>
-        <h3>Please input participant's name:</h3>
+
+        <h3>Please Input User's Name:</h3>
         <input
           type="text"
           value={newUser.user_name}
@@ -83,9 +62,8 @@ export default function CreateUser(props) {
           placeholder="Name Here"
         />
 
-        <br />
-
-        <h3>Participant role:</h3>
+        {Array(2).fill(<br />)}
+        <h3>User Role:</h3>
         <input
           type="text"
           value={newUser.user_role}
@@ -93,8 +71,9 @@ export default function CreateUser(props) {
             setNewUser({ ...newUser, user_role: e.target.value });
           }}
         />
-        <br />
-        <h3>Upload image(optional):</h3>
+
+        {Array(2).fill(<br />)}
+        <h3>Upload Image(Optional):</h3>
         <input
           type="text"
           value={newUser.image_link}
@@ -102,9 +81,9 @@ export default function CreateUser(props) {
             setNewUser({ ...newUser, image_link: e.target.value });
           }}
         />
-        <br />
 
-        <h3>Please add any additional participant information here:</h3>
+        {Array(2).fill(<br />)}
+        <h3>Please add any additional information here:</h3>
         <textarea
           value={newUser.additional_info}
           onChange={(e) =>
@@ -114,22 +93,18 @@ export default function CreateUser(props) {
           rows={6} // You can adjust this value to fit the desired number of lines
           style={{ width: "70%", resize: "vertical" }} // Optional styling for width and vertical resizing
         />
-        <br />
 
-        <button type="submit" className="submit-buttons">
-          Submit
-        </button>
+        {Array(3).fill(<br />)}
+        <div className="button-group flex justify-left space-x-4">
+          <button type="submit" className="submit-buttons">
+            Submit
+          </button>
+          <button className="submit-buttons" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
       </form>
-      <br />
-
-      <button className="home-buttons">
-        <Link to={`/users`}>Back</Link>{" "}
-      </button>
-
-      <br />
-      <button className="home-buttons">
-        <Link to="/">Home</Link>
-      </button>
+      
     </div>
   );
 }

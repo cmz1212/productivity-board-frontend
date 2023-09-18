@@ -30,9 +30,11 @@ function ProjPage() {
   // Step 2: Modify the DeleteProj function to update the state variable
   const handleDeleteProject = async (projectId) => {
     const result = await DeleteProj(projectId, getAccessTokenSilently);
+
     if (result.success) {
       setIsProjectDeleted(true);
     }
+    
   };
 
   // Function to open the EditProj modal

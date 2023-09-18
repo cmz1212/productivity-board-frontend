@@ -56,9 +56,9 @@
 
 .bottom-div {
   position: absolute;
-  bottom: 15px; /* This is the padding of .project-space so it aligns perfectly at the bottom */
-  left: 5px;  /* This is the padding of .project-space so it aligns perfectly to the left */
-  right: 5px; /* This ensures the div stretches to the right edge, considering the padding */
+  bottom: 15px;       /* This is the padding of .project-space so it aligns perfectly at the bottom */
+  left: 5px;          /* This is the padding of .project-space so it aligns perfectly to the left */
+  right: 5px;         /* This ensures the div stretches to the right edge, considering the padding */
   text-align: center; /* Incorporated style */
 }
 
@@ -77,15 +77,6 @@
   background-color: whitesmoke;
 }
 
-.task-space {
-  margin: 1px;
-  border: 2px solid black;
-  padding: 5px;
-  width: 255px;
-  background-color: #b9e6fd;
-  border-radius: 5px;
-  gap: 25px;
-}
 .user-container {
   display: flex;
   flex-direction: row; /* Display items in a single line */
@@ -98,20 +89,82 @@
   border: 2px solid black;
   padding: 5px;
   background-color: #cbb4c4;
+  text-align: left;
 }
+
 .user-space-small {
-  flex: 0 0 200px; /* Maintain a fixed width of 250px */
+  flex: 0 0 180px; /* Maintain a fixed width of 180px */
   margin: 1px;
   border: 2px solid black;
   padding: 5px;
   background-color: #cbb4c4;
+  text-align: left;
 }
 
+.parent-div {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* or any specific height if you want */
+  position: relative;
+}
 
+.user-buttons {
+  margin-top: auto;
+  margin-left: 5px;  /* Margin to the left */
+  margin-bottom: 5px;  /* Margin at the bottom */
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px; /* for spacing between buttons */
+}
 
+.task-space {
+  margin: 1px;
+  border: 2px solid black;
+  padding: 5px;
+  width: 260px;
+  background-color: #b9e6fd;
+  border-radius: 5px;
+  gap: 25px;
+}
 
 .task-space.dragging {
   background-color: #b9e6fd;
+}
+
+.task-buttons {
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  background-color: #7ccbf3;
+  padding: 15px 3px;
+  margin: 3px;
+  font-weight: bold;
+  height: 50px;
+  width: 250px;
+  display: flex;           /* This makes the button a flex container */
+  align-items: center;     /* This vertically centers the button's contents */
+  justify-content: center; /* This horizontally centers the button's contents */
+}
+
+.task-buttons:hover, .task-buttons:focus {
+  background-color: whitesmoke;
+}
+
+.task-buttons2 {
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  background-color: #7ccbf3;
+  padding: 15px 3px;
+  margin: 3px;
+  font-weight: bold;
+  height: 25px;
+  width: 180px;
+  display: flex;           /* This makes the button a flex container */
+  align-items: center;     /* This vertically centers the button's contents */
+  justify-content: center; /* This horizontally centers the button's contents */
+}
+
+.task-buttons2:hover, .task-buttons:focus {
+  background-color: whitesmoke;
 }
 
 .edit-buttons {
@@ -137,7 +190,7 @@
   padding: 10px 20px; /* 10px top/bottom, 20px left/right */
   margin: 3px;
   font-size: 120%;
-  height: 50px;  /* This sets a fixed height of 50 pixels */
+  height: 50px;
 }
 
 .edit-buttons3 {
@@ -156,24 +209,6 @@
   padding: 3px;
   margin: 3px;
   font-weight: bold;
-}
-
-.task-buttons {
-  border: 2px solid black;
-  border-radius: 0.5rem;
-  background-color: #7ccbf3;
-  padding: 15px 3px;
-  margin: 3px;
-  font-weight: bold;
-  height: 50px;  /* This sets a fixed height of 50 pixels */
-  width: 250px;
-  display: flex;          /* This makes the button a flex container */
-  align-items: center;    /* This vertically centers the button's contents */
-  justify-content: center; /* This horizontally centers the button's contents */
-}
-
-.task-buttons:hover, .task-buttons:focus {
-  background-color: whitesmoke;
 }
 
 .submit-buttons {
@@ -222,7 +257,7 @@
 .column {
   flex-direction: column;
   flex: 1; /* Allow columns to grow and fill available space */
-  width: 306px; /* All columns still have 306px width even when empty */
+  width: 310px; /* All columns still have 310px width even when empty */
   padding: 20px 20px;
   border: 3px rgb(255, 255, 255) solid;
   align-items: center;

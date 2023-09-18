@@ -1,33 +1,29 @@
-const URL = process.env.REACT_APP_BACKEND_URL;
+import { URL } from "../../constants";
 
-//export default async function DeleteUser(id, getAccessTokenSilently) {
-export default async function DeleteUser(id) {
-  const url = `${URL}/user/${id}`;
+export default async function DeleteUser(id, getAccessTokenSilently) {
 
-  // const accessToken = await getAccessTokenSilently({
-  //   audience: process.env.REACT_APP_API_AUDIENCE,
-  // });
-  const confirmed = window.confirm(
-    "Deletion is irreversible! \n Are you sure you want to delete this member?"
-  );
+  const confirmed = window.confirm("Deletion is irreversible! \n Are you sure you want to delete this user?");
+
   if (confirmed) {
-    try {
-      const response = await fetch(url, {
+
+    const sendDeleteUserRequest = async () => {
+
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE,
+      });
+
+      await fetch(`${URL}/user/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      if (response.ok) {
-        return { success: true };
-      } else {
-        console.error("Error: ", response.statusText);
-        return { success: false };
-      }
-    } catch (error) {
-      console.error("Error: ", error.message);
-      return { success: false };
     }
+
+    await sendDeleteUserRequest();
+    window.location.reload();
+    
   }
 }

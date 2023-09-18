@@ -140,10 +140,7 @@ export default function AddTasks(props) {
             type="text"
             value={newTask.priority}
             onChange={(e) => {
-              const inputValue = e.target.value;
-              if (/^\d*$/.test(inputValue)) {
-                setNewTask({ ...newTask, priority: inputValue });
-              }
+              setNewTask({ ...newTask, priority: e.target.value })
             }}
           />
 
@@ -154,7 +151,7 @@ export default function AddTasks(props) {
             onChange={(e) =>
               setNewTask({ ...newTask, task_comments: e.target.value })
             }
-            placeholder="Project Comments"
+            placeholder="Task Comments"
             rows={8} // You can adjust this value to fit the desired number of lines
             style={{ width: "90%", resize: "vertical" }} // Optional styling for width and vertical resizing
           />

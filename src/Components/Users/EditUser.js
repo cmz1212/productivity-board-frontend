@@ -6,7 +6,7 @@ import Modal from "react-modal";
 
 export default function EditUser(props) {
   const { editingUser, isOpen, onClose, isEdit } = props;
-  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
   const [User, setUser] = useState({
@@ -16,7 +16,7 @@ export default function EditUser(props) {
     additional_info: editingUser?.additional_info || "",
   });
 
-  async function sendPutRequest() {
+  function sendPutRequest() {
     const requestData = {
       user_name: User.user_name,
       user_role: User.user_role,
@@ -24,39 +24,46 @@ export default function EditUser(props) {
       additional_info: User.additional_info,
     };
 
-    const accessToken = await getAccessTokenSilently({
-      audience: process.env.REACT_APP_API_AUDIENCE,
-    });
+    if (isAuthenticated) {
 
-    fetch(`${URL}/User/${editingUser.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(requestData),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setUser({
-          user_name: data.user_name,
-          user_role: null,
-          image_link: null,
-          additional_info: null,
+      const fetchData = async () => {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_API_AUDIENCE,
         });
-        //console.log(data);
-        if (isEdit) {
-          navigate(`/users/select`);
-        } else {
-          navigate(`/users`);
-        }
-      })
 
-      .catch((error) => {
-        console.error("Error:", error.message);
-      });
+        fetch(`${URL}/User/${editingUser.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setUser({
+              user_name: data.user_name,
+              user_role: null,
+              image_link: null,
+              additional_info: null,
+            });
+
+            if (isEdit) {
+              navigate(`/users/select`);
+            } else {
+              navigate(`/users`);
+            }
+            
+          })
+          .catch((error) => {
+            console.error("Error:", error.message);
+          });
+      }
+
+      fetchData();
+    }
 
     onClose();
     window.location.reload();

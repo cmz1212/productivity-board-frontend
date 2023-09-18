@@ -20,8 +20,7 @@ export default function Column(props) {
             className="column"
             id={snapshot.isDraggingOver ? "dropping" : `${columnId}`}
           >
-            <h2 style={{fontWeight: 'bold', fontSize: '1.5em', textAlign: 'center'}}>{getStatusFromColumnId(columnId)}</h2>
-            <br/>
+            <h2 style={{fontWeight: 'bold', fontSize: '1.5em', textAlign: 'center', marginBottom: '0.5em'}}>{getStatusFromColumnId(columnId)}</h2>
             {columnTasks.map((task, index) => (
               <Draggable
                 key={task.id}

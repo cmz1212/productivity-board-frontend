@@ -1,17 +1,18 @@
-const URL = process.env.REACT_APP_BACKEND_URL;
+import { URL } from "../../constants";
 
 export default async function DeleteTask(id, getAccessTokenSilently) {
-  const url = `${URL}/task/${id}`;
 
-  const accessToken = await getAccessTokenSilently({
-    audience: process.env.REACT_APP_API_AUDIENCE,
-  });
-  const confirmed = window.confirm(
-    "Deletion is irreversible! \n Are you sure you want to delete this task?"
-  );
+  const confirmed = window.confirm("Deletion is irreversible! \n Are you sure you want to delete this task?");
+
   if (confirmed) {
-    try {
-      const response = await fetch(url, {
+
+    const sendDeleteTaskRequest = async () => {
+    
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE,
+      });
+
+      await fetch(`${URL}/task/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -19,15 +20,11 @@ export default async function DeleteTask(id, getAccessTokenSilently) {
         },
       });
 
-      if (response.ok) {
-        return { success: true };
-      } else {
-        console.error("Error: ", response.statusText);
-        return { success: false };
-      }
-    } catch (error) {
-      console.error("Error: ", error.message);
-      return { success: false };
     }
+
+    await sendDeleteTaskRequest();
+    window.location.reload();
+
   }
 }
+

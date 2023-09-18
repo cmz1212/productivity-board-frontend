@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import EditTasks from "./EditTasks";
 import ChooseUser from "../Users/ChooseUser";
 import UnassignTask from "./UnassignTask";
+import { changeTimeZone }from "../../constants";
 
 export default function DisplayTask(props) {
   const { task, onDelete, setisModalEdited2 } = props;
@@ -11,113 +12,108 @@ export default function DisplayTask(props) {
     onDelete(task.id);
   };
 
-  // State variable to control the visibility of the EditTasks modal
-  // State variable to set state for EditTasks Modal
+  // State variable to control the visibility of Modals
+  // State variable to set state for Modals
+  const [isAssignTaskModalOpen, setIsAssignTaskModalOpen] = useState(false);
+  const [isUnAssignTaskModalOpen, setIsUnAssignTaskModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isEditModalOpen2, setIsEditModalOpen2] = useState(false);
-  const [isEditModalOpen3, setIsEditModalOpen3] = useState(false);
-  const [editingTask, setEditingTask] = useState(null);
+
   const [assignTask, setAssignTask] = useState(null);
   const [unassignTask, setUnassignTask] = useState(null);
+  const [editingTask, setEditingTask] = useState(null);
 
-  // Function to open the EditTask modal
+  // Function to open Modals
   const openEditModal = (task) => {
     setEditingTask(task);
     setIsEditModalOpen(true);
   };
-  const openEditModal2 = (taskUser) => {
+
+  const openAssignTaskModal = (taskUser) => {
     setAssignTask(taskUser);
-    setIsEditModalOpen2(true); // Open the modal
+    setIsAssignTaskModalOpen(true);
   };
-  const openEditModal3 = (taskUser) => {
+
+  const openUnAssignTaskModal = (taskUser) => {
     setUnassignTask(taskUser);
-    setIsEditModalOpen3(true); // Open the modal
+    setIsUnAssignTaskModalOpen(true);
   };
-  // Function to close the EditTask modal
+  
+  // Function to close Modals
   const closeEditModal = () => {
     setEditingTask(null);
     setAssignTask(null);
     setUnassignTask(null);
     setIsEditModalOpen(false);
-    setIsEditModalOpen2(false);
-    setIsEditModalOpen3(false);
+    setIsAssignTaskModalOpen(false);
+    setIsUnAssignTaskModalOpen(false);
     setisModalEdited2(true);
   };
 
   return (
-    <div>
-      <div
-        style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold" }}
-      >
-        {task.task_description}
-      </div>
+    <div style={{ fontSize: '0.93em' }}>
+      <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold" }}> {task.task_description}</div>
+      
       <br />
-      <strong>Status: </strong>
-      {task.status}
+      <strong>Status: </strong> {task.status}
+      
       <br />
-      <strong>Start Date: </strong>
-      {task.start_date}
+      <strong>Start Date: </strong> {changeTimeZone(task.start_date, 'Asia/Singapore')}
+      
       <br />
       {task.status === "Completed" ? (
         <>
-          <strong>End Date: </strong>
-          {task.end_date}
+          <strong>End Date: </strong> {changeTimeZone(task.end_date, 'Asia/Singapore')}
+          
           <br />
-          <strong>Cycle Time: </strong>
-          {task.cycle_time}
+          <strong>Cycle Time: </strong> {task.cycle_time}
         </>
       ) : (
         <>
-          <strong>Target End Date: </strong>
-          {task.target_end_date}
+          <strong>Target End: </strong> {changeTimeZone(task.target_end_date, 'Asia/Singapore')}
+          
           <br />
-          <strong>Priority: </strong>
-          {task.priority}
+          <strong>Priority: </strong> {task.priority}
         </>
       )}
 
-      <br />
-      <strong>Comments: </strong>
-      {task.task_comments}
+      <br /><strong>Comments: </strong>{task.task_comments}
+      {Array(2).fill(<br />)}<strong>Assigned Users: </strong> {task.users.map(user => user.user_name).join(', ')}
+
       {Array(2).fill(<br />)}
-      <button className="edit-buttons3" onClick={() => openEditModal2(task)}>
-        Assign
-      </button>
-      <button className="edit-buttons3" onClick={() => openEditModal3(task)}>
-        Unassign
-      </button>
-      <button className="edit-buttons3" onClick={() => openEditModal(task)}>
-        {" "}
-        Edit{" "}
-      </button>
-      {"    "}
-      {"    "}
-      <button className="delete-buttons3" onClick={deleteTask}>
-        Delete
-      </button>
-      <br />
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+        <button className="edit-buttons3" onClick={() => openAssignTaskModal(task)}>
+          Assign
+        </button>
+
+        <button className="edit-buttons3" onClick={() => openUnAssignTaskModal(task)}>
+          UnAssign
+        </button>
+
+        <button className="edit-buttons3" onClick={() => openEditModal(task)}>
+          Edit
+        </button>
+
+        <button className="delete-buttons3" onClick={deleteTask}>
+          Delete
+        </button>
+      </div>
+      
       {assignTask && (
-        <div>
-          
         <ChooseUser
           editingTask={assignTask}
-          
-          isOpen={isEditModalOpen2}
+          isOpen={isAssignTaskModalOpen}
           onClose={closeEditModal}
         />
-        </div>
       )}
+
       {unassignTask && (
-        <div>
-          
         <UnassignTask
           editingTask={unassignTask}
-          
-          isOpen={isEditModalOpen3}
+          isOpen={isUnAssignTaskModalOpen}
           onClose={closeEditModal}
         />
-        </div>
       )}
+
       {editingTask && (
         <EditTasks
           editingTask={editingTask}
@@ -125,6 +121,7 @@ export default function DisplayTask(props) {
           onClose={closeEditModal}
         />
       )}
+      
     </div>
   );
 }

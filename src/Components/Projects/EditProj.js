@@ -66,12 +66,12 @@ export default function EditProj(props) {
       });
 
       onClose();
-      window.location.reload();
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     sendPutRequest();
+    window.location.reload();
   }
 
   return (
