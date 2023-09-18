@@ -15,7 +15,7 @@ export default function CreateUser(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const taskID = searchParams.get("task_id");
+  
 
   const proj_from_loc = searchParams.get("proj_id");
 

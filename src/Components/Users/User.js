@@ -54,6 +54,7 @@ export default function User(props) {
                   View task details
                 </Link>
               </button>
+              <br />
             </span>
           ))}
         </div>
@@ -78,6 +79,51 @@ export default function User(props) {
       <button className="delete-buttons" onClick={() => onDelete(user_id)}>
         Remove member
       </button>
+    </div>
+  );
+}
+
+export function UserLite(props) {
+  const [user, setUser] = useState([]);
+  //const { isAuthenticated, getAccessTokenSilently, loggedInUser } = useAuth0();
+  const { user_id } = props;
+
+  const url = `${URL}/user/${user_id}`;
+ 
+
+
+  
+
+  useEffect(() => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+      });
+  }, [url]);
+
+  const taskCount = () => {
+    let i = 0;
+    for (const task in user.tasks) {
+      console.log(task)
+      i++;
+    }
+    return i;
+  };
+
+  return (
+    <div>
+      User name: {user.user_name}
+      <br />
+      User role: {user.user_role}
+      <br />
+      Current number of given tasks:
+      
+      {taskCount()}
+
     </div>
   );
 }
