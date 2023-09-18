@@ -1,34 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { UserLite} from "./User";
-//import DeleteUser from "./DeleteUser";
+import {UserLite} from "../Users/User";
+//import DeleteUser from "../Users/DeleteUser";
 import Modal from "react-modal";
-import {customStyles3 } from "../../constants";
+import { customStyles3 } from "../../constants";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
-const url = `${URL}/user`;
+const url = `${URL}/task`;
 
-export default function ChooseUser(props) {
+export default function UnassignTask(props) {
   const { editingTask,isOpen, onClose } = props;
   const [users, setUsers] = useState([]);
   //const [isUserDeleted, setIsUserDeleted] = useState(false);
   const taskID = editingTask.id;
 
- 
+
 
   useEffect(() => {
-    const header = {
-      proj_id: editingTask.project.id,
-    };
-    fetch(url, { headers: header })
+    
+    fetch(`${url}/${taskID}`)
       .then((response) => response.json())
       .then((data) => {
-        setUsers(data);
+       
+        setUsers(data.users);
       })
       .catch((error) => {
         console.error("Error:", error.message);
       });
-  }, [ editingTask.project.id]);
+  }, [taskID]);
 
   const handleUserSelection = (selectedUser) => {
     const userID = selectedUser.id;
@@ -38,8 +36,8 @@ export default function ChooseUser(props) {
     };
 
     // Change the URL to the correct endpoint for linking user to the task
-    fetch(`${url}/linkUserToTask/${userID}`, {
-      method: "POST", // Keep the method as POST
+    fetch(`${URL}/user/unlinkUserFromTask/${userID}`, {
+      method: "DELETE", // Keep the method as POST
       headers: {
         "Content-Type": "application/json",
       },
@@ -64,12 +62,12 @@ export default function ChooseUser(props) {
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles3}>
       <div>
         
-        <h1>Choose a user to assign the task to:</h1>
+        <h1>Task is currently assigned to:</h1>
 
         {users.length > 0 ? (
           <div className="user-container">
             {users.map((user, index) => (
-              <div key={index + 1} className="user-space-small">
+              <div key={index + 1} className="user-space">
                 <button onClick={() => handleUserSelection(user)}>
                   <UserLite
                     user_id={user.id}
@@ -80,10 +78,8 @@ export default function ChooseUser(props) {
             ))}
           </div>
         ) : null}
-        <h1>Or create a new member:</h1>
-        <button className="edit-buttons">
-          <Link to={`/users/add`}>Create new project member</Link>
-        </button>
+        <h2>Click on the member to unassign task</h2>
+        
       </div>
     </Modal>
   );

@@ -64,7 +64,7 @@
 
 .add-project-btn {
   padding: 15px 3px;
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   border-radius: 0.5rem;
   font-weight: bold;
   transition: background-color 0.3s;
@@ -86,16 +86,29 @@
   border-radius: 5px;
   gap: 25px;
 }
+.user-container {
+  display: flex;
+  flex-direction: row; /* Display items in a single line */
+  flex-wrap: wrap;
+}
 
 .user-space {
-  display: inline-block;
-  vertical-align: top;
+  flex: 0 0 250px; /* Maintain a fixed width of 250px */
   margin: 1px;
   border: 2px solid black;
   padding: 5px;
-  width: 250px;
   background-color: #cbb4c4;
 }
+.user-space-small {
+  flex: 0 0 200px; /* Maintain a fixed width of 250px */
+  margin: 1px;
+  border: 2px solid black;
+  padding: 5px;
+  background-color: #cbb4c4;
+}
+
+
+
 
 .task-space.dragging {
   background-color: #b9e6fd;
@@ -104,7 +117,7 @@
 .edit-buttons {
   border: 1.5px solid black;
   border-radius: 10px;
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   padding: 3px;
   margin: 3px;
 }
@@ -112,7 +125,7 @@
 .delete-buttons {
   border: 1.5px solid black;
   border-radius: 10px;
-  background-color: #cbb4c4;
+  background-color: #b64b4b;
   padding: 3px;
   margin: 3px;
 }
@@ -120,7 +133,7 @@
 .edit-buttons2 {
   border: 1px solid black;
   border-radius: 10px;
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   padding: 10px 20px; /* 10px top/bottom, 20px left/right */
   margin: 3px;
   font-size: 120%;
@@ -130,7 +143,7 @@
 .edit-buttons3 {
   border: 1px solid black;
   border-radius: 10px;
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   padding: 3px;
   margin: 3px;
   font-weight: bold;
@@ -139,7 +152,7 @@
 .delete-buttons3 {
   border: 1px solid black;
   border-radius: 10px;
-  background-color: #cbb4c4;
+  background-color: #b64b4b;
   padding: 3px;
   margin: 3px;
   font-weight: bold;
@@ -148,7 +161,7 @@
 .task-buttons {
   border: 2px solid black;
   border-radius: 0.5rem;
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   padding: 15px 3px;
   margin: 3px;
   font-weight: bold;
@@ -164,7 +177,7 @@
 }
 
 .submit-buttons {
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   color: black;
   padding: 3px;
   width: 150px;
@@ -174,7 +187,7 @@
 }
 
 .small-buttons {
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   color: black;
   font-size: 10px;
   padding: 1px;
@@ -184,7 +197,7 @@
 }
 
 .back-buttons {
-  background-color: #b9e6fd;
+  background-color: #7ccbf3;
   color: black;
   padding: 3px;
   width: 150px;

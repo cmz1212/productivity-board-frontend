@@ -43,7 +43,7 @@ export default function AllUsers(props) {
     <div>
       <h2>All available members:</h2>
       {users.length > 0 ? (
-        <div>
+        <div className="user-container">
           {users.map((user, index) => (
             <div key={index + 1} className="user-space">
               <User
