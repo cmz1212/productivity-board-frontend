@@ -18,9 +18,8 @@ function Footer() {
         </div>
         <div className="md:flex md:items-center md:justify-end pt-4 border-t border-sky-700">
           <div className="text-sm text-sky-400 text-right">
-            Made by{" "}
-              Yu Hao & Ming Zhou.
-              All Rights Reserved.
+            {/* Made by{" "}
+              Yuhao & MZ.  */}All Rights Reserved.
           </div>
         </div>
       </div>

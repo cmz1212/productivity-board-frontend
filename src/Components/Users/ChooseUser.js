@@ -7,7 +7,7 @@ import { URL } from "../../constants";
 
 export default function ChooseUser(props) {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { editingTask,isOpen, onClose } = props;
+  const { editingTask, isOpen, onClose } = props;
   const [users, setUsers] = useState([]);
   const taskID = editingTask.id;
 

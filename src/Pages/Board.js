@@ -112,7 +112,6 @@ export default function Board() {
     fetchData();
   }, [fetchData, isTaskDeleted, isModalEdited, isModalEdited2]);
   
-
   const onDragEnd = (result) => {
     if (!result.destination) {
       // Handle the case when the task is not dropped into a valid droppable area
@@ -128,9 +127,12 @@ export default function Board() {
 
     const updatedTasks = [...tasks];
 
+    console.log(updatedTasks);
+    console.log(result);
+    console.log(result.draggableId);
     // Find the moved task by its id
     const movedTask = updatedTasks.find(
-      (task) => task.id === result.draggableId
+      (task) => task.id === parseInt(result.draggableId, 10)
     );
 
     // Update the task status based on the column;
@@ -142,26 +144,33 @@ export default function Board() {
     }
 
     const updatedStatus2 = getStatusFromColumnId(columnId2);
+    console.log(updatedStatus2);
     movedTask.status = updatedStatus2;
+    console.log(movedTask.status);
     setTasks(updatedTasks);
-
+    console.log(updatedTasks);
     const currentDate = new Date();
     const parseStartDate = new Date(movedTask.start_date);
     if (columnId2==="todo") {
+      console.log("start1");
       updateTaskStatus(movedTask.id, updatedStatus2, currentDate, null, null);
+      console.log("end1");
     }
     else if (columnId2==="completed") {
+      console.log("start2");
       updateTaskStatus(movedTask.id, updatedStatus2, null, currentDate, getDaysDifferenceWithTimeZone(parseStartDate.toISOString(), currentDate.toISOString() , 'Asia/Singapore'));
+      console.log("end2");
     }
     else {
+      console.log("start3");
       updateTaskStatus(movedTask.id, updatedStatus2);
+      console.log("end3");
     } 
 
   };
-
+  
   const isValidColumn = (columnId) => {
     // Add logic to check if columnId is a valid column
-    // For example, you can check if columnId is one of the valid column names
     const validColumns = [
       "backlog",
       "todo",
@@ -198,7 +207,7 @@ export default function Board() {
         // After updating the task, re-fetch the tasks to reflect the latest data in the UI
         fetchData();
       } else {
-        // handle potential errors from the server
+
         const errorMessage = await response.text();
         throw new Error(errorMessage);
       }
