@@ -22,7 +22,8 @@ export default function User(props) {
       {user && (
         <div>
           <strong>User Name: </strong>{user.user_name}<br />
-          <strong>User Role: </strong>{user.user_role}{Array(2).fill(<br />)}
+          <strong>User Role: </strong>{user.user_role}<br />
+          <strong>Info: </strong>{user.additional_info}{Array(2).fill(<br />)}
           <strong>Given Tasks: </strong><br />
           {user.tasks ? (
             <div>
@@ -36,9 +37,7 @@ export default function User(props) {
           ) : (
             "No assigned tasks"
           )}
-          <br />
-          <strong>Info: </strong>{user.additional_info}
-
+          
           <div className="button-group flex justify-left space-x-4" style={{ position: 'absolute', left: '8px', bottom: '10px' }}>
             <button className="bg-gray-100 text-black w-60 h-22 border border-black rounded-md font-semibold" onClick={() => openEditModal(user)}>Edit</button>
             <button className="bg-fuchsia-100 text-black w-80 h-22 border border-black rounded-md font-semibold" onClick={() => onDelete(user.id)}>Remove</button>
