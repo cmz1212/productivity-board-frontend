@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { URL, customStyles } from "../../constants";
+import { URL, modalStyles1 } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import Modal from "react-modal";
 
 export default function EditProj(props) {
-  const { editingProject, isOpen, onClose } = props;
+  const { editingProject, fetchData, isOpen, onClose } = props;
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ export default function EditProj(props) {
       audience: process.env.REACT_APP_API_AUDIENCE
     })
 
-    fetch(url, {
+    await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -66,19 +66,19 @@ export default function EditProj(props) {
       });
 
       onClose();
+      fetchData();
   }
-
+  
   function handleSubmit(event) {
     event.preventDefault();
     sendPutRequest();
-    window.location.reload();
   }
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
-      <div className="background">
-        <form onSubmit={handleSubmit} className="forms">
-          <h3 className="form-labels">Project Description:</h3>
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={modalStyles1}>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <h3 className="text-sky-950">Project Description:</h3>
           <input
             type="text"
             value={project.description}
@@ -88,7 +88,7 @@ export default function EditProj(props) {
             placeholder="Description Here"
           />
           {Array(2).fill(<br />)}
-          <h3 className="form-labels">WIP Limit:</h3>
+          <h3 className="text-sky-950">WIP Limit:</h3>
           <input
             type="text"
             value={project.wip}
@@ -100,7 +100,7 @@ export default function EditProj(props) {
             }}
           />
           {Array(2).fill(<br />)}
-          <h3 className="form-labels">Cycle Time Limit:</h3>
+          <h3 className="text-sky-950">Cycle Time Limit:</h3>
           <input
             type="text"
             value={project.cycle_time}
@@ -112,7 +112,7 @@ export default function EditProj(props) {
             }}
           />
           {Array(2).fill(<br />)}
-          <h3 className="form-labels">Please add comments for the project:</h3>
+          <h3 className="text-sky-950">Please add comments for the project:</h3>
           <textarea
             value={project.comment}
             onChange={(e) => setProject({ ...project, comment: e.target.value })}
@@ -122,9 +122,9 @@ export default function EditProj(props) {
           />
 
           {Array(2).fill(<br />)}
-          <button type="submit" className="submit-buttons">Submit</button>
-          {"    "}{"    "}
-          <button className="back-buttons" onClick={onClose}>Close</button>
+          <button type="submit" className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold">Submit</button>
+          {"        "}
+          <button className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold" onClick={onClose}>Close</button>
 
         </form>        
       </div>

@@ -5,7 +5,6 @@ export default async function DeleteTask(id, getAccessTokenSilently) {
   const confirmed = window.confirm("Deletion is irreversible! \n Are you sure you want to delete this task?");
 
   if (confirmed) {
-
     const sendDeleteTaskRequest = async () => {
     
       const accessToken = await getAccessTokenSilently({
@@ -22,9 +21,6 @@ export default async function DeleteTask(id, getAccessTokenSilently) {
 
     }
 
-    await sendDeleteTaskRequest();
-    window.location.reload();
-
+    sendDeleteTaskRequest();
   }
 }
-

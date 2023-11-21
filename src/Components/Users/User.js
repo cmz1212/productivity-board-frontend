@@ -1,87 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import EditUser from "./EditUser";
-import { useAuth0 } from "@auth0/auth0-react";
-import { URL } from "../../constants";
 
 export default function User(props) {
-  const { user_id, onDelete, isEdit } = props;
-  const [user, setUser] = useState([]);
-  const { isAuthenticated, getAccessTokenSilently} = useAuth0();
+  const { user, fetchAllUsers, onDelete} = props;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
 
-  // Function to open the EditUser modal
-  const openEditModal = (User) => {
-    setEditingUser(User);
+  const openEditModal = (editUser) => {
+    setEditingUser(editUser);
     setIsEditModalOpen(true);
   };
 
-  // Function to close the EditUser modal
   const closeEditModal = () => {
     setEditingUser(null);
     setIsEditModalOpen(false);
+    fetchAllUsers();
   };
 
-  useEffect(() => {
-
-    if (isAuthenticated) {
-      
-      const fetchData = async () => {
-        const accessToken = await getAccessTokenSilently({
-          audience: process.env.REACT_APP_API_AUDIENCE,
-        });
-
-        fetch(`${URL}/user/${user_id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            setUser(data);
-          })
-          .catch((error) => {
-            console.error("Error:", error.message);
-          });
-      }
-
-      fetchData();
-    }  
-  }, [getAccessTokenSilently, isAuthenticated, user_id]);
-
   return (
-    <div className="parent-div">
-      <strong>User Name: </strong>{user.user_name}
-      <strong>User Role: </strong>{user.user_role}
-      <strong>Given Tasks:</strong>
-      {user.tasks ? (
+    <div className="text-sm text-left">
+      {user && (
         <div>
-          {user.tasks.map((task) => (
-            <span key={task.id}>
-              {task.task_description}{" "}
-              <br />
-            </span>
-          ))}
+          <strong>User Name: </strong>{user.user_name}<br />
+          <strong>User Role: </strong>{user.user_role}{Array(2).fill(<br />)}
+          <strong>Given Tasks: </strong><br />
+          {user.tasks ? (
+            <div>
+              {user.tasks.map((task) => (
+                <span key={task.id}>
+                  {task.task_description}{" "}
+                  <br />
+                </span>
+              ))}
+            </div>
+          ) : (
+            "No assigned tasks"
+          )}
+          <br />
+          <strong>Info: </strong>{user.additional_info}
+
+          <div className="button-group flex justify-left space-x-4" style={{ position: 'absolute', left: '8px', bottom: '10px' }}>
+            <button className="bg-gray-100 text-black w-60 h-22 border border-black rounded-md font-semibold" onClick={() => openEditModal(user)}>Edit</button>
+            <button className="bg-fuchsia-100 text-black w-80 h-22 border border-black rounded-md font-semibold" onClick={() => onDelete(user.id)}>Remove</button>
+          </div>
         </div>
-      ) : (
-        "No assigned tasks"
       )}
-      <br />
-      <strong>Info: </strong>{user.additional_info}
 
-      <div className="user-buttons">
-        <button className="edit-buttons3" onClick={() => openEditModal(user)}>Edit</button>
-        <button className="delete-buttons" onClick={() => onDelete(user_id)}>Remove User</button>
-      </div>
-
-      {editingUser && (
+      { editingUser && (
         <EditUser
           editingUser={editingUser}
+          fetchAllUsers={fetchAllUsers}
           isOpen={isEditModalOpen}
           onClose={closeEditModal}
-          isEdit={isEdit}
         />
       )}
  
@@ -89,55 +59,20 @@ export default function User(props) {
   );
 }
 
-export function UserLite(props) {
-  const [user, setUser] = useState([]);
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { user_id } = props
- 
-  useEffect(() => {
-
-    if (isAuthenticated) {
-
-      const fetchData = async () => {
-        const accessToken = await getAccessTokenSilently({
-          audience: process.env.REACT_APP_API_AUDIENCE,
-        });
-
-        fetch(`${URL}/user/${user_id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            setUser(data);
-          })
-          .catch((error) => {
-            console.error("Error:", error.message);
-          });
-      }
-
-      fetchData();
-    }
-  }, [getAccessTokenSilently, isAuthenticated, user_id]);
-
-  const taskCount = () => {
-    let i = 0;
-    for (const task in user.tasks) {
-      console.log(task)
-      i++;
-    }
-    return i;
-  };
-
+export function UserLite({user}) {
   return (
-    <div style={{ textAlign: 'left' }}>
-      User Name: {user.user_name}
-      <br />User Role: {user.user_role}
-      <br />Current Given Tasks:{taskCount()}
-    </div>
+    <>
+      { user && (
+        <div className="text-sm text-left">
+          User Name: {user.user_name} <br />
+          User Role: {user.user_role} <br />
+          {user.tasks && (
+            <span>
+              Current Given Tasks: {user.tasks.length || 0}
+            </span>
+          )}
+        </div>
+      )}
+    </>
   );
 }
-

@@ -1,30 +1,30 @@
-function Footer() {
+export default function Footer() {
   return (
-    <footer className="w-full max-w-7xl">
-      <div className="bg-sky-950 p-10">
-        <div className="flex flex-col md:flex-row justify-end gap-8 border-sky-200">
+    <footer className="w-full max-w-8xl">
+      <div className="bg-white p-6">
+        <div className="flex flex-col md:flex-row justify-end gap-8 border-sky-950">
           <div className="text-right">
-            <h6 className="text-white font-semibold text-xl mb-2">
+            <h6 className="text-sky-950 font-semibold text-xl mb-2">
               Any Feedback?
             </h6>
-            <p className="text-sm text-sky-400 mb-4">
+            <p className="text-sm text-sky-950 mb-4">
               Add an issue on the{" "}
-              <span className="text-white font-bold">
+              <a
+                href="mailto:chua.ming.zhou.1212@gmail.com"
+                className="text-sky-950 font-bold"
+              >
                 {" "}
                 GitHub Repos
-              </span>
+              </a>
             </p>
           </div>
         </div>
-        <div className="md:flex md:items-center md:justify-end pt-4 border-t border-sky-700">
-          <div className="text-sm text-sky-400 text-right">
-            {/* Made by{" "}
-              Yuhao & MZ.  */}All Rights Reserved.
+        <div className="md:flex md:items-center md:justify-end pt-3 border-t-2 border-sky-950">
+          <div className="text-sm text-sky-950 text-right">
+            All Rights Reserved.
           </div>
         </div>
       </div>
     </footer>
   );
 }
-
-export default Footer;

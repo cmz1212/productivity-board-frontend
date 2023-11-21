@@ -5,7 +5,6 @@ export default async function DeleteProj(id, getAccessTokenSilently) {
   const confirmed = window.confirm("Deletion is irreversible! \n Are you sure you want to delete this project?");
 
   if (confirmed) {
-
     const sendDeleteProjRequest = async () => {
 
       const accessToken = await getAccessTokenSilently({
@@ -22,8 +21,6 @@ export default async function DeleteProj(id, getAccessTokenSilently) {
       
     }
 
-    await sendDeleteProjRequest();
-    window.location.reload();
-
+    sendDeleteProjRequest();
   }
 }

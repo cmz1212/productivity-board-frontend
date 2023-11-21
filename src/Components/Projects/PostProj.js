@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { URL, customStyles } from "../../constants";
+import { URL, modalStyles1} from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import Modal from "react-modal";
 
 export default function PostProj(props) {
-  const { auth_id, isOpen, onClose } = props;
+  const { auth_id, fetchData, isOpen, onClose } = props;
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -40,7 +40,7 @@ export default function PostProj(props) {
         audience: process.env.REACT_APP_API_AUDIENCE
       })
   
-      fetch(url, {
+      await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,19 +64,25 @@ export default function PostProj(props) {
     }
     
     onClose();
-    window.location.reload();
+    fetchData();
   }
 
   function handleSubmit(event) {
+    // Check if all fields are filled up
+    if (!project.description || !project.wip || !project.cycle_time || !project.comment) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     event.preventDefault();
     sendPostRequest();
   }
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={modalStyles1}>
       <div className="background">
         <form onSubmit={handleSubmit} >
-          <h3 className="form-labels">Project Description:</h3>
+          <h3 className="text-sky-950">Project Description:</h3>
           <input
             type="text"
             value={project.description}
@@ -86,7 +92,7 @@ export default function PostProj(props) {
             placeholder="Description Here"
           />
           {Array(2).fill(<br />)}
-          <h3 className="form-labels">WIP Limit:</h3>
+          <h3 className="text-sky-950">WIP Limit:</h3>
           <input
             type="text"
             value={project.wip}
@@ -99,7 +105,7 @@ export default function PostProj(props) {
             
           />
           {Array(2).fill(<br />)}
-          <h3 className="form-labels">Cycle Time Timit:</h3>
+          <h3 className="text-sky-950">Cycle Time Timit:</h3>
           <input
             type="text"
             value={project.cycle_time}
@@ -112,7 +118,7 @@ export default function PostProj(props) {
             
           />
           {Array(2).fill(<br />)}
-          <h3 className="form-labels">Please add comments for the project:</h3>
+          <h3 className="text-sky-950">Please add comments for the project:</h3>
           <textarea
             value={project.comment}
             onChange={(e) => setProject({ ...project, comment: e.target.value })}
@@ -122,9 +128,9 @@ export default function PostProj(props) {
           />
 
           {Array(2).fill(<br />)}
-          <button type="submit" className="submit-buttons">Submit</button>
-          {"    "}{"    "}
-          <button className="back-buttons" onClick={onClose}>Close</button>
+          <button type="submit" className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold">Submit</button>
+          {"        "}
+          <button className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold" onClick={onClose}>Close</button>
 
         </form> 
       </div>

@@ -3,92 +3,24 @@ import { utcToZonedTime } from 'date-fns-tz';
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 
-const customStyles = {
-    content: {
-      width: "500px",
-      height: "600px",
-      paddingBottom: '0px',
-      display: "block",
-      backgroundColor: "#b9e6fd",
-      border: "2px solid #072f49",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
-
-const customStyles2 = {
-  content: {
-      width: "500px",
-      height: "700px",
-      paddingBottom: '0px',
-      display: "block",
-      backgroundColor: "#b9e6fd",
-      border: "2px solid #072f49",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-  },
-};
-
-const customStyles3 = {
-  content: {
-      width: "750px",
-      height: "420px",
-      paddingBottom: '0px',
-      display: "block",
-      backgroundColor: "#b9e6fd",
-      border: "2px solid #072f49",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-  },
-};
-
-const customStyles4 = {
-  content: {
-      width: "800px",
-      height: "700px",
-      paddingBottom: '0px',
-      display: "block",
-      backgroundColor: "#b9e6fd",
-      border: "2px solid #072f49",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      fontSize: '0.93em'
-  },
-};
-
-const customStyles5 = {
-  content: {
-      width: "800px",
-      height: "500px",
-      paddingBottom: '0px',
-      display: "block",
-      backgroundColor: "#b9e6fd",
-      border: "2px solid #072f49",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      fontSize: '0.93em'
-  },
-};
+function refreshCurPage() {
+  window.location.reload();
+}
 
 function changeTimeZone(date, timeZone) {
   if (!date) {
       console.warn("The date provided is null or undefined.");
-      return null; // or return a default value if desired
+      return null;
   }
 
   const options = {
-      timeZone,
-      day: '2-digit',   // display day in 2-digit format
-      month: 'short',   // display month in short form (e.g., "Jan")
-      year: 'numeric',  // display year in full form (e.g., "2023")
-      hour: '2-digit',   // display hour in 2-digit format
-      minute: '2-digit', // display minute in 2-digit format
-      hour12: true,      // use AM/PM format
+    timeZone,
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
   };
 
   if (typeof date === 'string') {
@@ -110,12 +42,97 @@ function getDaysDifferenceWithTimeZone(startDateString, endDateString, timeZone)
 
   // Calculate the difference in days
   const daysDifference = differenceInCalendarDays(zonedEndDate, zonedStartDate);
+  const roundedDifference = parseInt(Math.round(daysDifference), 10);
 
-  return daysDifference;
+  return roundedDifference;
 }
 
-function refreshCurPage() {
-  window.location.reload();
-}
+const modalStyles1 = {
+  content: {
+    width: "475px",
+    height: "550px",
+    paddingBottom: '0px',
+    display: "block",
+    backgroundColor: "#f0f9ff",
+    border: "2px solid #072f49",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
-export { URL, customStyles, customStyles2, customStyles3, customStyles4, customStyles5, changeTimeZone, getDaysDifferenceWithTimeZone, refreshCurPage };
+const modalStyles2 = {
+  content: {
+      width: "450px",
+      height: "540px",
+      paddingBottom: '0px',
+      display: "block",
+      backgroundColor: "#f0f9ff",
+      border: "2px solid #072f49",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+  },
+};
+
+const modalStyles3 = {
+  content: {
+      width: "640px",
+      height: "420px",
+      paddingBottom: '0px',
+      display: "block",
+      backgroundColor: "#f0f9ff",
+      border: "2px solid #072f49",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      overflowY: 'auto',
+  },
+};
+
+const modalStyles4 = {
+  content: {
+      width: "853px",
+      height: "730px",
+      paddingBottom: '0px',
+      display: "block",
+      backgroundColor: "#f0f9ff",
+      border: "2px solid #072f49",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      fontSize: '0.93em',
+      overflowY: 'auto',
+  },
+};
+
+const modalStyles5 = {
+  content: {
+      width: "490px",
+      height: "490px",
+      paddingBottom: '0px',
+      display: "block",
+      backgroundColor: "#f0f9ff",
+      border: "2px solid #072f49",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      fontSize: '0.93em'
+  },
+};
+
+const modalStyles6 = {
+  content: {
+      width: "410px",
+      height: "490px",
+      paddingBottom: '0px',
+      display: "block",
+      backgroundColor: "#f0f9ff",
+      border: "2px solid #072f49",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+  },
+};
+
+export { URL, refreshCurPage, changeTimeZone, getDaysDifferenceWithTimeZone, modalStyles1, modalStyles2, modalStyles3, modalStyles4, modalStyles5, modalStyles6 };

@@ -1,111 +1,87 @@
 import React, { useState, useEffect } from "react";
 import { UserLite} from "./User";
 import Modal from "react-modal";
-import {customStyles3 } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
-import { URL } from "../../constants";
+import { URL, modalStyles3 } from "../../constants";
 
 export default function ChooseUser(props) {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { editingTask, isOpen, onClose } = props;
+  const { editingTask, fetchAllTasks, isOpen, onClose } = props;
+  const { getAccessTokenSilently } = useAuth0();
   const [users, setUsers] = useState([]);
-  const taskID = editingTask.id;
 
- 
   useEffect(() => {
-
-    if (isAuthenticated) {
-
-      const fetchData = async () => {
+    async function fetchUserData() {
+      try {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_API_AUDIENCE,
         });
-
-        fetch(`${URL}/user`, {
+    
+        const response = await fetch(`${URL}/user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
             proj_id: editingTask.project.id,
           },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            setUsers(data);
-          })
-          .catch((error) => {
-            console.error("Error:", error.message);
-          });
-        }
-
-        fetchData();
-      }
-      
-  }, [isAuthenticated, getAccessTokenSilently, editingTask.project.id]);
-
-  const handleUserSelection = (selectedUser) => {
-    
-    const userID = selectedUser.id;
-    const requestData = {
-      task_id: taskID,
-    };
-    
-    if (isAuthenticated) {
-      
-      const fetchData = async () => {
-        const accessToken = await getAccessTokenSilently({
-          audience: process.env.REACT_APP_API_AUDIENCE,
         });
-
-        // Change the URL to the correct endpoint for linking user to the task
-        fetch(`${URL}/user/linkUserToTask/${userID}`, {
-          method: "POST", // Keep the method as POST
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(requestData),
-        })
-          .then((response) => {
-            if (response.ok) {
-              // Handle success if needed
-            } else {
-              // Handle errors if needed
-              throw new Error("Request failed");
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error.message);
-          });
+          
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data);
+        } else {
+          console.error("Request failed");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
       }
-      
-      fetchData();
     }
 
-    onClose();
-    window.location.reload();
+    fetchUserData();
+  }, [getAccessTokenSilently, editingTask.project.id]);
+
+  const handleUserSelection = async (selectedUser) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE
+      });
+
+      const requestData = { task_id: editingTask.id };
+
+      await fetch(`${URL}/user/linkUserToTask/${selectedUser.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      onClose();
+      fetchAllTasks();
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles3}>
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={modalStyles3}>
       <div>
-        
         <h1><strong>Choose a user to assign the task to:</strong></h1>
         <br/>
         {users.length > 0 ? (
-          <div className="user-container">
+          <div className="flex flex-row flex-wrap">
             {users.map((user, index) => (
-              <div key={index + 1} className="user-space-small">
+              <div key={index + 1} className="flex-none w-180 h-150 p-2 m-2 border border-black bg-gray-50">
                 <button onClick={() => handleUserSelection(user)}>
-                  <UserLite
-                    user_id={user.id}
-                  />
+                  <UserLite user={user} />
                 </button>
               </div>
             ))}
           </div>
         ) : null}
-        <button className="back-buttons" onClick={onClose} style={{ position: 'absolute', left: '10px', bottom: '10px' }}>Close</button>
+        <button className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold" onClick={onClose} style={{ position: 'absolute', left: '22px', bottom: '15px' }}>
+          Close
+        </button>
       </div>
     </Modal>
   );

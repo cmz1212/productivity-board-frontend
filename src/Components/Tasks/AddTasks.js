@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { URL, customStyles2 } from "../../constants";
+import { URL, modalStyles2 } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import Modal from "react-modal";
 import dayjs from "dayjs";
@@ -9,7 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 
 export default function AddTasks(props) {
-  const { project_id, isOpen, onClose } = props;
+  const { project_id, fetchAllTasks, isOpen, onClose } = props;
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
@@ -31,74 +31,80 @@ export default function AddTasks(props) {
   });
   
   async function sendPostRequest() {
-    const {
-      description,
-      start_date,
-      end_date,
-      target_end_date,
-      cycle_time,
-      target_cycle_time,
-      priority,
-      task_comments,
-    } = newTask;
-
-    const requestData = {
-      task_description: description,
-      project_id: project_id,
-      status: "Backlog",
-      start_date: start_date,
-      end_date: end_date,
-      target_end_date: target_end_date,
-      cycle_time: cycle_time,
-      target_cycle_time: target_cycle_time,
-      priority: priority,
-      task_comments: task_comments,
-    };
-
-    const accessToken = await getAccessTokenSilently({
-      audience: process.env.REACT_APP_API_AUDIENCE
-    })
-
-    fetch(`${URL}/task`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`
-      },
-      body: JSON.stringify(requestData),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setNewTask({
-          description: null,
-          start_date: null,
-          end_date: null,
-          target_end_date: null,
-          cycle_time: null,
-          target_cycle_time: null,
-          priority: null,
-          task_comments: null,
-        });
-        navigate(`/tasks?proj_id=${project_id}`)
-      })
-
-      .catch((error) => {
-        console.error("Error:", error);
+    try {
+      const {
+        description,
+        start_date,
+        end_date,
+        target_end_date,
+        cycle_time,
+        target_cycle_time,
+        priority,
+        task_comments,
+      } = newTask;
+  
+      const requestData = {
+        task_description: description,
+        project_id: project_id,
+        status: "Backlog",
+        start_date: start_date,
+        end_date: end_date,
+        target_end_date: target_end_date,
+        cycle_time: cycle_time,
+        target_cycle_time: target_cycle_time,
+        priority: priority,
+        task_comments: task_comments,
+      };
+  
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE
       });
-
+  
+      const response = await fetch(`${URL}/task`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(requestData),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      setNewTask({
+        description: null,
+        start_date: null,
+        end_date: null,
+        target_end_date: null,
+        cycle_time: null,
+        target_cycle_time: null,
+        priority: null,
+        task_comments: null,
+      });
+  
       onClose();
-      window.location.reload();
+      fetchAllTasks();
+      navigate(`/tasks?proj_id=${project_id}`);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
-
+  
   function handleSubmit(event) {
+    // Check if Task Description is empty
+    if (!newTask.description) {
+      alert("Please fill in Task Description");
+      return;
+    }
+
     event.preventDefault();
     sendPostRequest();
-  }
+  }  
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles2}>
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={modalStyles2}>
       <div>
         <form onSubmit={handleSubmit}>
           <h3>Task Description:</h3>
@@ -152,14 +158,14 @@ export default function AddTasks(props) {
               setNewTask({ ...newTask, task_comments: e.target.value })
             }
             placeholder="Task Comments"
-            rows={8} // You can adjust this value to fit the desired number of lines
-            style={{ width: "90%", resize: "vertical" }} // Optional styling for width and vertical resizing
+            rows={5}
+            style={{ width: "90%"}}
           />
 
-          {Array(3).fill(<br />)}
-          <button type="submit" className="submit-buttons">Submit</button>
-          {"    "}{"    "}
-          <button className="back-buttons" onClick={onClose}>Close</button>
+          {Array(2).fill(<br />)}
+          <button type="submit" className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold">Submit</button>
+          {"        "}
+          <button className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold" onClick={onClose}>Close</button>
 
         </form>
       </div>

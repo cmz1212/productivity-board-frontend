@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { URL } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 
-export default function CreateUser({ project_id, onClose }) {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+export default function CreateUser(props) {
+  const { project_id, fetchAllUsers, onClose } = props;
+  const { getAccessTokenSilently } = useAuth0();
 
   const [newUser, setNewUser] = useState({
     user_name: null,
@@ -14,12 +15,12 @@ export default function CreateUser({ project_id, onClose }) {
   });
 
   const sendPostRequest = async () => {
-    if (isAuthenticated) {
+    try {
       const accessToken = await getAccessTokenSilently({
         audience: process.env.REACT_APP_API_AUDIENCE,
       });
 
-      fetch(`${URL}/user`, {
+      await fetch(`${URL}/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,31 +28,36 @@ export default function CreateUser({ project_id, onClose }) {
         },
         body: JSON.stringify(newUser),
       })
-        .then((response) => response.json())
-        .then(() => {
-          setNewUser({
-            user_name: null,
-            user_role: null,
-            image_link: null,
-            additional_info: null,
-            proj_id: null,
-          });
-          onClose();
-        })
-        .catch((error) => console.error("Error:", error));
+        
+      setNewUser({
+        user_name: null,
+        user_role: null,
+        image_link: null,
+        additional_info: null,
+        proj_id: null,
+      });
+      
+    } catch (error) {
+      console.error("Error: ", error.message);
     }
+
+    onClose();
+    fetchAllUsers();
   };
 
   const handleSubmit = (event) => {
+    // Check if all fields are filled up
+    if (!newUser.user_name || !newUser.user_role|| !newUser.additional_info) {
+      alert("Please fill in all required fields");
+      return;
+    }
     event.preventDefault();
     sendPostRequest();
   };
 
   return (
     <div>
-
       <form onSubmit={handleSubmit}>
-
         <h3>Please Input User's Name:</h3>
         <input
           type="text"
@@ -90,21 +96,20 @@ export default function CreateUser({ project_id, onClose }) {
             setNewUser({ ...newUser, additional_info: e.target.value })
           }
           placeholder="Additional Information"
-          rows={6} // You can adjust this value to fit the desired number of lines
-          style={{ width: "70%", resize: "vertical" }} // Optional styling for width and vertical resizing
+          rows={6}
+          style={{ width: "70%"}}
         />
 
         {Array(3).fill(<br />)}
         <div className="button-group flex justify-left space-x-4">
-          <button type="submit" className="submit-buttons">
+          <button type="submit" className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold">
             Submit
           </button>
-          <button className="submit-buttons" onClick={onClose}>
+          <button className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold" onClick={onClose}>
             Cancel
           </button>
         </div>
       </form>
-      
     </div>
   );
 }

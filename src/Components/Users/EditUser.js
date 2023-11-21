@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { URL, customStyles2 } from "../../constants";
+import { URL, modalStyles6 } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import Modal from "react-modal";
 
 export default function EditUser(props) {
-  const { editingUser, isOpen, onClose, isEdit } = props;
+  const { editingUser, fetchAllUsers, isOpen, onClose } = props;
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const navigate = useNavigate();
 
   const [User, setUser] = useState({
     user_name: editingUser?.user_name || "",
@@ -16,57 +14,44 @@ export default function EditUser(props) {
     additional_info: editingUser?.additional_info || "",
   });
 
-  function sendPutRequest() {
-    const requestData = {
-      user_name: User.user_name,
-      user_role: User.user_role,
-      image_link: User.image_link,
-      additional_info: User.additional_info,
-    };
-
+  async function sendPutRequest() {
     if (isAuthenticated) {
+      const requestData = {
+        user_name: User.user_name,
+        user_role: User.user_role,
+        image_link: User.image_link,
+        additional_info: User.additional_info,
+      };
 
-      const fetchData = async () => {
-        const accessToken = await getAccessTokenSilently({
-          audience: process.env.REACT_APP_API_AUDIENCE,
-        });
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_API_AUDIENCE,
+      });
 
-        fetch(`${URL}/User/${editingUser.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(requestData),
+      fetch(`${URL}/User/${editingUser.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then((response) => {
+          return response.json();
         })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setUser({
-              user_name: data.user_name,
-              user_role: null,
-              image_link: null,
-              additional_info: null,
-            });
-
-            if (isEdit) {
-              navigate(`/users/select`);
-            } else {
-              navigate(`/users`);
-            }
-            
-          })
-          .catch((error) => {
-            console.error("Error:", error.message);
+        .then((data) => {
+          setUser({
+            user_name: data.user_name,
+            user_role: null,
+            image_link: null,
+            additional_info: null,
           });
+          onClose();
+          fetchAllUsers();
+        })
+        .catch((error) => {
+          console.error("Error:", error.message);
+        });
       }
-
-      fetchData();
-    }
-
-    onClose();
-    window.location.reload();
   }
 
   function handleSubmit(event) {
@@ -75,9 +60,9 @@ export default function EditUser(props) {
   }
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles2}>
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={modalStyles6}>
       <div>
-        <form onSubmit={handleSubmit} className="forms">
+        <form onSubmit={handleSubmit}>
           <h3>User Name:</h3>
           <input
             type="text"
@@ -109,19 +94,14 @@ export default function EditUser(props) {
               setUser({ ...User, additional_info: e.target.value })
             }
             placeholder="Additional information"
-            rows={6} // You can adjust this value to fit the desired number of lines
-            style={{ width: "70%", resize: "vertical" }} // Optional styling for width and vertical resizing
+            rows={5}
+            style={{ width: "70%"}}
           />
 
-          {Array(3).fill(<br />)}
-          <button type="submit" className="submit-buttons">
-            Submit
-          </button>
-          {"    "}
-          {"    "}
-          <button className="back-buttons" onClick={onClose}>
-            Close
-          </button>
+          {Array(2).fill(<br />)}
+          <button type="submit" className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold"> Submit </button>
+          {"    "}{"    "}
+          <button className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold" onClick={onClose}> Close </button>
         </form>
       </div>
     </Modal>

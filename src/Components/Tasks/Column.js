@@ -1,16 +1,16 @@
 import React from "react";
-import { getStatusFromColumnId } from "../../Pages/Board";
+import { getStatusFromColumnId } from "./GetColumnStatus";
 import DisplayTask from "./DisplayTasks";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 export default function Column(props) {
-  const { columnId, tasks, onDelete, setisModalEdited2 } = props;
+  const { columnId, tasks, fetchAllTasks, onDelete} = props;
   const columnTasks = tasks.filter(
     (task) => task.status === getStatusFromColumnId(columnId)
   );
 
   return (
-    <div className="column-container">
+    <div className="flex">
       <br/>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
@@ -20,7 +20,7 @@ export default function Column(props) {
             className="column"
             id={snapshot.isDraggingOver ? "dropping" : `${columnId}`}
           >
-            <h2 style={{fontWeight: 'bold', fontSize: '1.5em', textAlign: 'center', marginBottom: '0.5em'}}>{getStatusFromColumnId(columnId)}</h2>
+            <h2 style={{fontWeight: 'bold', fontSize: '1.5em', textAlign: 'center', marginBottom: '1em'}}>{getStatusFromColumnId(columnId)}</h2>
             {columnTasks.map((task, index) => (
               <Draggable
                 key={task.id}
@@ -39,9 +39,9 @@ export default function Column(props) {
                     <DisplayTask
                       key={task.id}
                       task={task}
+                      fetchAllTasks={fetchAllTasks}
                       index={index}
                       onDelete={onDelete}
-                      setisModalEdited2={setisModalEdited2}
                     />
                   </div>
                 )}

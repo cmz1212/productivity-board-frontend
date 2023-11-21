@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { URL, customStyles2 } from "../../constants";
+import { URL, modalStyles2 } from "../../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import Modal from "react-modal";
 import dayjs from "dayjs";
@@ -9,9 +8,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 
 export default function EditTask(props) {
-  const { editingTask, isOpen, onClose } = props;
+  const { editingTask, fetchAllTasks, isOpen, onClose } = props;
   const { getAccessTokenSilently } = useAuth0();
-  const navigate = useNavigate();
 
   const [sel_DateTime, setDateTime] = useState(null);
   const handleDateTimeChange = (newValue) => {
@@ -31,7 +29,6 @@ export default function EditTask(props) {
   });
   
   async function sendPutRequest() {
-
     const requestData = {
       task_description: task.description,
       start_date: task.start_date,
@@ -45,9 +42,9 @@ export default function EditTask(props) {
 
     const accessToken = await getAccessTokenSilently({
       audience: process.env.REACT_APP_API_AUDIENCE
-    })
+    });
 
-    fetch(`${URL}/task/${editingTask.id}`, {
+    const response = await fetch(`${URL}/task/${editingTask.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -55,31 +52,24 @@ export default function EditTask(props) {
       },
       body: JSON.stringify(requestData),
     })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setTask({
-          description: data.task_description,
-          start_date: null,
-          end_date: null,
-          target_end: null,
-          cycle_time: null,
-          target_cycle: null,
-          priority: null,
-          comment: null,
-        });
-        console.log(data);
 
-        navigate(`/tasks?proj_id=${data.project_id}`);
-      })
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-      .catch((error) => {
-        console.error("Error:", error.message);
-      });
+    setTask({
+      description: "",
+      start_date: "",
+      end_date: "",
+      target_end: "",
+      cycle_time: "",
+      target_cycle: "",
+      priority: "",
+      comment: "",
+    });
 
-      onClose();
-      window.location.reload();
+    onClose();
+    fetchAllTasks();
   }
 
   function handleSubmit(event) {
@@ -88,9 +78,9 @@ export default function EditTask(props) {
   }
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles2}>
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={modalStyles2}>
       <div>
-        <form onSubmit={handleSubmit} className="forms">
+        <form onSubmit={handleSubmit}>
           <h3>Task Description:</h3>
           <input
             type="text"
@@ -136,14 +126,14 @@ export default function EditTask(props) {
             value={task.comment}
             onChange={(e) => setTask({ ...task, comment: e.target.value })}
             placeholder="task comments"
-            rows={8} // You can adjust this value to fit the desired number of lines
-            style={{ width: "90%", resize: "vertical" }} // Optional styling for width and vertical resizing
+            rows={5}
+            style={{ width: "90%" }}
           />
 
-          {Array(3).fill(<br />)}
-          <button type="submit" className="submit-buttons">Submit</button>
-          {"    "}{"    "}
-          <button className="back-buttons" onClick={onClose}>Close</button>
+          {Array(2).fill(<br />)}
+          <button type="submit" className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold">Submit</button>
+          {"        "}
+          <button className="bg-gray-100 text-black w-120 h-25 border border-black rounded-md m-1 font-semibold" onClick={onClose}>Close</button>
 
         </form> 
       </div>

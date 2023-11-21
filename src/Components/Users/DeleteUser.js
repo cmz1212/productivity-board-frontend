@@ -5,7 +5,6 @@ export default async function DeleteUser(id, getAccessTokenSilently) {
   const confirmed = window.confirm("Deletion is irreversible! \n Are you sure you want to delete this user?");
 
   if (confirmed) {
-
     const sendDeleteUserRequest = async () => {
 
       const accessToken = await getAccessTokenSilently({
@@ -22,8 +21,6 @@ export default async function DeleteUser(id, getAccessTokenSilently) {
 
     }
 
-    await sendDeleteUserRequest();
-    window.location.reload();
-    
+    sendDeleteUserRequest(); 
   }
 }
